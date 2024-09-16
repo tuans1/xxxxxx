@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+echo Pre-commit processing...
+npx lint-staged

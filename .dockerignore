@@ -1,0 +1,11 @@
+.devcontainer
+dist
+node_modules
+test
+.env
+.env.example
+.eslintrc.js
+.gitattributes
+.gitignore
+.prettierrc
+README.md
