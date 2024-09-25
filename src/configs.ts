@@ -21,9 +21,8 @@ export const Configs = {
         username: process.env.KAFKA_USERNAME,
         password: process.env.KAFKA_PASSWORD,
         mechanism: process.env.KAFKA_MECHANISM,
-        ssl: process.env.KAFKA_SSL,
-        autoCreateTopic: process.env.KAFKA_AUTO_CREATE_TOPIC,
-        requestTimeout: process.env.KAFKA_REQUEST_TIMEOUT,
+        ssl: Boolean(process.env.KAFKA_SSL),
+        requestTimeout: Number(process.env.KAFKA_REQUEST_TIMEOUT),
         concurrently: process.env.KAFKA_CONCURRENTLY,
         consumerGroupId: process.env.KAFKA_CONSUMER_GROUP_ID
     }
