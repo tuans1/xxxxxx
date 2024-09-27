@@ -49,10 +49,13 @@ jobs:
 
       - name: Build & Push Image To Artifact Registry "${{ inputs.artifact-registry }}"
         run: |
+          echo $GCP_VSM_DEV_KEY | base64 --decode > ./one-global-chorus-vsm-dev.json
           export IMAGE_NAME=${{ inputs.artifact-registry }}/${{ github.event.repository.name }}:${{ github.sha }}
           docker build -t $IMAGE_NAME --build-arg ENV_TAG=${{ inputs.delivery-environment }} .
           docker push $IMAGE_NAME
           echo "Built Image: $IMAGE_NAME"
+        env:
+          GCP_VSM_DEV_KEY: ${{ secrets.GCP_VSM_DEV_KEY }}
 
   dispatch-deployment:
     name: Dispatch Sync Deployment
