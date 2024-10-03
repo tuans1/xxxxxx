@@ -1,7 +1,7 @@
 {
-    "name": "om-vsm-backend",
+    "name": "om-vsm-backend-template",
     "dockerComposeFile": "./docker-compose.yaml",
-    "workspaceFolder": "/workspaces/om-vsm-backend",
+    "workspaceFolder": "/workspaces/om-vsm-backend-template",
     "service": "dev-container",
     "customizations": {
         "vscode": {
