@@ -3,8 +3,12 @@ export const Configs = {
         env: process.env.APP_ENV,
         globalPrefix: process.env.APP_GLOBAL_PREFIX,
         httpPort: Number(process.env.APP_HTTP_PORT),
-        grpcPort: Number(process.env.APP_GRPC_PORT),
-        grpcMdmUrl: process.env.GRPC_MDM_URL
+        grpcPort: Number(process.env.APP_GRPC_PORT)
+    },
+    chorus: {
+        mdm: {
+            grpcUrl: process.env.CHORUS_MDM_GRPC_URL
+        }
     },
     postgres: {
         host: process.env.POSTGRES_HOST,
