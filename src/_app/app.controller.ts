@@ -12,6 +12,11 @@ export class AppController {
         return this.appService.getHello();
     }
 
+    @Get('/health')
+    getHealth(): string {
+        return this.appService.getHealth();
+    }
+
     @Get('/location')
     async getLocation(): Promise<Observable<GetLocationsByCodesResponse>> {
         return this.appService.getLocation();

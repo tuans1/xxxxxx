@@ -28,6 +28,10 @@ export class AppService implements OnModuleInit {
         return 'Hello World!';
     }
 
+    getHealth(): string {
+        return 'Healthy!';
+    }
+
     getLocation() {
         const locationCode: LocationCode = {
             locationCode: 'DEGCI'

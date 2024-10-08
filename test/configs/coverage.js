@@ -9,8 +9,6 @@ module.exports = {
         '<rootDir>/src/**/*.(t|j)s',
         '!<rootDir>/src/**/index.ts',
         '!<rootDir>/src/**/*.module.ts',
-        '!<rootDir>/src/**/migrations/*.(t|j)s',
-        '!<rootDir>/src/main.ts',
-        '!<rootDir>/src/infras/proto/**/*.(t|j)s'
+        '!<rootDir>/src/main.ts'
     ]
 };
