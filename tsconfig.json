@@ -18,10 +18,11 @@
         "forceConsistentCasingInFileNames": false,
         "noFallthroughCasesInSwitch": false,
         "paths": {
-            "@src/*": ["./src/*"],
+            "@app/*": ["./src/_app/*"],
             "@base/*": ["./src/_base/*"],
             "@shared/*": ["./src/_shared/*"],
-            "@modules/*": ["./src/modules/*"]
+            "@modules/*": ["./src/modules/*"],
+            "@src/*": ["./src/*"]
         }
     }
 }

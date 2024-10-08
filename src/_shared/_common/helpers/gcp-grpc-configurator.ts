@@ -16,10 +16,12 @@ export async function googleCloudGrpcConfigurator(
     const channelCredentials = GRPC.credentials.createSsl();
     const callCreds =
         GRPC.credentials.createFromGoogleCredential(idTokenClient);
+
     targetGrpcServer.options.credentials =
         GRPC.credentials.combineChannelCredentials(
             channelCredentials,
             callCreds
         );
+
     return ClientProxyFactory.create(targetGrpcServer);
 }

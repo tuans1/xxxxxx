@@ -1,4 +1,7 @@
 .devcontainer
+.github
+.husky
+.vscode
 dist
 node_modules
 test

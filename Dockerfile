@@ -5,8 +5,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm ci
-RUN npm run build
+RUN npm ci && npm run build
 
 EXPOSE 3000 5000
-CMD ["npm", "start"]
+
+CMD ["npm", "run", "start:prod"]
