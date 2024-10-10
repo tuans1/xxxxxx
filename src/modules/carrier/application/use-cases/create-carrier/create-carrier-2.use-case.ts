@@ -1,8 +1,4 @@
 import { CarrierAggregate } from '@modules/carrier/domain/aggregates/carrier.aggregate';
-import {
-    CarrierRepository,
-    CarrierRepositorySymbol
-} from '@modules/carrier/domain/repositories/carrier.repository';
 import { CarrierCodeValueObject } from '@modules/carrier/domain/value-objects/carrier-code.value-object';
 import { CarrierIdValueObject } from '@modules/carrier/domain/value-objects/carrier-id.value-object';
 import { CarrierNameValueObject } from '@modules/carrier/domain/value-objects/carrier-name.value-object';
@@ -10,24 +6,25 @@ import { Inject } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Error } from '@shared/_common/errors/error';
 import { Result } from '@shared/_common/utils/result';
+import { UnitOfWork, UnitOfWorkSymbol } from '@shared/domain/unit-of-work';
 import { v4 as Uuid } from 'uuid';
 import { CreateCarrierCommand } from './create-carrier.command';
 import { CreateCarrierResult } from './create-carrier.result';
 
 @CommandHandler(CreateCarrierCommand)
-export class CreateCarrierUseCase
+export class CreateCarrierUseCase2
     implements ICommandHandler<CreateCarrierCommand>
 {
     constructor(
-        @Inject(CarrierRepositorySymbol)
-        private readonly _carrierRepository: CarrierRepository,
+        @Inject(UnitOfWorkSymbol)
+        private readonly _unitOfWork: UnitOfWork,
         private readonly _eventBus: EventBus
     ) {}
 
     public async execute(
         command: CreateCarrierCommand
     ): Promise<Result<CreateCarrierResult>> {
-        console.log('CreateCarrierUseCase', 'execute');
+        console.log('CreateCarrierUseCase2', 'execute');
 
         const createCarrierIdResult = CarrierIdValueObject.create({
             value: Uuid()
@@ -63,10 +60,25 @@ export class CreateCarrierUseCase
 
         const newCarrier = createCarrierResult.data;
 
+        const startTransactionResult =
+            await this._unitOfWork.startTransaction();
+
+        if (startTransactionResult.isFail) {
+            return Result.fail(Error.serverError());
+        }
+
         const persistCarrierResult =
-            await this._carrierRepository.persist(newCarrier);
+            await this._unitOfWork.carrierRepository.persist(newCarrier);
 
         if (persistCarrierResult.isFail) {
+            await this._unitOfWork.rollbackTransaction();
+            return Result.fail(Error.serverError());
+        }
+
+        const commitTransactionResult =
+            await this._unitOfWork.commitTransaction();
+
+        if (commitTransactionResult.isFail) {
             return Result.fail(Error.serverError());
         }
 
