@@ -7,11 +7,15 @@ import { CarrierIdValueObject } from '@modules/carrier/domain/value-objects/carr
 import { Error } from '@shared/_common/errors/error';
 import { Result } from '@shared/_common/utils/result';
 
-let carrierDb: CarrierAggregate[] = [];
+export const MEMORY_DB: {
+    Carriers: CarrierAggregate[];
+} = {
+    Carriers: []
+};
 
 export class CarrierRepository implements ICarrierRepository {
     async getById(id: CarrierIdValueObject): Promise<Result<CarrierAggregate>> {
-        const foundCarrier = carrierDb.find((i) => i.id.equalsTo(id));
+        const foundCarrier = MEMORY_DB.Carriers.find((i) => i.id.equalsTo(id));
 
         if (!foundCarrier) {
             return Result.fail(Error.notFound());
@@ -22,24 +26,24 @@ export class CarrierRepository implements ICarrierRepository {
 
     async persist(carrier: CarrierAggregate): Promise<Result> {
         const handleCarrierCreatedEvent = (_event: CarrierCreatedEvent) => {
-            carrierDb.push(carrier);
+            MEMORY_DB.Carriers.push(carrier);
         };
 
         const handleCarrierNameChangedEvent = (
             event: CarrierNameChangedEvent
         ) => {
-            const index = carrierDb.findIndex((i) =>
+            const index = MEMORY_DB.Carriers.findIndex((i) =>
                 i.id.equalsTo(
                     CarrierIdValueObject.create({ value: event.payload.id })
                         .data
                 )
             );
 
-            carrierDb[index] = carrier;
+            MEMORY_DB.Carriers[index] = carrier;
         };
 
         const handleCarrierDeletedEvent = (event: CarrierDeletedEvent) => {
-            carrierDb = carrierDb.filter(
+            MEMORY_DB.Carriers = MEMORY_DB.Carriers.filter(
                 (i) =>
                     !i.id.equalsTo(
                         CarrierIdValueObject.create({ value: event.payload.id })
