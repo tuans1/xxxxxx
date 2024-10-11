@@ -2,7 +2,7 @@ import { CarrierAggregate } from '@modules/carrier/domain/aggregates/carrier.agg
 import {
     CarrierRepository,
     CarrierRepositorySymbol
-} from '@modules/carrier/domain/repositories/carrier.repository';
+} from '@modules/carrier/domain/repositories/carrier/carrier.repository';
 import { CarrierCodeValueObject } from '@modules/carrier/domain/value-objects/carrier-code.value-object';
 import { CarrierIdValueObject } from '@modules/carrier/domain/value-objects/carrier-id.value-object';
 import { CarrierNameValueObject } from '@modules/carrier/domain/value-objects/carrier-name.value-object';

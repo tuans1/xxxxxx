@@ -1,11 +1,12 @@
-import { HttpModule as CarrierHttpModule } from '@modules/carrier/presentation/http/http.module';
+import { CarrierModule } from '@modules/carrier/carrier.module';
 import { Module } from '@nestjs/common';
-import { MdmModule } from '@shared/chorus/mdm/mdm.module';
+import { CqrsModule } from '@nestjs/cqrs';
+import { MdmModule } from '@shared/vendors/chorus/mdm/mdm.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-    imports: [MdmModule, CarrierHttpModule],
+    imports: [CqrsModule.forRoot(), MdmModule, CarrierModule],
     controllers: [AppController],
     providers: [AppService]
 })

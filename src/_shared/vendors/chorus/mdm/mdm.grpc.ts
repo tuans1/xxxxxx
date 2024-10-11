@@ -11,7 +11,7 @@ export const mdmGrpcOptions: GrpcOptions['options'] = {
         includeDirs: [
             join(
                 __dirname,
-                '../../../..',
+                '../../../../..',
                 'node_modules/@ocean-network-express/om-mdm-protobuf'
             )
         ]

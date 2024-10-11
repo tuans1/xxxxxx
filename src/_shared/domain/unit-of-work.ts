@@ -1,4 +1,4 @@
-import { CarrierRepository } from '@modules/carrier/domain/repositories/carrier.repository';
+import { CarrierRepository } from '@modules/carrier/domain/repositories/carrier/carrier.repository';
 import { Result } from '@shared/_common/utils/result';
 
 export abstract class UnitOfWork {
