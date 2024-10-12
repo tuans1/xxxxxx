@@ -13,13 +13,15 @@ on:
         type: string
         required: true
       artifact-registry:
-          type: string
-          required: true
+        type: string
+        required: true
     secrets:
       SERVICE_ACCOUNT_KEY:
         required: true
       CONFIG_REPO_SYNC_DEPLOYMENT_WORKFLOW_PAT:
-          required: true
+        required: true
+      GOOGLE_APPLICATION_CREDENTIAL:
+        required: true
 
 jobs:
   build-and-delivery:
@@ -49,13 +51,14 @@ jobs:
 
       - name: Build & Push Image To Artifact Registry "${{ inputs.artifact-registry }}"
         run: |
-          echo $GCP_VSM_DEV_KEY | base64 --decode > ./one-global-chorus-vsm-dev.json
+          echo $GOOGLE_APPLICATION_CREDENTIAL | base64 --decode > ./google-application-credentials.json
           export IMAGE_NAME=${{ inputs.artifact-registry }}/${{ github.event.repository.name }}:${{ github.sha }}
-          docker build -t $IMAGE_NAME --build-arg ENV_TAG=${{ inputs.delivery-environment }} .
+          docker build -t $IMAGE_NAME --build-arg ENV_TAG=${{ inputs.delivery-environment }} --secret id=npm-token,env=NPM_TOKEN .
           docker push $IMAGE_NAME
           echo "Built Image: $IMAGE_NAME"
         env:
-          GCP_VSM_DEV_KEY: ${{ secrets.GCP_VSM_DEV_KEY }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIAL: ${{ secrets.GOOGLE_APPLICATION_CREDENTIAL }}
 
   dispatch-deployment:
     name: Dispatch Sync Deployment

@@ -19,4 +19,5 @@ jobs:
             artifact-registry: ${{ inputs.delivery-region }}-docker.pkg.dev/one-global-chorus-vsm-test/om-vsm-registry/test
         secrets:
             SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+            GOOGLE_APPLICATION_CREDENTIAL: ${{ secrets.GOOGLE_APPLICATION_CREDENTIAL }}
             CONFIG_REPO_SYNC_DEPLOYMENT_WORKFLOW_PAT: ${{ secrets.CONFIG_REPO_SYNC_DEPLOYMENT_WORKFLOW_PAT }}
