@@ -1,0 +1,23 @@
+name: CD To STG Environment
+
+on:
+    workflow_dispatch:
+        inputs:
+            delivery-region:
+                type: string
+                required: true
+                default: asia-southeast1
+
+jobs:
+    cd:
+        name: CD
+        uses: ./.github/workflows/cd.yml
+        with:
+            delivery-environment: stg
+            delivery-region: ${{ inputs.delivery-region }}
+            docker-registry: ${{ inputs.delivery-region }}-docker.pkg.dev
+            artifact-registry: ${{ inputs.delivery-region }}-docker.pkg.dev/one-global-chorus-vsm-stage/om-vsm-registry/stg
+        secrets:
+            SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+            GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+            CONFIG_REPO_SYNC_DEPLOYMENT_WORKFLOW_PAT: ${{ secrets.CONFIG_REPO_SYNC_DEPLOYMENT_WORKFLOW_PAT }}

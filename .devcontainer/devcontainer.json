@@ -1,0 +1,23 @@
+{
+    "name": "om-vsm-backend-template",
+    "dockerComposeFile": "./docker-compose.yaml",
+    "workspaceFolder": "/workspaces/om-vsm-backend-template",
+    "service": "dev-container",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "sonarsource.sonarlint-vscode",
+                "bufbuild.vscode-buf",
+                "zxh404.vscode-proto3",
+                "stkb.rewrap",
+                "eamodio.gitlens",
+                "mhutchie.git-graph",
+                "christian-kohler.path-intellisense"
+            ]
+        }
+    },
+    "remoteUser": "root",
+    "containerUser": "root"
+}

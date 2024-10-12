@@ -1,0 +1,21 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Location {
+  code: String!
+  name: String!
+}
+
+type GetLocationsByCodesOutput {
+  locations: [Location!]!
+}
+
+type Query {
+  getExample: String!
+  getLocationsByCodes(input: GetLocationsByCodesInput!): GetLocationsByCodesOutput!
+}
+
+input GetLocationsByCodesInput {
+  codes: [String!]!
+}
