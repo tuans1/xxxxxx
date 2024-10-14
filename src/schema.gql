@@ -7,15 +7,40 @@ type Location {
   name: String!
 }
 
-type GetLocationsByCodesOutput {
-  locations: [Location!]!
+type LocationListQueries {
+  all: [Location!]!
+  byCodes(input: LocationListByCodesInput!): [Location!]!
+}
+
+input LocationListByCodesInput {
+  codes: [String!]!
+}
+
+type LocationMutations {
+  create(input: LocationCreateInput!): Location
+  update: Location
+  delete: Location
+}
+
+input LocationCreateInput {
+  code: String!
+  name: String!
+}
+
+type LocationQueries {
+  byId: Location!
+  byCode(input: LocationByCodeInput!): Location!
+}
+
+input LocationByCodeInput {
+  code: String!
 }
 
 type Query {
-  getExample: String!
-  getLocationsByCodes(input: GetLocationsByCodesInput!): GetLocationsByCodesOutput!
+  locations: LocationListQueries!
+  location: LocationQueries!
 }
 
-input GetLocationsByCodesInput {
-  codes: [String!]!
+type Mutation {
+  location: LocationMutations!
 }

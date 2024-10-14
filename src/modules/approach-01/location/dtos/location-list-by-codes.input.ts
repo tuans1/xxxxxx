@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class GetLocationsByCodesInput {
+export class LocationListByCodesInput {
     @Field(() => [String])
     codes: string[];
 }
