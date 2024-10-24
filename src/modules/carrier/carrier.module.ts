@@ -66,7 +66,7 @@ const _providerSet02: Provider[] = [
 ];
 
 @Module({
-    providers: _providerSet01,
+    providers: _providerSet02,
     imports: [HttpModule]
 })
 export class CarrierModule {}

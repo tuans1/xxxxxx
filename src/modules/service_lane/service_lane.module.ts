@@ -5,7 +5,7 @@ import { UnitOfWork } from '@shared/infrastructure/unit-of-work';
 import { CreateServiceLaneUseCase } from './application/use_cases/create-service-lane/create-service-lane.use-case';
 import { ServiceLaneQueryableFactorySymbol } from './domain/repositories/service-lane/service-lane.queryable-factory';
 import { ServiceLaneQueryableFactory } from './infrastructure/repositories/service-lane/service-lane.queryable-factory';
-import { ServiceLaneRepository } from './infrastructure/repositories/service-lane/service-lane.repository';
+import { ServiceLaneRepository } from './infrastructure/repositories/service-lane-db/service_lane.repository';
 import { HttpModule } from './presentation/http/http.module';
 
 const useCases = [

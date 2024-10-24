@@ -38,8 +38,8 @@ export class ServiceLaneAggregate extends AggregateRoot<
         props: Props
     ): Result<ServiceLaneAggregate> {
         console.log('Create Aggregate');
+        console.log(props);
         const serviceLaneAggregate = new ServiceLaneAggregate(id, props);
-
         serviceLaneAggregate._events.push(
             new ServiceLaneCreatedEvent({
                 id: id.value,
@@ -48,6 +48,7 @@ export class ServiceLaneAggregate extends AggregateRoot<
             })
         );
 
+        console.log(serviceLaneAggregate);
         return Result.success(serviceLaneAggregate);
     }
 
