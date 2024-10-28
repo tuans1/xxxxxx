@@ -29,7 +29,7 @@ export class ServiceLaneRepository extends BaseServiceLaneRepository {
             if (this._useTransaction) {
                 await this._queryRunner.startTransaction();
             }
-
+            console.log(serviceLane.events, '------serviceLane.events');
             for (const event of serviceLane.events) {
                 await SERVICE_LANE_EVENT_HANDLER_REGISTRY[
                     event.constructor.name

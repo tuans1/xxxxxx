@@ -48,16 +48,16 @@ export class ServiceLaneAggregate extends AggregateRoot<
             })
         );
 
-        console.log(serviceLaneAggregate);
+        console.log('serviceLaneAggregate');
         return Result.success(serviceLaneAggregate);
     }
 
-    // public static createFromPersistant(
-    //     id: ServiceLaneIdValueObject,
-    //     props: Props
-    // ): Result<ServiceLaneAggregate> {
-    //     const carrierAggregate = new ServiceLaneAggregate(id, props);
+    public static createFromPersistant(
+        id: ServiceLaneIdValueObject,
+        props: Props
+    ): Result<ServiceLaneAggregate> {
+        const serviceLaneAggregate = new ServiceLaneAggregate(id, props);
 
-    //     return Result.success(carrierAggregate);
-    // }
+        return Result.success(serviceLaneAggregate);
+    }
 }

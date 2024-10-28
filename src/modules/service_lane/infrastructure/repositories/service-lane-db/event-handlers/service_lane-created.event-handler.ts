@@ -14,7 +14,7 @@ export async function handleServiceLaneCreatedEvent(
     }
 
     const { id, name, code } = event.payload;
-    console.log(event.present, '--------------------');
+    console.log('handleServiceLaneCreatedEvent', '--------------------');
     await queryRunner.manager.insert(ServiceLaneEntity, {
         id,
         name,

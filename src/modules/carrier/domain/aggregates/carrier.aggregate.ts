@@ -78,7 +78,6 @@ export class CarrierAggregate extends AggregateRoot<
         props: Props
     ): Result<CarrierAggregate> {
         const carrierAggregate = new CarrierAggregate(id, props);
-
         return Result.success(carrierAggregate);
     }
 }

@@ -1,13 +1,12 @@
-import { CarrierAggregate } from '@modules/carrier/domain/aggregates/carrier.aggregate';
-import { CarrierQueryableFactory as ICarrierQueryableFactory } from '@modules/carrier/domain/repositories/carrier/carrier.queryable-factory';
-import { CarrierIdValueObject } from '@modules/carrier/domain/value-objects/carrier-id.value-object';
+import { ServiceLaneAggregate } from '@modules/service_lane/domain/aggregates/service-lane.aggregate';
+import { ServiceLaneQueryableFactory as IServiceLaneQueryableFactory } from '@modules/service_lane/domain/repositories/service-lane/service-lane.queryable-factory';
 import { Queryable } from '@shared/_common/interfaces/queryable/queryable';
-import { GetCarrierByIdQueryable } from './queryables/get-carrier-by-id.queryable';
+import { GetListServiceLaneQueryable } from './queryables/get-list-service-lane.queryable';
 
-export class CarrierQueryableFactory implements ICarrierQueryableFactory {
-    createGetCarrierByIdQueryable(
-        id: CarrierIdValueObject
-    ): Queryable<CarrierAggregate> {
-        return new GetCarrierByIdQueryable({ carrierId: id });
+export class ServiceLaneQueryableFactory
+    implements IServiceLaneQueryableFactory
+{
+    createGetListServiceLaneQueryable(): Queryable<ServiceLaneAggregate[]> {
+        return new GetListServiceLaneQueryable({});
     }
 }

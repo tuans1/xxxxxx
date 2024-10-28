@@ -1,9 +1,6 @@
-type Args = {
-    code: string;
-    name: string;
-};
+type Args = unknown;
 
-export class CreateServiceLaneCommand {
+export class GetListServiceLaneQuery {
     private readonly _args: Args;
 
     constructor(args: Args) {

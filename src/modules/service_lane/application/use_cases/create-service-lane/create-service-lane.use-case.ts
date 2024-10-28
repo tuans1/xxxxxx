@@ -34,11 +34,11 @@ export class CreateServiceLaneUseCase
         });
 
         const createCarrierCodeResult = ServiceLaneCodeValueObject.create({
-            value: command.args.slCode
+            value: command.args.code
         });
 
         const createCarrierNameResult = ServiceLaneNameValueObject.create({
-            value: command.args.slName
+            value: command.args.name
         });
 
         const errors = [createCarrierCodeResult, createCarrierNameResult]
@@ -73,7 +73,14 @@ export class CreateServiceLaneUseCase
         for (const event of newCarrier.events) {
             this._eventBus.publish(event);
         }
-
+        console.log(
+            '---app-use-case',
+            new CreateServiceLaneResult({
+                id: newCarrier.id.value,
+                code: newCarrier.code.value,
+                name: newCarrier.name.value
+            })
+        );
         return Result.success(
             new CreateServiceLaneResult({
                 id: newCarrier.id.value,

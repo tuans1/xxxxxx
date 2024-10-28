@@ -6,7 +6,10 @@ import { Inject } from '@nestjs/common';
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Error } from '@shared/_common/errors/error';
 import { Result } from '@shared/_common/utils/result';
-import { UnitOfWork, UnitOfWorkSymbol } from '@shared/domain/unit-of-work';
+import {
+    UnitOfWorkServiceLane,
+    UnitOfWorkServiceLaneSymbol
+} from '@shared/domain/uof-service-lane';
 import { v4 as Uuid } from 'uuid';
 import { CreateServiceLaneCommand } from './create-service-lane.command';
 import { CreateServiceLaneResult } from './create-service-lane.result';
@@ -16,26 +19,24 @@ export class CreateServiceLaneUseCase2
     implements ICommandHandler<CreateServiceLaneCommand>
 {
     constructor(
-        @Inject(UnitOfWorkSymbol)
-        private readonly _unitOfWork: UnitOfWork,
+        @Inject(UnitOfWorkServiceLaneSymbol)
+        private readonly _unitOfWork: UnitOfWorkServiceLane,
         private readonly _eventBus: EventBus
     ) {}
 
     public async execute(
         command: CreateServiceLaneCommand
     ): Promise<Result<CreateServiceLaneResult>> {
-        console.log('CreateServiceLaneUseCase2', 'execute');
-
         const createCarrierIdResult = ServiceLaneIdValueObject.create({
             value: Uuid()
         });
 
         const createCarrierCodeResult = ServiceLaneCodeValueObject.create({
-            value: command.args.slCode
+            value: command.args.code
         });
 
         const createCarrierNameResult = ServiceLaneNameValueObject.create({
-            value: command.args.slName
+            value: command.args.name
         });
 
         const errors = [createCarrierCodeResult, createCarrierNameResult]
@@ -46,37 +47,40 @@ export class CreateServiceLaneUseCase2
             return Result.fail(Error.badRequest(undefined, errors));
         }
 
-        const CreateServiceLaneResult = ServiceLaneAggregate.create(
+        const createServiceLaneResult = ServiceLaneAggregate.create(
             createCarrierIdResult.data,
             {
                 code: createCarrierCodeResult.data,
                 name: createCarrierNameResult.data
             }
         );
-
-        if (CreateServiceLaneResult.isFail) {
+        if (createServiceLaneResult.isFail) {
             return Result.fail(Error.badRequest());
         }
 
-        const newServiceLane = CreateServiceLaneResult.data;
-
+        const newServiceLane = createServiceLaneResult.data;
         const startTransactionResult =
             await this._unitOfWork.startTransaction();
-
         if (startTransactionResult.isFail) {
+            console.log('---startTransactionResult.isFail');
             return Result.fail(Error.serverError());
         }
 
-        // const persistCarrierResult =
-        //     await this._unitOfWork.serviceLaneRepository.persist(
-        //         newServiceLane
-        //     );
+        const persistCarrierResult =
+            await this._unitOfWork.serviceLaneRepository.persist(
+                newServiceLane
+            );
+        console.log('persistCarrierResult', persistCarrierResult);
 
-        // if (persistCarrierResult.isFail) {
-        //     await this._unitOfWork.rollbackTransaction();
-        //     return Result.fail(Error.serverError());
-        // }
+        if (persistCarrierResult.isFail) {
+            console.log(
+                persistCarrierResult.isFail,
+                '---persistCarrierResult.isFail'
+            );
 
+            await this._unitOfWork.rollbackTransaction();
+            return Result.fail(Error.serverError());
+        }
         const commitTransactionResult =
             await this._unitOfWork.commitTransaction();
 
@@ -88,12 +92,12 @@ export class CreateServiceLaneUseCase2
             this._eventBus.publish(event);
         }
 
-        // return Result.success(
-        //     new CreateServiceLaneResult({
-        //         id: newCarrier.id.value,
-        //         code: newCarrier.code.value,
-        //         name: newCarrier.name.value
-        //     })
-        // );
+        return Result.success(
+            new CreateServiceLaneResult({
+                id: newServiceLane.id.value,
+                code: newServiceLane.code.value,
+                name: newServiceLane.name.value
+            })
+        );
     }
 }
