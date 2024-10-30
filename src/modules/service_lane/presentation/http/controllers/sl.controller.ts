@@ -24,33 +24,33 @@ export class ServiceLaneController {
         return 1;
     }
 
-    @Get('/create')
-    async createServiceLane(
-        @Query() request: CreateServiceLaneRequest
-    ): Promise<Result<CreateServiceLaneResponse>> {
-        const result: Result<CreateServiceLaneResult> =
-            await this._commandBus.execute(
-                new CreateServiceLaneCommand({
-                    code: request.slCode,
-                    name: request.slName
-                })
-            );
+    // @Get('/create')
+    // async createServiceLane(
+    //     @Query() request: CreateServiceLaneRequest
+    // ): Promise<Result<CreateServiceLaneResponse>> {
+    //     const result: Result<CreateServiceLaneResult> =
+    //         await this._commandBus.execute(
+    //             new CreateServiceLaneCommand({
+    //                 code: request.code,
+    //                 name: request.name
+    //             })
+    //         );
 
-        if (result.isFail) {
-            return Result.fail(result.error);
-        }
-        return Result.success(new CreateServiceLaneResponse(result.data));
-    }
+    //     if (result.isFail) {
+    //         return Result.fail(result.error);
+    //     }
+    //     return Result.success(new CreateServiceLaneResponse(result.data));
+    // }
 
-    @Get('/list-service-lane')
-    async getListServiceLane() // @Param() request: GetListServiceLaneRequest
-    : Promise<Result<GetListServiceLaneResponse>> {
-        const result: Result<GetListServiceLaneResult> =
-            await this._queryBus.execute(new GetListServiceLaneQuery({}));
+    // @Get('/list-service-lane')
+    // async getListServiceLane() // @Param() request: GetListServiceLaneRequest
+    // : Promise<Result<GetListServiceLaneResponse>> {
+    //     const result: Result<GetListServiceLaneResult> =
+    //         await this._queryBus.execute(new GetListServiceLaneQuery({}));
 
-        if (result.isFail) {
-            return Result.fail(result.error);
-        }
-        return Result.success(new GetListServiceLaneResponse(result.data));
-    }
+    //     if (result.isFail) {
+    //         return Result.fail(result.error);
+    //     }
+    //     return Result.success(new GetListServiceLaneResponse(result.data));
+    // }
 }

@@ -24,13 +24,19 @@ export class GetListServiceLaneUseCase
         private readonly _carrierQueryableFactory: ServiceLaneQueryableFactory
     ) {}
 
-    public async execute(): Promise<Result<GetListServiceLaneResult>> {
+    public async execute(
+        query: GetListServiceLaneQuery
+    ): Promise<Result<GetListServiceLaneResult>> {
         const listServiceLaneResult = await this._carrierRepository.queryBy(
-            this._carrierQueryableFactory.createGetListServiceLaneQueryable()
+            this._carrierQueryableFactory.createGetListServiceLaneQueryable(
+                query.args
+            )
         );
+
         if (listServiceLaneResult.isFail) {
             return Result.fail(listServiceLaneResult.error);
         }
+
         return Result.success(
             new GetListServiceLaneResult(listServiceLaneResult.data)
         );

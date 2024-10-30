@@ -5,9 +5,9 @@ export class CreateServiceLaneRequest {
     @IsNotEmpty()
     @MinLength(3)
     @MaxLength(10)
-    slCode: string;
+    code: string;
 
     @IsString()
     @IsNotEmpty()
-    slName: string;
+    name: string;
 }

@@ -8,6 +8,10 @@ import { ServiceLaneNameValueObject } from '../value-objects/service-lane-name.v
 type Props = {
     name: ServiceLaneNameValueObject;
     code: ServiceLaneCodeValueObject;
+    feederTrunk: string;
+    sapCrtCode: string;
+    effectiveDate: string;
+    status: string;
 };
 
 type Event = ServiceLaneCreatedEvent;
@@ -25,6 +29,22 @@ export class ServiceLaneAggregate extends AggregateRoot<
         return this._props.name;
     }
 
+    public get effectiveDate() {
+        return this._props.effectiveDate;
+    }
+
+    public get sapCrtCode() {
+        return this._props.sapCrtCode;
+    }
+
+    public get status() {
+        return this._props.status;
+    }
+
+    public get feederTrunk() {
+        return this._props.feederTrunk;
+    }
+
     public present() {
         return {
             id: this._id.present(),
@@ -37,18 +57,18 @@ export class ServiceLaneAggregate extends AggregateRoot<
         id: ServiceLaneIdValueObject,
         props: Props
     ): Result<ServiceLaneAggregate> {
-        console.log('Create Aggregate');
-        console.log(props);
         const serviceLaneAggregate = new ServiceLaneAggregate(id, props);
         serviceLaneAggregate._events.push(
             new ServiceLaneCreatedEvent({
                 id: id.value,
                 code: props.code.value,
-                name: props.name.value
+                name: props.name.value,
+                feederTrunk: props.feederTrunk,
+                sapCrtCode: props.sapCrtCode,
+                status: props.status,
+                effectiveDate: props.effectiveDate
             })
         );
-
-        console.log('serviceLaneAggregate');
         return Result.success(serviceLaneAggregate);
     }
 

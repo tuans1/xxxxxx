@@ -13,7 +13,17 @@ export class GetListServiceLaneResult implements Presentable {
     }
 
     present() {
-        console.log('22222222222222');
-        return this._data;
+        for (const entity of this._data) {
+            console.log(entity.code.value, '---entity');
+            // listServiceLane.push(result.data);
+        }
+
+        return this._data.map((data) => {
+            return {
+                code: data.code.value,
+                name: data.name.value,
+                id: data.id.value
+            };
+        });
     }
 }

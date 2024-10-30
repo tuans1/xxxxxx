@@ -1,7 +1,7 @@
-import { CarrierCodeValueObject } from '@modules/carrier/domain/value-objects/carrier-code.value-object';
-import { CarrierIdValueObject } from '@modules/carrier/domain/value-objects/carrier-id.value-object';
-import { CarrierNameValueObject } from '@modules/carrier/domain/value-objects/carrier-name.value-object';
 import { ServiceLaneAggregate } from '@modules/service_lane/domain/aggregates/service-lane.aggregate';
+import { ServiceLaneCodeValueObject } from '@modules/service_lane/domain/value-objects/service-lane-code.value-object';
+import { ServiceLaneIdValueObject } from '@modules/service_lane/domain/value-objects/service-lane-id.value-object';
+import { ServiceLaneNameValueObject } from '@modules/service_lane/domain/value-objects/service-lane-name.value-object';
 import { Error } from '@shared/_common/errors/error';
 import { Result } from '@shared/_common/utils/result';
 import { ServiceLaneEntity } from '@shared/vendors/typeorm/postgres/entities/ServiceLaneEntity';
@@ -10,24 +10,24 @@ export class ServiceLaneDataMapper {
     private constructor() {}
 
     public static transformPersistToDomain(
-        carrierOrmEntity: ServiceLaneEntity
+        serviceLaneOrmEntity: ServiceLaneEntity
     ): Result<ServiceLaneAggregate> {
-        const createCarrierIdResult = CarrierIdValueObject.create({
-            value: carrierOrmEntity.id
+        const serviceLaneIdResult = ServiceLaneIdValueObject.create({
+            value: serviceLaneOrmEntity.id
         });
 
-        const createCarrierCodeResult = CarrierCodeValueObject.create({
-            value: carrierOrmEntity.code
+        const serviceLaneCodeResult = ServiceLaneCodeValueObject.create({
+            value: serviceLaneOrmEntity.code
         });
 
-        const createCarrierNameResult = CarrierNameValueObject.create({
-            value: carrierOrmEntity.name
+        const serviceLaneNameResult = ServiceLaneNameValueObject.create({
+            value: serviceLaneOrmEntity.name
         });
 
         const errors = [
-            createCarrierIdResult,
-            createCarrierCodeResult,
-            createCarrierNameResult
+            serviceLaneIdResult,
+            serviceLaneCodeResult,
+            serviceLaneNameResult
         ]
             .filter((r) => r.isFail)
             .map((r) => r.error);
@@ -36,19 +36,23 @@ export class ServiceLaneDataMapper {
             return Result.fail(Error.serverError());
         }
 
-        const createCarrierResult = ServiceLaneAggregate.createFromPersistant(
-            createCarrierIdResult.data,
+        const serviceLaneResult = ServiceLaneAggregate.createFromPersistant(
+            serviceLaneIdResult.data,
             {
-                code: createCarrierCodeResult.data,
-                name: createCarrierNameResult.data
+                code: serviceLaneCodeResult.data,
+                name: serviceLaneNameResult.data,
+                effectiveDate: serviceLaneOrmEntity.effectiveDate,
+                sapCrtCode: serviceLaneOrmEntity.sapCrtCode,
+                status: serviceLaneOrmEntity.status,
+                feederTrunk: serviceLaneOrmEntity.feederTrunk
             }
         );
 
-        if (createCarrierResult.isFail) {
+        if (serviceLaneResult.isFail) {
             return Result.fail(Error.badRequest());
         }
 
-        return Result.success(createCarrierResult.data);
+        return Result.success(serviceLaneResult.data);
     }
 
     public static transformPersistListToDomain(
@@ -67,15 +71,15 @@ export class ServiceLaneDataMapper {
         return Result.success(listServiceLane);
     }
 
-    public static transformDomainToPersist(
-        carrier: ServiceLaneAggregate
-    ): Result<ServiceLaneEntity> {
-        const carrierOrmEntity = new ServiceLaneEntity();
+    // public static transformDomainToPersist(
+    //     carrier: ServiceLaneAggregate
+    // ): Result<ServiceLaneEntity> {
+    //     const serviceLaneOrmEntity = new ServiceLaneEntity();
 
-        carrierOrmEntity.id = carrier.id.value;
-        carrierOrmEntity.code = carrier.code.value;
-        carrierOrmEntity.name = carrier.name.value;
+    //     serviceLaneOrmEntity.id = carrier.id.value;
+    //     serviceLaneOrmEntity.code = carrier.code.value;
+    //     serviceLaneOrmEntity.name = carrier.name.value;
 
-        return Result.success(carrierOrmEntity);
-    }
+    //     return Result.success(serviceLaneOrmEntity);
+    // }
 }

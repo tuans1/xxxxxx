@@ -4,6 +4,10 @@ type Data = {
     id: string;
     code: string;
     name: string;
+    feederTrunk: string;
+    sapCrtCode: string;
+    effectiveDate: string;
+    status: string;
 };
 
 export class CreateServiceLaneResult implements Presentable {
@@ -21,7 +25,11 @@ export class CreateServiceLaneResult implements Presentable {
         return {
             id: this._data.id,
             code: this._data.code,
-            name: this._data.name
+            name: this._data.name,
+            feederTrunk: this._data.feederTrunk,
+            sapCrtCode: this._data.sapCrtCode,
+            effectiveDate: this._data.effectiveDate,
+            status: this._data.status
         };
     }
 }

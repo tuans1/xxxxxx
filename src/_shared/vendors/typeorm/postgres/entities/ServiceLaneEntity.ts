@@ -10,4 +10,16 @@ export class ServiceLaneEntity {
 
     @Column()
     name: string;
+
+    @Column({ name: 'feeder_trunk' })
+    feederTrunk: string;
+
+    @Column({ name: 'sap_crt_code' })
+    sapCrtCode: string;
+
+    @Column({ name: 'effective_date' })
+    effectiveDate: string;
+
+    @Column({ name: 'status' })
+    status: string;
 }

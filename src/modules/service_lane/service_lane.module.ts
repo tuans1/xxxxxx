@@ -3,18 +3,13 @@ import { Module, Provider } from '@nestjs/common';
 import { UnitOfWorkServiceLaneSymbol } from '@shared/domain/uof-service-lane';
 import { UnitOfWorkServiceLaneRepository } from '@shared/infrastructure/uof-service-lane';
 import { CreateServiceLaneUseCase2 } from './application/use_cases/create-service-lane/create-service-lane-2.use-case';
-import { CreateServiceLaneUseCase } from './application/use_cases/create-service-lane/create-service-lane.use-case';
 import { GetListServiceLaneUseCase } from './application/use_cases/list-service-lane/get-service-lane.use-case';
 import { ServiceLaneQueryableFactorySymbol } from './domain/repositories/service-lane/service-lane.queryable-factory';
 import { ServiceLaneQueryableFactory } from './infrastructure/repositories/service-lane-db/service_lane.queryable-factory';
 import { ServiceLaneRepository } from './infrastructure/repositories/service-lane-db/service_lane.repository';
-import { HttpModule } from './presentation/http/http.module';
+import { GrpcModule } from './presentation/grpc/grpc.module';
 
-const useCases = [
-    CreateServiceLaneUseCase,
-    CreateServiceLaneUseCase2,
-    GetListServiceLaneUseCase
-];
+const useCases = [CreateServiceLaneUseCase2, GetListServiceLaneUseCase];
 
 // Use Memory
 const _providerSet01: Provider[] = [
@@ -64,6 +59,6 @@ const _providerSet01: Provider[] = [
 
 @Module({
     providers: _providerSet01,
-    imports: [HttpModule]
+    imports: [GrpcModule]
 })
 export class ServiceLaneModule {}

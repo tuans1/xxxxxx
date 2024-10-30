@@ -51,7 +51,11 @@ export class CreateServiceLaneUseCase2
             createCarrierIdResult.data,
             {
                 code: createCarrierCodeResult.data,
-                name: createCarrierNameResult.data
+                name: createCarrierNameResult.data,
+                feederTrunk: command.args.feederTrunk,
+                sapCrtCode: command.args.sapCrtCode,
+                effectiveDate: new Date().toJSON().slice(0, 10),
+                status: 'Inactive'
             }
         );
         if (createServiceLaneResult.isFail) {
@@ -62,7 +66,6 @@ export class CreateServiceLaneUseCase2
         const startTransactionResult =
             await this._unitOfWork.startTransaction();
         if (startTransactionResult.isFail) {
-            console.log('---startTransactionResult.isFail');
             return Result.fail(Error.serverError());
         }
 
@@ -70,14 +73,8 @@ export class CreateServiceLaneUseCase2
             await this._unitOfWork.serviceLaneRepository.persist(
                 newServiceLane
             );
-        console.log('persistCarrierResult', persistCarrierResult);
 
         if (persistCarrierResult.isFail) {
-            console.log(
-                persistCarrierResult.isFail,
-                '---persistCarrierResult.isFail'
-            );
-
             await this._unitOfWork.rollbackTransaction();
             return Result.fail(Error.serverError());
         }
@@ -96,7 +93,11 @@ export class CreateServiceLaneUseCase2
             new CreateServiceLaneResult({
                 id: newServiceLane.id.value,
                 code: newServiceLane.code.value,
-                name: newServiceLane.name.value
+                name: newServiceLane.name.value,
+                feederTrunk: newServiceLane.feederTrunk,
+                sapCrtCode: newServiceLane.sapCrtCode,
+                effectiveDate: newServiceLane.effectiveDate,
+                status: newServiceLane.status
             })
         );
     }

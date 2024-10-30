@@ -13,11 +13,15 @@ export async function handleServiceLaneCreatedEvent(
         return;
     }
 
-    const { id, name, code } = event.payload;
-    console.log('handleServiceLaneCreatedEvent', '--------------------');
+    const { id, name, code, feederTrunk, sapCrtCode, effectiveDate, status } =
+        event.payload;
     await queryRunner.manager.insert(ServiceLaneEntity, {
         id,
         name,
-        code
+        code,
+        feederTrunk,
+        sapCrtCode,
+        effectiveDate,
+        status
     });
 }
