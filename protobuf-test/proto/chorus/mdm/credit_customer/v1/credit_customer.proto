@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package chorus.mdm.credit_customer.v1;
+
+// The credit customer information.
+message CreditCustomer {
+  // The customer_country_code is the customer country code. cust_cnt_cd in OPUS
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence. cust_seq in OPUS
+  int32 customer_sequence = 2;
+  // The credit_flag is the credit flag. cr_flg in OPUS
+  string credit_flag = 3;
+  // The actual_customer_country_code is the actual customer country code. act_cust_cnt_cd in OPUS
+  string actual_customer_country_code = 4;
+  // The actual_customer_sequence is the actual customer sequence. act_cust_seq in OPUS
+  int32 actual_customer_sequence = 5;
+}
+
+// The credit customer code information.
+message CreditCustomerCode {
+  // The customer_country_code is the customer country code. cust_cnt_cd in OPUS
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence. cust_seq in OPUS
+  int32 customer_sequence = 2;
+  // The credit_flag is the credit flag. cr_flg in OPUS
+  string credit_flag = 3;
+}
+
+// Request message for `CreditCustomerInfoService.GetCreditCustomersByCreditCustomerCodes`.
+message GetCreditCustomersByCreditCustomerCodesRequest {
+  // The credit customer code list
+  repeated CreditCustomerCode credit_customer_code_list = 1;
+}
+
+// Response message for `CreditCustomerInfoService.GetCreditCustomersByCreditCustomerCodes`.
+message GetCreditCustomersByCreditCustomerCodesResponse {
+  // The credit customer information
+  CreditCustomer credit_customer = 1;
+}
+
+// Request message for `CreditCustomerInfoService.SearchCreditCustomersByMultipleFields`.
+message SearchCreditCustomersByMultipleFieldsRequest {
+  // The customer_country_code is the customer country code. cust_cnt_cd in OPUS
+  optional string customer_country_code = 1;
+  // The customer_sequence is the customer sequence. cust_seq in OPUS
+  optional int32 customer_sequence = 2;
+  // The credit_flag is the credit flag. cr_flg in OPUS
+  optional string credit_flag = 3;
+}
+
+// Response message for `CreditCustomerInfoService.SearchCreditCustomersByMultipleFieldsResponse`.
+message SearchCreditCustomersByMultipleFieldsResponse {
+  // The credit customer information
+  CreditCustomer credit_customer = 1;
+}
+
+// The service that implements the CreditCustomerInfoService definition.
+service CreditCustomerInfoService {
+  // Get list of credit customers by customer country codes and sequences and credit
+  // flags.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  //  {
+  //    "credit_customer_code_list": [
+  //      {
+  //        "customer_country_code": "NL",
+  //        "customer_sequence": 104241,
+  //        "credit_flag": "Y"
+  //      }
+  //    ]
+  //  }
+  //
+  // Response:
+  //  {
+  //    "credit_customer": {
+  //      "customer_country_code": "NL",
+  //      "customer_sequence": 104241,
+  //      "credit_flag": "Y",
+  //      "actual_customer_country_code": "NL",
+  //      "actual_customer_sequence": 102242,
+  //    }
+  //  }
+  // ...
+  rpc GetCreditCustomersByCreditCustomerCodes(GetCreditCustomersByCreditCustomerCodesRequest) returns (stream GetCreditCustomersByCreditCustomerCodesResponse);
+
+  // Search list of yard by multiple fields.
+  //
+  // Operation: LIKE & MATCH
+  //
+  // Request:
+  //  {
+  //    "customer_country_code": "NL",
+  //    "customer_sequence": 104241,
+  //    "credit_flag": "Y"
+  //  }
+  //
+  // Response:
+  //  {
+  //    "credit_customer": {
+  //      "customer_country_code": "NL",
+  //      "customer_sequence": 104241,
+  //      "credit_flag": "Y",
+  //      "actual_customer_country_code": "NL",
+  //      "actual_customer_sequence": 102242,
+  //    }
+  //  }
+  // ...
+  rpc SearchCreditCustomersByMultipleFields(SearchCreditCustomersByMultipleFieldsRequest) returns (stream SearchCreditCustomersByMultipleFieldsResponse);
+}

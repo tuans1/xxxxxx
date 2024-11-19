@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package chorus.mdm.zone_detail.v1;
+
+
+// The zone detail information.
+message ZoneDetail {
+  // The zone_code is the zone code of the zone detail. zn_cd in OPUS.
+  string zone_code = 1;
+  // The zone_sequence is the zone sequence of the zone detail. zn_seq in OPUS.
+  int32 zone_sequence = 2;
+  // The zip_code is the zip code of the zone detail. zip_cd in OPUS.
+  string zip_code = 3;
+}
+
+// The zone detail code information.
+message ZoneDetailCode {
+  // The zone_code is the zone code of the zone detail.
+  string zone_code = 1;
+}
+
+
+// Request message for `ZoneDetailInfoService.GetZoneDetailsByZoneCodes`.
+message GetZoneDetailsByZoneCodesRequest {
+  // The zone code list.
+  repeated ZoneDetailCode zone_code_list = 1;
+}
+
+// Response message for `ZoneDetailInfoService.GetZoneDetailsByZoneCodes`.
+message GetZoneDetailsByZoneCodesResponse {
+  // The zone detail information.
+  ZoneDetail zone_detail = 1;
+}
+
+// Services for zone detail.
+service ZoneDetailInfoService { 
+  // Get list of zone detail by zone codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "zone_code_list": [
+  //         {
+  //             "zone_code": "ATVIEZ1"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "zone_detail": {
+  //         "zone_code": "ATVIEZ1",
+  //         "zone_sequence": 12,
+  //         "zip_code": "A-1010"
+  //     }
+  // }
+  // ...
+  rpc GetZoneDetailsByZoneCodes(GetZoneDetailsByZoneCodesRequest) returns (stream GetZoneDetailsByZoneCodesResponse);
+}

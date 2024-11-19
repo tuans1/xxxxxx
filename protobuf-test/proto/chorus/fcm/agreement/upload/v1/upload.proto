@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package chorus.fcm.agreement.upload.v1;
+
+import "chorus/fcm/base/upload/v1/upload.proto";
+
+// Upload information
+message RequestUpload {
+  // The object_name is generate name
+  string object_name = 1;
+  // The file_name is original name
+  string file_name = 2;
+  // The file_type is mime type
+  string file_type = 3;
+  // The file_url is path on Storage
+  string file_url = 4;
+}
+
+// Request message for `UploadService.SaveUploadFile`.
+message SaveUploadFileRequest {
+  // The upload information list
+  repeated RequestUpload uploads = 1;
+}
+
+// Response message for `UploadService.SaveUploadFile`.
+message SaveUploadFileResponse {
+  // The upload information list
+  repeated chorus.fcm.base.upload.v1.UploadFile uploads = 1;
+}
+
+// Request message for `UploadService.GetUploadFileById`.
+message GetUploadFileByIdRequest {
+  // The upload information list
+  string id = 1;
+}
+
+// Response message for `UploadService.GetUploadFileById`.
+message GetUploadFileByIdResponse {
+  // The upload information list
+  chorus.fcm.base.upload.v1.UploadFile upload = 1;
+}
+
+// Request message for `UploadService.GetUploadFileByAgreementId`.
+message GetUploadFileByAgreementIdRequest {
+  // The upload information list
+  string agreement_id = 1;
+}
+
+// Response message for `UploadService.GetUploadFileByAgreementId`.
+message GetUploadFileByAgreementIdResponse {
+  // The upload information list
+  repeated chorus.fcm.base.upload.v1.UploadFile uploads = 1;
+}

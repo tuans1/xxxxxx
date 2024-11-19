@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package chorus.mdm.vessel.v1;
+
+// The vessel information.
+message Vessel {
+  // vessel_code is the code of the vessel. vsl_cd in OPUS.
+  string vessel_code = 1;
+  // vessel_english_name is the english name of the vessel. vsl_eng_nm in OPUS.
+  string vessel_english_name = 2;
+}
+
+// The vessel code information.
+message VesselCode {
+  // The code of the vessel.
+  string vessel_code = 1;
+}
+
+// (Deprecated)
+// Request message for `VesselInfoService.GetVesselsByCodes`.
+message GetVesselsByCodesRequest {
+  option deprecated = true;
+  // The vessel code list
+  repeated VesselCode vessel_code_list = 1;
+}
+
+// (Deprecated)
+// Response message for `VesselInfoService.GetVesselsByCodes`.
+message GetVesselsByCodesResponse {
+  option deprecated = true;
+  // The vessel information.
+  Vessel vessel = 1;
+}
+
+// (Deprecated)
+// Request message for `VesselInfoService.SearchVesselsByEnglishName`.
+message SearchVesselsByEnglishNameRequest {
+  option deprecated = true;
+  // The english name of the vessel.
+  string vessel_english_name = 1;
+}
+
+// (Deprecated)
+// Response message for `VesselInfoService.SearchVesselsByEnglishName`.
+message SearchVesselsByEnglishNameResponse {
+  option deprecated = true;
+  // The vessel information.
+  Vessel vessel = 1;
+}
+
+// Services for vessel.
+service VesselInfoService {
+
+  // (Deprecated)
+  // Get list of vessels by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vessel_code_list": [
+  //         {
+  //             "vessel_code": "GTGT"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel": {
+  //         "vessel_code": "GTGT"
+  //         "vessel_english_name": "GSL TIANJIN"
+  //     }
+  // }
+  // ...
+  rpc GetVesselsByCodes(GetVesselsByCodesRequest) returns (stream GetVesselsByCodesResponse) {
+    option deprecated = true;
+  };
+
+  // (Deprecated)
+  // Get list of vessels by english name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "vessel_english_name": "GSL"
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel": {
+  //         "vessel_code": "YRST"
+  //         "vessel_english_name": "GSL SYROS"
+  //     }
+  // }
+  // ...
+  rpc SearchVesselsByEnglishName(SearchVesselsByEnglishNameRequest) returns (stream SearchVesselsByEnglishNameResponse) {
+    option deprecated = true;
+  };
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package chorus.mdm.container_size.v1;
+
+import "google/protobuf/empty.proto";
+
+// The container size information.
+message ContainerSize {
+  // The container_size_code is the code size of the container. cntr_sz_cd in OPUS.
+  string container_size_code = 1;
+  // The container_size_description is the size description of the container. cntr_sz_desc in OPUS.
+  string container_size_description = 2;
+  // The container_size_teu_capacity is the teu capacity of the container. cntr_sz_teu_capa in OPUS.
+  float container_size_teu_capacity = 3;
+}
+
+// Response message for `ContainerSizeInfoService.GetContainerSizes`.
+message GetContainerSizesResponse {
+  // The container size information.
+  ContainerSize container_size = 1;
+}
+
+// Services for container size.
+service ContainerSizeInfoService {
+  // Get all list of container sizes.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "container_size": {
+  //         "container_size_code": "X",
+  //         "container_size_description": "53FT HIGH CUBIC CONTAINER",
+  //         "container_size_teu_capacity": 2
+  //     }
+  // }
+  // ...
+  rpc GetContainerSizes(google.protobuf.Empty) returns (stream GetContainerSizesResponse) {}
+}

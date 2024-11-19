@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package chorus.mdm.vendor_india_information.v1;
+
+// The vendor india information.
+message VendorIndiaInformation {
+  // The vendor_sequence is the sequence of the vendor india information. vndr_seq in OPUS.
+  int32 vendor_sequence = 1;
+  // The vendor_gst_number is the vendor gst number of the vendor india information. vndr_gst_no in OPUS.
+  string vendor_gst_number = 2;
+  // The service_accounting_code is the service accounting code of the vendor india information. service_accounting_code in OPUS.
+  string service_accounting_code = 3;
+  // The india_gst_number is the india gst number of the vendor india information. india_gst_no in OPUS.
+  string india_gst_number = 4;
+}
+
+// The vendor india sequence information.
+message VendorSequence {
+  // The vendor_sequence is the sequence of the vendor india information.
+  int32 vendor_sequence = 1;
+}
+
+// Request message for `VendorIndiaInfoService.GetVendorIndiaInformationBySequences`.
+message GetVendorIndiaInformationBySequencesRequest {
+  // The vendor sequence list
+  repeated VendorSequence vendor_sequence_list = 1;
+}
+
+// Response message for `VendorInfoService.GetVendorIndiaInformationBySequences`.
+message GetVendorIndiaInformationBySequencesResponse {
+  // The vendor india information.
+  VendorIndiaInformation vendor_india_information = 1;
+}
+
+// Services for vendor india information.
+service VendorIndiaInformationInfoService {
+  // Get list of vendors india information by sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vendor_sequence_list": [
+  //         {
+  //             "vendor_sequence": 117893,
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "vendor_india_information": {
+  //         "vendor_sequence": 117893,
+  //         "vendor_gst_number": "03BGEPS8138Q1ZQ",
+  //         "service_accounting_code": "998729",
+  //         "india_gst_number": "03AACCO6217A1Z5",
+  //     }
+  // }
+  // ...
+  rpc GetVendorIndiaInformationBySequences(GetVendorIndiaInformationBySequencesRequest) returns (stream GetVendorIndiaInformationBySequencesResponse);
+}

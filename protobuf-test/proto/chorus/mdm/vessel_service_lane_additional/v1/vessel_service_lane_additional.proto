@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package chorus.mdm.vessel_service_lane_additional.v1;
+
+// The vessel service lane additional information. (MDM_VSL_SVC_LANE_ADD)
+message VesselServiceLaneAdditional {
+  // The vessel_service_lane_code is the code of vessel service lane additional. vsl_slan_cd in OPUS.
+  string vessel_service_lane_code = 1;
+  // The vessel service lane kind content is the kind content of the vessel service lane additional. vsl_slan_knd_ctnt in OPUS.
+  string vessel_service_lane_kind_content = 2;
+  // The trade name is the trade name of vessel service lane additional. trd_nm in OPUS 
+  string trade_name = 3;
+}
+
+// The vessel service lane additional search condition by vessel service lane code.
+message VesselServiceLaneCode {
+  // The vessel_service_lane_code of the vessel service lane additional.
+  string vessel_service_lane_code = 1;
+}
+
+// Request message for `VesselServiceLaneAdditionalInfoService.GetVesselServiceLaneAdditionalByVesselServiceLaneCodes`.
+message GetVesselServiceLaneAdditionalByVesselServiceLaneCodesRequest {
+  // The vessel service lane code.
+  repeated VesselServiceLaneCode vessel_service_lane_code_list = 1;
+}
+
+// Response message for `VesselServiceLaneAdditionalInfoService.GetVesselServiceLaneAdditionalByVesselServiceLaneCodes`.
+message GetVesselServiceLaneAdditionalByVesselServiceLaneCodesResponse {
+  // The vessel service lane additional information.
+  VesselServiceLaneAdditional vessel_service_lane_additional = 1;
+}
+
+// Services for vessel service lane additional.
+service VesselServiceLaneAdditionalInfoService {
+  // Get list of vessel service lane additional by vessel service lane code.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vessel_service_lane_code_list": [
+  //         {
+  //             "vessel_service_lane_code": "AGX"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel_service_lane_additional": {
+  //         "vessel_service_lane_code": "AGX",
+  //         "vessel_service_lane_kind_content": "THEA",
+  //         "trade_name": "INTRA & OTHERS"
+  //     }
+  // }
+  // ...
+  rpc GetVesselServiceLaneAdditionalByVesselServiceLaneCodes(GetVesselServiceLaneAdditionalByVesselServiceLaneCodesRequest) returns (stream GetVesselServiceLaneAdditionalByVesselServiceLaneCodesResponse);
+}

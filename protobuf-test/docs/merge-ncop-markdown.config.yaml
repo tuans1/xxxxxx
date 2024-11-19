@@ -1,0 +1,5 @@
+input:
+  README.md: ""
+  ncop.md: ""
+output:
+  name: ../proto/chorus/ncop/README.md

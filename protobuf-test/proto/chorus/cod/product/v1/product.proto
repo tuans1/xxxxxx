@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package chorus.cod.product.v1;
+
+// Empty message
+message Empty {}
+
+// Product message
+message Product {
+  // Product name
+  string name = 1;
+  // Product sku
+  string sku = 2;
+  // Product price
+  float price = 3;
+}
+
+// Get product by sku request
+message GetProductBySkuRequest {
+  // Product sku
+  string sku = 1;
+}
+
+// Get product by sku response
+message GetProductBySkuResponse {
+  // Product
+  optional Product product = 1;
+}
+
+// Product service
+service ProductService {
+  // GetProductBySku service
+  rpc GetProductBySku(GetProductBySkuRequest) returns (GetProductBySkuResponse) {}
+}

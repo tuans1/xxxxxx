@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package chorus.mdm.customer_india_information.v1;
+
+// The customer india information.
+message CustomerIndiaInformation {
+  // The customer_country_code is the country code of the customer india information. cust_cnt_cd in OPUS.
+  string customer_country_code = 1;
+  // The customer_sequence is the sequence of the customer india information. cust_seq in OPUS.
+  int32 customer_sequence = 2;
+  // The india_gst_number is the india gst number of the customer india information. india_gst_no in OPUS.
+  string india_gst_number = 3;
+  // The sez_flag is the sez flag of the customer india information. sez_flg in OPUS.
+  string sez_flag = 4;
+}
+
+// The customer country code and sequence.
+message CustomerCountryCodeAndSequence {
+  // The customer_country_code is the country code of the customer india information.
+  string customer_country_code = 1;
+  // The customer_sequence is the sequence of the customer india information.
+  int32 customer_sequence = 2;
+}
+
+// Request message for `CustomerIndiaInformationInfoService.GetCustomerIndiaInformationByCustomerCountryCodesAndSequences`.
+message GetCustomerIndiaInformationByCustomerCountryCodesAndSequencesRequest {
+  // The customer country code and sequence list.
+  repeated CustomerCountryCodeAndSequence customer_country_code_and_sequence_list = 1;
+}
+
+// Response message for `CustomerIndiaInformationInfoService.GetCustomerIndiaInformationByCustomerCountryCodesAndSequences`.
+message GetCustomerIndiaInformationByCustomerCountryCodesAndSequencesResponse {
+  // The customer india information.
+  CustomerIndiaInformation customer_india_information = 1;
+}
+
+// Services for customer india information.
+service CustomerIndiaInformationInfoService {
+  // Get list of customer india information by country codes and sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_country_code_and_sequence_list": [
+  //         {
+  //             "customer_country_code": "IN",
+  //             "customer_sequence": 500007
+  //         },
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "customer_india_information": {
+  //         "customer_country_code": "IN",
+  //         "customer_sequence": 500007,
+  //         "india_gst_number": "27",
+  //         "sez_flag": "N",
+  //     }
+  // }
+  // ...
+  rpc GetCustomerIndiaInformationByCustomerCountryCodesAndSequences(GetCustomerIndiaInformationByCustomerCountryCodesAndSequencesRequest) returns (stream GetCustomerIndiaInformationByCustomerCountryCodesAndSequencesResponse);
+}

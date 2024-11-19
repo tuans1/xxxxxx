@@ -1,0 +1,40 @@
+{
+  "name": "@ocean-network-express/om-mom-protobuf",
+  "version": "0.6.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "gen": "cd ../../../proto && buf generate --path chorus/mom --output ../build/chorus/mom --template buf.index.gen.yaml && buf generate --path chorus/mom --output ../build/chorus/mom --template buf.gen.yaml && cp -r chorus/mom/* ../build/chorus/mom/",
+    "tsc-build": "tsc",
+    "lint": "buf lint",
+    "build": "buf build",
+    "breaking": "buf breaking ./ --against 'https://github.com/ocean-network-express/om-protobuf.git#branch=main,ref=HEAD~1,subdir=proto/chorus/mom'",
+    "merge-markdown": "merge-markdown -m ../../../docs/merge-mom-markdown.config.yaml --nolinkcheck"
+  },
+  "exports": {
+    "./*": {
+      "import": "./dist/*",
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "*",
+    "!*.json",
+    "!*.yaml",
+    "!proto-gen"
+  ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.ts"
+      ]
+    }
+  },
+  "dependencies": {
+    "@bufbuild/buf": "^1.26.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,0 +1,309 @@
+syntax = "proto3";
+
+package chorus.com.policy.v1;
+
+// The request message for update policy
+message UpdatePolicyRequest {
+  // The group id
+  string group_id = 1;
+  // The group type
+  string group_type = 2;
+  // The resource action id
+  string resource_action_id = 3;
+  // The checked value
+  bool checked = 4;
+}
+
+// The response message for update policy
+message UpdatePolicyResponse {
+  // The success flag
+  bool success = 1;
+}
+
+// The request message for update policy role
+message UpdatePolicyRoleRequest {
+  // The group id
+  string group_id = 1;
+  // The resource action id
+  string resource_action_id = 3;
+  // The checked value
+  bool checked = 4;
+}
+// The response message for update check uncheck policy role
+message UpdatePolicyRoleResponse {
+  // The success flag
+  bool success = 1;
+}
+//The message for query policy role
+message PolicyRoleQuery {
+  //Product ID
+  string product_id = 1;
+  // Role Name
+  optional string role_name = 2;
+}
+// The search policy role list Request
+message SearchPoliciesRoleRequest {
+  //Query
+  PolicyRoleQuery query = 1;
+}
+
+// The search policy role response
+message SearchPoliciesRoleResponse {
+  // The group id
+  string group_id = 1;
+  // The group name
+  string group_name = 2;
+  // The columns
+  repeated ColumnPolicy columns = 4;
+}
+
+// The column policy
+message ColumnPolicy {
+  // The column id
+  string column_id = 1;
+  // The column name
+  string column_name = 2;
+  // The sub group
+  string sub_group = 3;
+  // The resource actions
+  repeated ResourceActionPolicy resource_actions = 4;
+}
+
+// The resource action policy
+message ResourceActionPolicy {
+  // The resource action id
+  string resource_action_id = 1;
+  // The resource action name
+  string resource_action_name = 2;
+  // The checked value
+  bool checked = 3;
+}
+
+// The policy list Request
+message GetListPoliciesRequest {
+  //Product ID
+  string product_id = 1;
+}
+
+// The policy list response
+message GetListPoliciesResponse {
+  // The group id
+  string group_id = 1;
+  // The group name
+  string group_name = 2;
+  // The super group
+  string super_group = 3;
+  // The columns
+  repeated ColumnPolicy columns = 4;
+}
+
+// The request message for get resource action by user
+message GetResourceActionByUserRequest {
+  // The user id
+  string user_id = 1;
+}
+
+// The response message for get resource action by user
+message GetResourceActionByUserResponse {
+  // The resource action name
+  string resource_action_name = 1;
+  // the resource method
+  string method = 2;
+  // The resource uri
+  string uri = 3;
+}
+
+// The users set policy list Request 
+message SearchPolicyUserSetsRequest {
+  //Product ID
+  string product_id = 1;
+  //user set name
+  string user_set_name = 2;
+}
+
+
+// The policy users set list response
+message SearchPolicyUserSetsResponse {
+  // The group id
+  string group_id = 1;
+  // The group name
+  string group_name = 2;
+  // The columns
+  repeated ColumnPolicy columns = 3;
+}
+
+// The request message for update policy
+message UpdatePolicyUserSetRequest {
+  // The group id
+  string group_id = 1;
+  // The resource action id
+  string resource_action_id = 2;
+  // The checked value
+  bool checked = 3;
+}
+
+// The response message for update policy user set
+message UpdatePolicyUserSetResponse {
+  // The success flag
+  bool success = 1;
+}
+
+// The policy service
+service PolicyService {
+  // The method for update policy
+  //
+  // Operation: UPDATE
+  //
+  // Request:
+  // {
+  //   "group_id": "string",
+  //   "group_type": "string",
+  //   "resource_action_id": "string",
+  //   "checked": true
+  // }
+  //
+  // Response:
+  // {
+  //   "success": true
+  // }
+  rpc UpdatePolicy(UpdatePolicyRequest) returns (UpdatePolicyResponse) {}
+  // The method for get list policies
+  //
+  // Operation: GET ALL
+  //
+  // Request:
+  // {
+  //    product_id: "product_id"
+  // }
+  //
+  // Response:
+  // {
+  //   "group_id": "string",
+  //   "group_name": "string",
+  //   "super_group": "string",
+  //   "columns": [
+  //     {
+  //       "column_id": "string",
+  //       "column_name": "string",
+  //       "sub_group": "string",
+  //       "resource_actions": [
+  //         {
+  //           "resource_action_id": "string",
+  //           "resource_action_name": "string",
+  //           "checked": true
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
+  rpc GetListPolicies(GetListPoliciesRequest) returns (stream GetListPoliciesResponse) {}
+  // The method for get resource action by user
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //   "user_id": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "resource_action_name": "string",
+  //   "method": "string",
+  //   "uri": "string"
+  // }
+  rpc GetResourceActionByUser(GetResourceActionByUserRequest) returns (stream GetResourceActionByUserResponse) {}
+
+  // The method for get list policy user set
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //    "product_id": "string"
+  //    "name": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "group_id": "string",
+  //   "columns": [
+  //     {
+  //       "column_id": "string",
+  //       "column_name": "string",
+  //       "sub_group": "string",
+  //       "resource_actions": [
+  //         {
+  //           "resource_action_id": "string",
+  //           "resource_action_name": "string",
+  //           "checked": true
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
+  rpc SearchPolicyUserSets(SearchPolicyUserSetsRequest) returns (stream SearchPolicyUserSetsResponse) {}
+
+  // The method for update policy user set
+  //
+  // Operation: UPDATE
+  //
+  // Request:
+  // {
+  //   "group_id": "string",
+  //   "resource_action_id": "string",
+  //   "checked": true
+  // }
+  //
+  // Response:
+  // {
+  //   "success": true
+  // }
+  rpc UpdatePolicyUserSet(UpdatePolicyUserSetRequest) returns (UpdatePolicyUserSetResponse) {}
+  // The method for update policy for role
+  //
+  // Operation: UPDATE
+  //
+  // Request:
+  // {
+  //   "group_id": "string",
+  //   "resource_action_id": "string",
+  //   "checked": true
+  // }
+  //
+  // Response:
+  // {
+  //   "success": true
+  // }
+  rpc UpdatePolicyRole(UpdatePolicyRoleRequest) returns (UpdatePolicyRoleResponse) {}
+   // The method for search policies role 
+  //
+  // Operation: GET ALL
+  //
+  // Request:
+  // {
+  //    "product_id": "string",
+  //     "role_name": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "group_id": "string",
+  //   "group_name": "string",
+  //   "columns": [
+  //     {
+  //       "column_id": "string",
+  //       "column_name": "string",
+  //       "sub_group": "string",
+  //       "resource_actions": [
+  //         {
+  //           "resource_action_id": "string",
+  //           "resource_action_name": "string",
+  //           "checked": true
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
+  rpc SearchPoliciesRole(SearchPoliciesRoleRequest) returns (stream SearchPoliciesRoleResponse) {}
+}

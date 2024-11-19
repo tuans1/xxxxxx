@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package chorus.fcm.base.upload.v1;
+
+// Upload File Information
+message UploadFile {
+  // The object_name is generate name
+  string id = 1;
+  // The object_name is generate name
+  string object_name = 2;
+  // The file_name is original name
+  string file_name = 3;
+  // The file_type is mime type
+  string file_type = 4;
+  // The file_url is path on Storage
+  string file_url = 5;
+  // The active is active of document
+  bool active = 6;
+}

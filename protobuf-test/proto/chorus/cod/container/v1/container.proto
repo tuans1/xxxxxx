@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+// Define the package name
+package chorus.cod.container.v1;
+
+// Container message
+message Container {
+  // Container number
+  string container_number = 1;
+
+  // Container type
+  string container_type = 2;
+
+  // Container movement status code
+  string container_movement_status_code = 3;
+}

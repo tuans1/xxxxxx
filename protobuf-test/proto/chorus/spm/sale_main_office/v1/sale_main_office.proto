@@ -1,0 +1,114 @@
+syntax = "proto3"; // Specify the syntax version of Protocol Buffers used
+
+// Import the necessary proto file for base types
+import "chorus/spm/base/v1/base.proto";
+import "chorus/spm/group/v1/group.proto";
+import "chorus/spm/user/v1/user.proto";
+
+package chorus.spm.sale_main_office.v1;
+
+// Define a message type for SaleMainOffice
+message SaleMainOffice {
+    // Unique identifier for the sale main office
+    string id = 1;
+    // Name of the sale main office
+    string name = 2;
+    // Code representing the sale main office
+    string code = 3;
+    // Group assignment for the sale main office
+    chorus.spm.group.v1.Group assignment_group = 4;
+}
+
+// Define a message type for requesting sale main office information
+message GetSaleMainOfficesBySlcRequest {
+  // Identifier for the sales location center
+  string slc_id = 1;
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+  // Optional query parameters
+  optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Define a message type for requesting sale main office information by FO
+message GetSaleMainOfficesBySlcFoRequest {
+  // Identifier for the sales location center
+  string slc_id = 1;
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+  // Optional query parameters
+  optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Define a message type for requesting sale main office information by code
+message GetSaleMainOfficeByCodeRequest {
+  // Code representing the sale main office
+  string code = 1;
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Define a message type for requesting sale main office information by code
+message GetMyAssignedSaleMainOfficeRequest {
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Define a message type for the response containing multiple SaleMainOffice items
+message GetSaleMainOfficesBySlcResponse {
+  // List of SaleMainOffice items
+  repeated SaleMainOffice items = 1;
+}
+
+// Define a message type for the response containing multiple SaleMainOffice items by FO
+message GetSaleMainOfficesBySlcFoResponse {
+  // List of SaleMainOffice items
+  repeated SaleMainOffice items = 1;
+}
+
+
+// Define a message type for the response containing multiple SaleMainOffice items
+message GetMyAssignedSaleMainOfficeResponse {
+  // List of SaleMainOffice items
+  repeated SaleMainOffice items = 1;
+}
+
+// Define a message type for the response containing a single SaleMainOffice item
+message GetSaleMainOfficeByCodeResponse {
+  // A single SaleMainOffice item
+  SaleMainOffice data = 1;
+}
+
+// Request message for getting SaleMainOffice ID by code
+message GetSaleMainOfficeIdRequest {
+  // Code representing the sale main office
+  string smo_code = 1;
+}
+
+// Response message containing the SaleMainOffice ID
+message GetSaleMainOfficeIdResponse {
+  // Unique identifier for the sale main office
+  string id = 1;
+}
+
+// Define a message type for sale main office options
+message SalesMainOfficeOpt {
+  // Unique identifier for the sale main office
+  string id = 1;
+  // Code representing the sale main office updated
+  string code = 2;
+} 
+
+// Define a service for SalesMainOffice operations
+service SalesMainOfficeService {
+    // RPC method to get sale main offices by sales location center identifier
+    rpc GetSaleMainOfficesBySlc (GetSaleMainOfficesBySlcRequest) returns (GetSaleMainOfficesBySlcResponse) {}
+    // RPC method to get sale main offices by sales location center identifier by FO
+    rpc GetSaleMainOfficesBySlcFo (GetSaleMainOfficesBySlcFoRequest) returns (GetSaleMainOfficesBySlcFoResponse) {}
+    // RPC method to get a sale main office by code
+    rpc GetSaleMainOfficeByCode (GetSaleMainOfficeByCodeRequest) returns (GetSaleMainOfficeByCodeResponse) {}
+    // RPC method to get my assigned sale main office
+    rpc GetMyAssignedSaleMainOffice (GetMyAssignedSaleMainOfficeRequest) returns (GetMyAssignedSaleMainOfficeResponse) {}
+    // New RPC method to get SaleMainOffice ID by code
+    rpc GetSaleMainOfficeId (GetSaleMainOfficeIdRequest) returns (GetSaleMainOfficeIdResponse);
+
+}

@@ -1,0 +1,625 @@
+syntax = "proto3";
+
+package chorus.com.menu.v1;
+
+import "google/protobuf/empty.proto";
+import "chorus/com/base/v1/base.proto";
+
+//The message for the mega menu
+message MegaMenu {
+  //menu id
+  string menu_id = 1;
+  //product id
+  string product_id = 2;
+  //menu name
+  string menu_name = 3;
+  //menu icon file id
+  string menu_icon_file_id = 4;
+  //menu sequence
+  int32 menu_sequence = 5;
+  //is pinned
+  bool is_pinned = 6;
+  //prefix uri
+  string prefix_uri = 7;
+  //is active
+  bool is_active = 8;
+  //product code
+  string product_code = 9;
+}
+
+//The message for the mega menu item
+message MegaMenuItem {
+  //menu id
+  string menu_id = 1;
+  //product id
+  string product_id = 2;
+  //menu name
+  string menu_name = 3;
+  //menu icon file id
+  string menu_icon_file_id = 4;
+  //menu sequence
+  int32 menu_sequence = 5;
+  //prefix uri
+  string prefix_uri = 6;
+  //is active
+  bool is_active = 7;
+  //product code
+  string product_code = 8;
+}
+
+//The request for get mega menu by user id
+message GetMegaMenuByUserIdRequest {
+  //user id
+  string user_id = 1;
+}
+
+//The response for get mega menu by user id
+message GetMegaMenuByUserIdResponse {
+  //mega menu infor
+  MegaMenu mega_menu = 1;
+}
+
+//The response for get all mega menu
+message GetMegaMenuResponse {
+  //mega menu infor
+  MegaMenuItem mega_menu = 1;
+}
+
+//The request for get pin mega menu by user id
+message GetPinMegaMenuByUserIdRequest {
+  //user id
+  string user_id = 1;
+}
+
+//The response for get pin mega menu by user id
+message GetPinMegaMenuByUserIdResponse {
+  //mega menu infor
+  MegaMenuItem mega_menu = 1;
+}
+
+//The request for update pinned mega menu
+message UpdatePinnedMegaMenuRequest {
+  //user id
+  string user_id = 1;
+  //menu id
+  string menu_id = 2;
+  //is pinned
+  bool is_pinned = 3;
+}
+
+//The response for update pinned mega menu
+message UpdatePinnedMegaMenuResponse {
+  //result of update
+  bool success = 1;
+  // status of pinned after update
+  bool is_pinned = 2;
+}
+
+//The message request for get menu by parentId
+message GetMenuByParentIdRequest {
+  //parent id
+  string parent_id = 1;
+  //is_active
+  optional bool is_active = 2;
+  //is_get_menu_uri
+  optional bool is_get_menu_uri = 3;
+}
+
+//The message response for get menu by parentId
+message GetMenuByParentIdResponse {
+  //menu id
+  string menu_id = 1;
+  //parent id
+  string parent_id = 2;
+  //product id
+  string product_id = 3;
+  //menu name
+  string menu_name = 4;
+  //menu icon file id
+  string menu_icon_file_id = 5;
+  //menu sequence
+  int32 menu_sequence = 6;
+  //menu uri
+  string menu_uri = 8;
+  //is active
+  bool is_active = 9;
+}
+
+//The message request for get menu level2 by productId
+message GetMenuLevel2ByProductIdRequest {
+  //product id
+  string product_id = 1;
+  //is_active
+  optional bool is_active = 2;
+}
+
+//The message response for get menu level2 by productId
+message GetMenuLevel2ByProductIdResponse {
+  //menu id
+  string menu_id = 1;
+  //parent id
+  string parent_id = 2;
+  //product id
+  string product_id = 3;
+  //menu name
+  string menu_name = 4;
+  //menu icon file id
+  string menu_icon_file_id = 5;
+  //menu sequence
+  int32 menu_sequence = 6;
+  //menu uri
+  string menu_uri = 8;
+  //is active
+  bool is_active = 9;
+}
+
+//The message request for get local menu by productId
+message GetLocalMenuByProductIdRequest {
+  //product id
+  string product_id = 1;
+}
+
+//The message response for get local menu by productId
+message GetLocalMenuByProductIdResponse {
+  //menu id
+  string menu_id = 1;
+  //parent id
+  string parent_id = 2;
+  //product id
+  string product_id = 3;
+  //menu name
+  string menu_name = 4;
+  //menu icon file id
+  string menu_icon_file_id = 5;
+  //menu sequence
+  int32 menu_sequence = 6;
+  //menu uri
+  string menu_uri = 7;
+}
+
+//The message for mega menu query
+message MegaMenuQuery {
+  //mega menu name
+  optional string mega_menu_name = 1;
+  //mega menu code
+  optional string mega_menu_code = 2;
+}
+
+//The message for search role request
+message SearchMegaMenuByNameOrCodeRequest {
+  //query
+  optional MegaMenuQuery query = 1;
+  //pagination
+  optional chorus.com.base.v1.Pagination pagination = 2;
+}
+
+//The message for search role response
+message SearchMegaMenuByNameOrCodeResponse {
+  //data
+  MegaMenu data = 1;
+  //total
+  int32 total = 2;
+}
+
+//The message for search menu uri
+message SearchMenuDetailByIdRequest {
+  //query
+  optional string menu_id = 1;
+}
+
+//The message for search role response
+message SearchMenuDetailByIdResponse {
+  //menu id
+  string menu_id = 1;
+  //parent id
+  string parent_id = 2;
+  //product id
+  string product_id = 3;
+  //menu name
+  string menu_name = 4;
+  //menu icon file id
+  string menu_icon_file_id = 5;
+  //menu sequence
+  int32 menu_sequence = 6;
+  //menu uri
+  string menu_uri = 8;
+  //is active
+  bool is_active = 9;
+}
+
+//The message request for update menu sequence
+message UpdateMenuSequenceRequest {
+  //The menu id
+  string menu_id = 1;
+  //The sequence
+  int32 menu_sequence = 2;
+}
+
+//The message response for update menu sequence
+message UpdateMenuSequenceResponse {
+  //The result of update menu sequence
+  bool result = 1;
+}
+
+//The message request for update local menu sequence
+message UpdateLocalMenuSequenceRequest {
+  //The parent id
+  string parent_id = 1;
+  //The menu id
+  string menu_id = 2;
+  //The sequence
+  int32 menu_sequence = 3;
+}
+
+//The message response for update local menu sequence
+message UpdateLocalMenuSequenceResponse {
+  //The result of update menu sequence
+  bool result = 1;
+}
+
+//The message request for set activate flag menu
+message UpdateActivateFlagMenuRequest {
+  //menu ID
+  string menu_id = 1;
+  //Active or not
+  bool is_active = 2;
+}
+
+//The message response for set activate flag menu
+message UpdateActivateFlagMenuResponse {
+  //Result of update
+  bool result = 1;
+}
+
+//The message request update menu icon file id
+message UpdateMenuIconPathRequest {
+  //menu ID
+  string menu_id = 1;
+  //menu icon file id
+  string menu_icon_path = 2;
+}
+
+//The message response update menu icon file id
+message UpdateMenuIconPathResponse {
+  //Result of update
+  bool result = 1;
+}
+
+//The message request for delete menu
+message DeleteMenuByIdRequest {
+  //menu ID
+  string menu_id = 1;
+}
+
+// The message response for delete menu
+message DeleteMenuByIdResponse {
+  //Result of update
+  bool result = 1;
+}
+
+//The message ResourceAction
+message ResourceAction {
+  // Resource Action ID
+  string resource_action_id = 1;
+  // Resource Name
+  string resource_name = 2;
+}
+
+//The message that contains the create local menu request
+message CreateLocalMenuRequest {
+  //Product ID
+  string product_id = 1;
+  //Parent ID
+  string parent_id = 2;
+  // resource
+  repeated ResourceAction resource = 3;
+  // Menu name
+  optional string menu_name = 4;
+  //Active
+  bool is_active = 5;
+}
+
+// The user response for search
+message MenuItemIdResponse {
+  // The menu ID.
+  string menu_id = 1;
+}
+
+//The message that contains the create local menu response
+message CreateLocalMenuResponse {
+  // menu
+  MenuItemIdResponse menu = 1;
+}
+
+// The service for mega menu
+service MegaMenuService {
+  //Method get mega menu by user id
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "user_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "mega_menu": {
+  //     "menu_id": "string",
+  //     "product_id": "string",
+  //     "menu_name": "string",
+  //     "menu_icon_file_id": "string",
+  //     "menu_sequence": 0,
+  //     "is_pinned": true,
+  //     "prefix_uri": "string"
+  //   }
+  // }
+  rpc GetMegaMenuByUserId(GetMegaMenuByUserIdRequest) returns (stream GetMegaMenuByUserIdResponse);
+  //Method get all list of mega menu
+  //
+  //Operation: ALL
+  //
+  //Request: None
+  //
+  //Response:
+  // {
+  //   "mega_menu": {
+  //     "menu_id": "string",
+  //     "product_id": "string",
+  //     "menu_name": "string",
+  //     "menu_icon_file_id": "string",
+  //     "menu_sequence": 0,
+  //     "is_active": true,
+  //     "product_code": "string"
+  //     "prefix_uri": "string"
+  //   }
+  // }
+  rpc GetMegaMenu(google.protobuf.Empty) returns (stream GetMegaMenuResponse);
+  //Method get pin mega menu by user id
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "user_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "mega_menu": {
+  //     "menu_id": "string",
+  //     "product_id": "string",
+  //     "menu_name": "string",
+  //     "menu_icon_file_id": "string",
+  //     "menu_sequence": 0,
+  //     "is_active": true,
+  //     "product_code": "string"
+  //     "prefix_uri": "string"
+  //   }
+  // }
+  rpc GetPinMegaMenuByUserId(GetPinMegaMenuByUserIdRequest) returns (stream GetPinMegaMenuByUserIdResponse);
+  //Method get local menu by product id
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "product_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "menu_id": "string",
+  //   "parent_id": "string",
+  //   "product_id": "string",
+  //   "menu_name": "string",
+  //   "menu_icon_file_id": "string",
+  //   "menu_sequence": 0,
+  //   "menu_uri": "string"
+  // }
+  rpc GetLocalMenuByProductId(GetLocalMenuByProductIdRequest) returns (stream GetLocalMenuByProductIdResponse);
+  //Method get menu by parent id
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "parent_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "menu_id": "string",
+  //   "parent_id": "string",
+  //   "product_id": "string",
+  //   "menu_name": "string",
+  //   "menu_icon_file_id": "string",
+  //   "menu_sequence": 0,
+  //   "menu_uri": "string"
+  // }
+  rpc GetMenuByParentId(GetMenuByParentIdRequest) returns (stream GetMenuByParentIdResponse);
+  //Method get menu level2 by product id
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "product_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "menu_id": "string",
+  //   "parent_id": "string",
+  //   "product_id": "string",
+  //   "menu_name": "string",
+  //   "menu_icon_file_id": "string",
+  //   "menu_sequence": 0,
+  //   "menu_uri": "string"
+  // }
+  rpc GetMenuLevel2ByProductId(GetMenuLevel2ByProductIdRequest) returns (stream GetMenuLevel2ByProductIdResponse);
+  //Method update pinned mega menu
+  //
+  //Operation: UPDATE
+  //
+  //Request:
+  // {
+  //   "user_id": "string",
+  //   "menu_id": "string",
+  //   "is_pinned": true
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  //   "is_pinned": true
+  // }
+  rpc UpdatePinnedMegaMenu(UpdatePinnedMegaMenuRequest) returns (UpdatePinnedMegaMenuResponse);
+  //Method search mega menu by menu name or menu code
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "query": {
+  //     "mega_menu_name": "string",
+  //     "mega_menu_code": "string",
+  //   },
+  //   "pagination": {
+  //     "page": 0,
+  //     "page_size": 0
+  //   }
+  // }
+  ///Response:
+  // {
+  //   "data": {
+  //     "menu_id": "string",
+  //     "product_id": "string",
+  //     "menu_name": "string",
+  //     "menu_icon_file_id": "string",
+  //     "menu_sequence": 0,
+  //     "prefix_uri": "string",
+  //     "is_active": true,
+  //     "product_code": "string"
+  //   },
+  //   "total": 1
+  // }
+  rpc SearchMegaMenuByNameOrCode(SearchMegaMenuByNameOrCodeRequest) returns (stream SearchMegaMenuByNameOrCodeResponse);
+  //Method update menu sequence
+  //
+  //Operation: UPDATE
+  //
+  //Request:
+  // {
+  //   "menu_sequence": 1,
+  //   "menu_id": "string",
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  // }
+  rpc UpdateMenuSequence(UpdateMenuSequenceRequest) returns (UpdateMenuSequenceResponse);
+
+  //Method update local menu sequence
+  //
+  //Operation: UPDATE
+  //
+  //Request:
+  // {
+  //   "parent_id": "string",
+  //   "menu_sequence": 1,
+  //   "menu_id": "string",
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  // }
+  rpc UpdateLocalMenuSequence(UpdateLocalMenuSequenceRequest) returns (UpdateLocalMenuSequenceResponse);
+
+  //Method update menu active flag
+  //
+  //Operation: UPDATE
+  //
+  //Request:
+  // {
+  //   "is_active": true,
+  //   "menu_id": "string",
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  // }
+  rpc UpdateActivateFlagMenu(UpdateActivateFlagMenuRequest) returns (UpdateActivateFlagMenuResponse);
+
+  //Method update menu icon path
+  //
+  //Operation: UPDATE
+  //
+  //Request:
+  // {
+  //   "menu_id": "string",
+  //   "menu_icon_path": "string",
+  // }
+  //
+  rpc UpdateMenuIconPath(UpdateMenuIconPathRequest) returns (UpdateMenuIconPathResponse);
+
+  //Method delete menu by id
+  //
+  //Operation: DELETE
+  //
+  //Request:
+  // {
+  //   "menu_id": "string",
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  // }
+  rpc DeleteMenuById(DeleteMenuByIdRequest) returns (DeleteMenuByIdResponse);
+  //The method for create local menu
+  //
+  //Operation: Create
+  //
+  //Request:
+  // {
+  //   "product_id": "string",
+  //   "parent_id": "string",
+  //   "menu_name": "string",
+  //   "resource": [{
+  //      resource_action_id: "string",
+  //      resource_name: "string"
+  //      },
+  //    ],
+  // }
+  //
+  //Response:
+  // {
+  //   [
+  //     "menu_id": "string",
+  //   ]
+  // }
+  rpc CreateLocalMenu(CreateLocalMenuRequest) returns (stream CreateLocalMenuResponse);
+  //Method search menu detail by menu id
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "menu_id": "menuIdEx"
+  // }
+  //Response:
+  // {
+  //   "menu_id": "string",
+  //   "parent_id": "string",
+  //   "product_id": "string",
+  //   "menu_name": "string",
+  //   "menu_icon_file_id": "string",
+  //   "menu_sequence": 0,
+  //   "menu_uri": "string"
+  // }
+  rpc SearchMenuDetailById(SearchMenuDetailByIdRequest) returns (stream SearchMenuDetailByIdResponse);
+}

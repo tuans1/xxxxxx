@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package chorus.mom.cost_code.v1;
+
+import "google/protobuf/empty.proto";
+
+// Message representing an error that occurred.
+message Error {
+    // Error code representing the type of error.
+    int32 code = 1;
+  
+    // Human-readable message describing the error.
+    string message = 2;
+  
+    // List of field-specific errors related to the overall error.
+    repeated FieldError details = 3;
+}
+
+// Message representing a specific field error.
+message FieldError {
+    // Code representing the specific field error.
+    string code = 1;
+
+    // Name of the field that has an error.
+    string field_name = 2;
+
+    // Message describing the field-specific error.
+    string message = 3;
+}
+
+// CostCode message representing a cost code entry
+message CostCode {
+    // Unique code of the cost item
+    string code = 1;  
+    // Name or description of the cost item
+    string name = 2;  
+}
+  
+  // Response message for finding cost codes, containing a list of cost codes and potential errors
+  message CostCodesServiceFindResponse {
+    // List of cost codes
+    repeated CostCode data = 1;  
+    // Error information, if an error occurs
+    optional Error error = 2;             
+  }
+  
+  // Service definition for the CostCodes query
+  service CostCodesService {
+    // RPC to retrieve a list of cost codes, returns FindCostCodesResponse
+    rpc Find (google.protobuf.Empty) returns (CostCodesServiceFindResponse);
+  }

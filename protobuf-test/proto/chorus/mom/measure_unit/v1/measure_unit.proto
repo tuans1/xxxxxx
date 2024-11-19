@@ -1,0 +1,66 @@
+syntax = "proto3"; // Define the syntax version to be used for this protocol buffer file.
+
+package chorus.mom.measure_unit.v1;
+import "google/protobuf/empty.proto";
+
+// Message representing a unit of measure.
+message MeasureUnit {
+  // Unique identifier for the measure unit.
+  int32 id = 1;
+
+  // Name of the measure unit.
+  string name = 2;
+
+  // The timestamp when the entity was created, represented as Unix time in seconds or milliseconds.
+  string created_at = 3;
+
+  // The user or system that created the entity.
+  string created_by = 4;
+
+  // The timestamp when the entity was last updated, represented as Unix time in seconds or milliseconds.
+  string updated_at = 5;
+
+  // The user or system that last updated the entity.
+  string updated_by = 6;
+
+  // The timestamp when the entity was deleted, represented as Unix time in seconds or milliseconds.
+  // This field might be null or zero if the entity is not deleted.
+  optional string deleted_at = 7;
+
+  // The user or system that deleted the entity.
+  optional string deleted_by = 8;
+}
+
+// Message representing an error that occurred.
+message Error {
+  // Error code representing the type of error.
+  int32 code = 1;
+
+  // Human-readable message describing the error.
+  string message = 2;
+
+  // List of field-specific errors related to the overall error.
+  repeated FieldError details = 3;
+}
+
+// Message representing a specific field error.
+message FieldError {
+  // Code representing the specific field error.
+  string code = 1;
+
+  // Name of the field that has an error.
+  string field_name = 2;
+
+  // Message describing the field-specific error.
+  string message = 3;
+}
+
+// Message representing a type of value.
+message MeasureUnitsFindResponse {
+  repeated MeasureUnit data = 1;
+  optional Error error = 2;
+}
+
+service MeasureUnitService {
+  rpc Find(google.protobuf.Empty) returns (MeasureUnitsFindResponse);
+}

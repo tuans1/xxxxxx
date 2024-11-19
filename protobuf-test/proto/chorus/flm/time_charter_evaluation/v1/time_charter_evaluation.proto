@@ -1,0 +1,265 @@
+syntax = "proto3";
+
+package chorus.flm.time_charter_evaluation.v1;
+
+// Service for Time Charter Evaluation
+service TimeCharterEvaluationService {
+    
+    //get evaluation information
+    rpc GetEvaluationInformation(GetEvaluationInformationRequest) returns(GetEvaluationInformationResponse);
+    // Create evaluation data
+    // Operation: POST
+    // Request:
+    // {
+    //      "tc_id": string
+    //      "evaluation_data": array(EvaluationInformation)
+    //      "create_user_id": string
+    // }
+    // Response:
+    // {
+    //     "is_error": boolean
+    //     "error_message": string
+    // }
+    rpc CreateEvaluationInformation(CreateEvaluationInformationRequest) returns(CreateEvaluationInformationResponse) ;
+    // Update evaluation data
+    // Operation: POST
+    // Request:
+    // {
+    //      "tc_id": string
+    //      "evaluation_data": array(EvaluationInformation)
+    //      "update_user_id": string
+    // }
+    // Response:
+    // {
+    //     "is_error": boolean
+    //     "error_message": string
+    // }
+    rpc UpdateEvaluationInformation(UpdateEvaluationInformationRequest) returns(UpdateEvaluationInformationResponse) ;
+
+    // Select vessel that will be added to Evaluation phase
+    // Operation: POST
+    // Request:
+    //  {
+    //    "tc_id":"tc_id",
+    //     "phase":2
+    //     "vessel_ids" :["1","2"] 
+    //  }
+    // Response:
+    //  {
+    //      "api_response" :{
+    //      "is_error":false,
+    //      "error_message":""
+    //       }
+    //  } 
+    rpc SelectVesselToEvaluation(SelectVesselToEvaluationRequest) returns (SelectVesselToEvaluationResponse);
+
+    // Remove vessel from Evaluation phase
+    // Operation: POST
+    // Request:
+    //  {
+    //    "tc_id":"tc_id",
+    //     "vessel_ids" :["1","2"] 
+    //  }
+    // Response:
+    //  {
+    //      "api_response" :{
+    //      "is_error":false,
+    //      "error_message":""
+    //       }
+    //  } 
+    rpc RemoveVesselFromEvaluation(RemoveVesselFromEvaluationRequest) returns (RemoveVesselFromEvaluationResponse);
+
+    // remove department evaluation
+    // Operation: POST
+    // Request:
+    //  {
+    //    "tc_id":"tc_id",
+    //    "delete_department" :[{department_id:"1"}],
+    //    "user_id": "a"
+    //  }
+    // Response:
+    //  {
+    //      "api_response" :{
+    //          "is_error":false,
+    //          "error_message":""
+    //       }
+    //  } 
+    rpc RemoveDepartmentEvaluationInformation(RemoveDepartmentEvaluationInformationRequest) returns (RemoveDepartmentEvaluationInformationResponse);
+}
+
+//api response
+message ApiResponse {
+    //true has error else ok
+    bool is_error = 1;
+    //error message
+    string error_message = 2;
+}
+
+// Phase status
+message PhaseStatus {
+    //for_evaluation
+    bool for_evaluation = 1;
+    //for_fm_internal_approval
+    bool for_fm_internal_approval = 2;
+    //for_md_approval
+    bool for_md_approval = 3;
+ }
+
+//message evaluation vessel
+message EvaluationVessels{
+    //vessel id
+    string id = 1;
+    //vessel name
+    string name = 2;
+    //phase status of evaluation vessel
+    PhaseStatus phase_status = 3;
+}
+
+//message evaluation department
+message EvaluationDepartments{
+    //department id
+    string id = 1;
+    //department name
+    string name = 2;
+    // is new department
+    bool is_new_department = 3;
+}
+
+//message evaluation information
+message EvaluationInformation {
+    //vessel id
+    string vessel_id = 1;
+    //department id
+    string department_id = 2;
+    //evaluation status
+    string evaluation_status_id = 3;
+    //evaluation date ( yyyy-mm-dd hh:mm:ss.ms ±hhmm )
+    string evaluation_date = 4;
+    //remarks
+    string remarks = 5;
+    // department text
+    optional string department_text = 6;
+}
+
+//message evaluation status
+message EvaluationStatus{
+    //status id
+    string id = 1;
+    //status name
+    string name = 2;
+}
+
+//message evaluation data
+message EvaluationData{
+    //evaluation vessels
+    repeated EvaluationVessels evaluation_vessels = 1;
+    //evaluation departments
+    repeated EvaluationDepartments evaluation_departments = 2;
+    //evaluation information
+    repeated EvaluationInformation evaluation_information = 3;
+    //evaluation status
+    repeated EvaluationStatus evaluation_status = 4;
+}
+
+//get evaluation information request
+message GetEvaluationInformationRequest{
+    //time charter comparison id
+    string tc_id = 1;
+}
+
+
+//get evaluation information response
+message GetEvaluationInformationResponse{
+    //evaluation information
+    EvaluationData evaluation_data = 1;
+    //api response 
+    ApiResponse api_response = 2;
+}
+
+// create evaluation information request
+message CreateEvaluationInformationRequest {
+    //time charter comparison id
+    string tc_id = 1;
+    // evaluation data
+    repeated EvaluationInformation evaluation_data = 2;
+    // The create_user_id is the creator
+    string create_user_id = 3;
+}
+
+// update evaluation information response
+message CreateEvaluationInformationResponse {
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+// update evaluation information request
+message UpdateEvaluationInformationRequest {
+    // time charter comparison id
+    string tc_id = 1;
+    // evaluation data
+    repeated EvaluationInformation evaluation_data = 2;
+    // The update_user_id is the creator
+    string update_user_id = 3;
+}
+
+// update evaluation information response
+message UpdateEvaluationInformationResponse {
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+// Select a vessel to evaluation request
+message SelectVesselToEvaluationRequest{
+    // Time charter id
+    string tc_id = 1;
+    // charter request phase:Draft:1- Ongoing:2-Evaluation:3-FM Internal Approval:4- MD Approval:5
+    //At edit comparison page, phase is null otherwise we need to specific phase to process
+    optional int32 phase = 2;
+    // List of vessel IDS
+    repeated string vessel_ids = 3;
+}
+
+// Select a vessel to evaluation response
+message SelectVesselToEvaluationResponse{
+    // Response
+    ApiResponse api_response =1;
+}
+
+// Remove a vessel from evaluation request
+message RemoveVesselFromEvaluationRequest{
+    // Time charter Id
+    string tc_id = 1;
+     // charter request phase:Draft:1- Ongoing:2-Evaluation:3-FM Internal Approval:4- MD Approval:5
+     //At edit comparison page, phase is null otherwise we need to specific phase to process
+    optional int32 phase = 2;
+    //List of vessel to be removed
+    repeated string vessel_ids = 3;
+}
+
+// Remove a vessel from evaluation response
+message RemoveVesselFromEvaluationResponse{
+    //response
+    ApiResponse api_response =1;
+}
+
+//message delete department
+message DeleteDepartment {
+    // department id
+    string department_id = 1;
+}
+
+//message remove department evaluation request
+message RemoveDepartmentEvaluationInformationRequest{
+    //time charter id
+    string tc_id = 1;
+    //deleted department list 
+    repeated DeleteDepartment delete_department = 2;
+    //user_id
+    string user_id = 3;
+}
+
+//message remove department evaluation response
+message RemoveDepartmentEvaluationInformationResponse{
+    //api response 
+    ApiResponse api_response = 1;
+}

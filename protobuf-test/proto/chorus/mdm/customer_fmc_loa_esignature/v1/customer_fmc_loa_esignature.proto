@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package chorus.mdm.customer_fmc_loa_esignature.v1;
+
+// The customer FMC LOA E-Signature information (mdm_cust_fmc_loa_esig).
+message CustomerFmcLoaEsignature {
+  // The customer_country_code is the country code of the customer. cust_cnt_cd in OPUS.
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the customer. cust_seq in OPUS.
+  int32 customer_sequence = 2;
+  // The loa_sequence is the LOA sequence of the customer. loa_seq in OPUS.
+  int32 loa_sequence = 3;
+  // The esignature_user_id is the E-Signature user ID of the customer. esig_usr_id in OPUS.
+  string esignature_user_id = 4;
+}
+
+// The customer country code and sequence.
+message CustomerCountryCodeAndSequence {
+  // The customer_country_code is the country code of the customer.
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the customer.
+  int32 customer_sequence = 2;
+}
+
+// Request message for `CustomerFmcLoaEsignatureInfoService.GetCustomerFmcLoaEsignatureByCustomerCountryCodesAndSequences`.
+message GetCustomerFmcLoaEsignatureByCustomerCountryCodesAndSequencesRequest {
+  // The customer country code and sequence list.
+  repeated CustomerCountryCodeAndSequence customer_country_code_and_sequence_list = 1;
+}
+
+// Response message for `CustomerFmcLoaEsignatureInfoService.GetCustomerFmcLoaEsignatureByCustomerCountryCodesAndSequences`.
+message GetCustomerFmcLoaEsignatureByCustomerCountryCodesAndSequencesResponse {
+  // The customer FMC LOA E-Signature information.
+  CustomerFmcLoaEsignature customer_fmc_loa_esignature = 1;
+}
+
+// Services for customer FMC LOA E-Signature information.
+service CustomerFmcLoaEsignatureInfoService {
+  // Get list of customer FMC LOA E-Signature information by customer country codes and sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_country_code_and_sequence_list": [
+  //         {
+  //             "customer_country_code": "AU"
+  //             "customer_sequence": 101303
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "customer_fmc_loa_esignature": {
+  //         "customer_country_code": "AU",
+  //         "customer_sequence": 202258,
+  //         "loa_sequence": 1,
+  //         "esignature_user_id": "GCLATL2820C"
+  //     }
+  // }
+  // ...
+  rpc GetCustomerFmcLoaEsignatureByCustomerCountryCodesAndSequences(GetCustomerFmcLoaEsignatureByCustomerCountryCodesAndSequencesRequest) returns (stream GetCustomerFmcLoaEsignatureByCustomerCountryCodesAndSequencesResponse);
+}

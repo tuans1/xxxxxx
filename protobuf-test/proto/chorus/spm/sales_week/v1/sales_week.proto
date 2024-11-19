@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+import "chorus/spm/base/v1/base.proto";
+import "chorus/spm/user/v1/user.proto";
+
+package chorus.spm.sales_week.v1;
+
+// Defines a message type named SalesWeek, which will be used to represent a sales week.
+message SalesWeek {
+  // Field 1: A unique identifier for the sales week, represented as a string.
+  string id = 1;
+
+  // Field 2: The name of the sales week, represented as a string.
+  string name = 2;
+
+  // Field 3: The start date of the sales week, represented as a 64-bit integer (timestamp).
+  int64 start_date = 3;
+
+  // Field 4: The end date of the sales week, represented as a 64-bit integer (timestamp).
+  int64 end_date = 4;
+}
+
+// Defines a message type named SalesWeekName, which includes an ID and name of a sales week.
+message SalesWeekName {
+  // Field 1: A unique identifier for the sales week name, represented as a string.
+  string id = 1;
+
+  // Field 2: The name of the sales week, represented as a string.
+  string name = 2;
+}
+
+// Get Current Sales Week Response
+message GetCurrentSalesWeekResponse {
+  // Field 1: A unique identifier for the sales week name, represented as a string.
+  string id = 1;
+
+  // Field 2: The name of the sales week, represented as a string.
+  string name = 2;
+}
+
+// Defines a message type named SalesWeekRequest, which includes optional parameters for a sales week request.
+message GetCurrentSalesWeekRequest {
+  // Field 1: An optional string representing today's date.
+  optional string today = 1;
+
+  // Field 2: An optional Query object imported from another proto file.
+  optional chorus.spm.base.v1.Query query = 2;
+}
+
+// Defines a message type named SalesWeekRangeRequest, which includes optional parameters for a range of sales weeks.
+message GetSalesWeekRangeRequest {
+  // Field 1: An optional double specifying the range of weeks.
+  optional double week_range = 1;
+
+  // Field 2: An optional string representing the name of the sales week.
+  optional string sales_week_name = 2;
+}
+
+// Defines a message type named SalesWeekRangeResponse, which includes a list of SalesWeekName items.
+message GetSalesWeekRangeResponse {
+  // Field 1: A repeated field of SalesWeekName items.
+  repeated SalesWeekName items = 1;
+}
+
+// Message definition for GetAllSalesweeksRequest
+message GetAllSalesWeekRequest {
+  // User information, of type UserInfo from the user package, with field number 1.
+  chorus.spm.user.v1.UserInfo user = 1;
+
+  // Pagination information, of type PaginationRequest from the base package, with field number 2.
+  optional chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+
+  // Optional string for the name of the sales week, with field number 3.
+  optional string sales_week_name_like = 3;
+}
+
+// Message definition for GetAllSaleSweeksResponse
+message GetAllSalesWeekResponse {
+  // List of sales week items
+  repeated SalesWeekName items = 1;
+  // Pagination response information
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+  // Total items
+  int32 total_items = 3;
+}
+
+// Defines a service named SalesWeekService, which includes RPC methods related to sales weeks.
+service SalesWeekService {
+  // RPC method to get the current sales week based on a SalesWeekRequest and returns a SalesWeekName.
+  rpc GetCurrentSalesWeek (GetCurrentSalesWeekRequest) returns (GetCurrentSalesWeekResponse) {}
+
+  // RPC method to get a range of sales weeks based on a SalesWeekRangeRequest and returns a SalesWeekRangeResponse.
+  rpc GetSalesWeekRange (GetSalesWeekRangeRequest) returns (GetSalesWeekRangeResponse) {}
+
+  // RPC method to get all sales weeks based on a GetAllSalesweeksRequest and returns a SalesWeekRangeResponse.
+  rpc GetAllSalesWeek (GetAllSalesWeekRequest) returns (GetAllSalesWeekResponse) {}
+}

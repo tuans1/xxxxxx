@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package chorus.vsm.service_lane.v1;
+
+import "google/protobuf/empty.proto";
+
+service VsmServiceLaneService {
+  rpc ListServiceLane(GetListServiceLaneRequest) returns (ListServiceLaneResponse) {}
+  rpc CreateServiceLane(CreateServiceLaneRequest) returns (ServiceLaneResponse) {}
+};
+
+message CreateServiceLaneRequest {
+  string code = 1;
+  string name = 2;
+  string feederTrunk = 3;
+  string sapCrtCode = 4;
+};
+
+message GetListServiceLaneRequest {
+  string keyword = 1;
+};
+
+message ServiceLane {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string feederTrunk = 4;
+  string sapCrtCode = 5;
+  string effectiveDate = 6;
+  string status = 7;
+};
+
+message ServiceLaneResponse {
+  bool isSuccess = 1;
+  ServiceLane data = 2; 
+};
+
+message ListServiceLaneResponse {
+  bool isSuccess = 1;
+  repeated ServiceLane data = 2; 
+};
+
+

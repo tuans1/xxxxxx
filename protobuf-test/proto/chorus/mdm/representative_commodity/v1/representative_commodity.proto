@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package chorus.mdm.representative_commodity.v1;
+
+// The representative commodity information.
+message RepresentativeCommodity {
+  // The representative_commodity_code is the representative commodity code of the representative commodity. rep_cmdt_cd in OPUS.
+  string representative_commodity_code = 1;
+  // The representative_commodity_name is the representative commodity name of the representative commodity. rep_cmdt_nm in OPUS.
+  string representative_commodity_name = 2;
+  // The group_commodity_code is the group commodity code of the representative commodity. grp_cmdt_cd in OPUS.
+  string group_commodity_code = 3;
+}
+
+// The representative commodity code information.
+message RepresentativeCommodityCode {
+  // The representative commodity code of the representative commodity.
+  string representative_commodity_code = 1;
+}
+
+// Request message for `RepresentativeCommodityInfoService.GetRepresentativeCommoditiesByRepresentativeCommodityCodesRequest`.
+message GetRepresentativeCommoditiesByRepresentativeCommodityCodesRequest {
+  // The representative commodity list.
+  repeated RepresentativeCommodityCode representative_commodity_code_list = 1;
+}
+
+// Response message for `RepresentativeCommodityInfoService.GetRepresentativeCommoditiesByRepresentativeCommodityCodesResponse`.
+message GetRepresentativeCommoditiesByRepresentativeCommodityCodesResponse {
+  // The representative commodity information.
+  RepresentativeCommodity representative_commodity = 1;
+}
+
+// Request message for `RepresentativeCommodityInfoService.SearchRepresentativeCommoditiesByRepresentativeCommodityNameRequest`.
+message SearchRepresentativeCommoditiesByRepresentativeCommodityNameRequest {
+  // The representative commodity name of the representative commodity.
+  string representative_commodity_name = 1;
+}
+
+// Response message for `RepresentativeCommodityInfoService.SearchRepresentativeCommoditiesByRepresentativeCommodityNameResponse`.
+message SearchRepresentativeCommoditiesByRepresentativeCommodityNameResponse {
+  // The representative commodity information.
+  RepresentativeCommodity representative_commodity = 1;
+}
+
+// Services for representative commodity.
+service RepresentativeCommodityInfoService {
+  // Get list of representative commodity by representative commodity codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "representative_commodity_code_list": [
+  //         {
+  //             "representative_commodity_code": "2938",
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "representative_commodity": {
+  //         "representative_commodity_code": "2938",
+  //         "representative_commodity_name": "GLYCOSIDE+SALT,ETHER,ESTER,DERIVATIVE",
+  //         "group_commodity_code": null,
+  //     }
+  // }
+  // ...
+  rpc GetRepresentativeCommoditiesByRepresentativeCommodityCodes(GetRepresentativeCommoditiesByRepresentativeCommodityCodesRequest) returns (stream GetRepresentativeCommoditiesByRepresentativeCommodityCodesResponse);
+
+  // Get list of representative commodity by representative commodity name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "representative_commodity_name": "ARABINOSE"
+  // }
+  //
+  // Response:
+  // {
+  //     "representative_commodity": {
+  //         "representative_commodity_code": "2940",
+  //         "representative_commodity_name": "ARABINOSE",
+  //         "group_commodity_code": null,
+  //     }
+  // }
+  // ...
+  rpc SearchRepresentativeCommoditiesByRepresentativeCommodityName(SearchRepresentativeCommoditiesByRepresentativeCommodityNameRequest) returns (stream SearchRepresentativeCommoditiesByRepresentativeCommodityNameResponse);
+}

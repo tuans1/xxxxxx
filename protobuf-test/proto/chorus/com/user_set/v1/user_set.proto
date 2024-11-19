@@ -1,0 +1,347 @@
+syntax = "proto3";
+
+package chorus.com.user_set.v1;
+
+import "chorus/com/base/v1/base.proto";
+
+// The user set informations
+message UserSet {
+  // The user set id
+  string user_set_id = 1;
+  // The user set name
+  string user_set_name = 2;
+  //The user set key
+  string user_set_key = 3;
+  // The user set description
+  string description = 4;
+  // Total member user
+  int32 total_member = 5;
+}
+
+// The user set condition detail
+message UserSetConditionDetail {
+  // The user set condition id
+  string user_set_condition_id = 1;
+  // The user attribute id
+  string user_attribute_id = 2;
+  // The user attribute name
+  string user_attribute_name = 3;
+  // The condition
+  string condition = 4;
+  // The value
+  string value = 5;
+}
+
+// The user set query
+message UserSetQuery {
+  // The user set name
+  string user_set_name = 1;
+}
+
+// The user set sort by
+enum UserSetSortBy {
+  // unspecified
+  USER_SET_SORT_BY_UNSPECIFIED = 0;
+  // Sort by newest first
+  USER_SET_SORT_BY_NEWEST_FIRST = 1;
+  // Sort by oldest first
+  USER_SET_SORT_BY_OLDEST_FIRST = 2;
+}
+
+//The paging message
+message Pagination {
+  // The page number
+  int32 page_number = 1;
+  // The page size
+  int32 page_size = 2;
+}
+
+// The Search user set by name request
+message SearchUserSetByNameRequest {
+  // The user set query
+  optional UserSetQuery query = 1;
+  // Sort by field
+  optional UserSetSortBy sort_by = 2;
+  // Pagination
+  optional Pagination pagination = 3;
+}
+
+// The Search user set by name response
+message SearchUserSetByNameResponse {
+  // The user set data
+  UserSet data = 1;
+  // The total number of user set
+  int32 total = 2;
+}
+
+// The search member list by user set id query
+message SearchMemberListByUserSetIdQuery {
+  // The user set id
+  string user_set_id = 1;
+  // The keyword for search user name or email
+  string keyword = 2;
+}
+
+// The search member list by user set id request
+message SearchMemberListByUserSetIdRequest {
+  // The user set query
+  SearchMemberListByUserSetIdQuery query = 1;
+  // Order by field
+  repeated chorus.com.base.v1.OrderBy order_by = 3;
+  // Pagination
+  optional Pagination pagination = 2;
+}
+
+// The member of user set
+message MemberOfUserSet {
+  //the user_id
+  string user_id = 1;
+  //the user_name
+  string user_name = 2;
+  //the user_email
+  string user_email = 3;
+}
+
+// The search member list by user set id response
+message SearchMemberListByUserSetIdResponse {
+  // The user set data
+  MemberOfUserSet data = 1;
+  // The total number of user set
+  int32 total = 2;
+}
+
+// The get user set by id request
+message GetUserSetByIdRequest {
+  // The user set id
+  string user_set_id = 1;
+}
+
+// The get user set by id response
+message GetUserSetByIdResponse {
+  // The user set data
+  UserSet data = 1;
+  // The user set condition detail
+  repeated UserSetConditionDetail conditions = 4;
+}
+
+// The create user set request
+message CreateUserSetRequest {
+  // The user set condition for created
+  message UserSetConditionCreate {
+    // The user attribute id
+    string user_attribute_id = 1;
+    // The condition
+    string condition = 2;
+    // The value
+    string value = 3;
+  }
+  // The user set name
+  string user_set_name = 1;
+  // The user set key
+  string user_set_key = 2;
+  // The user set description
+  string description = 3;
+  // The user set conditions
+  repeated UserSetConditionCreate conditions = 4;
+}
+
+// The create user set response
+message CreateUserSetResponse {
+  // The user set id
+  string user_set_id = 1;
+}
+
+// The update user set request
+message UpdateUserSetRequest {
+  // The user set condition for updated
+  message UserSetConditionUpdate {
+    // The user set condition id
+    string user_set_condition_id = 1;
+    // The user attribute id
+    string user_attribute_id = 2;
+    // The condition
+    string condition = 3;
+    // The value
+    string value = 4;
+  }
+  // The user set id
+  string user_set_id = 1;
+  // The user set name
+  string user_set_name = 2;
+  // The user set key
+  string user_set_key = 3;
+  // The user set description
+  string description = 4;
+  // The user set conditions
+  repeated UserSetConditionUpdate conditions = 5;
+}
+
+// The update user set response
+message UpdateUserSetResponse {
+  // The result of update user set
+  bool success = 1;
+}
+
+// The delete user set request
+message DeleteUserSetRequest {
+  // The user set id
+  string user_set_id = 1;
+}
+
+// The delete user set response
+message DeleteUserSetResponse {
+  // The result of delete user set
+  bool success = 1;
+}
+
+// The service that implements the user set service definition.
+service UserSetService {
+  // The method to search user set by name
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "query": {
+  //         "user_set_name": "user set name"
+  //     },
+  //     "sort_by": "USER_SET_SORT_BY_NEWEST_FIRST",
+  //     "pagination": {
+  //         "page_size": 10,
+  //         "page_number": 1
+  //     }
+  // }
+  //
+  // Response:
+  // {
+  //     "data": [
+  //         {
+  //             "user_set_id": "user set id",
+  //             "user_set_name": "user set name",
+  //             "user_set_key": "user set key",
+  //             "description": "description"
+  //         }
+  //     ],
+  //     "total": 1
+  // }
+  rpc SearchUserSetByName(SearchUserSetByNameRequest) returns (stream SearchUserSetByNameResponse) {}
+  // The method to search member list by user set id
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "query": {
+  //         "user_set_id": "user set id",
+  //         "user_name": "user name",
+  //         "user_email": "user email"
+  //     },
+  //     "pagination": {
+  //         "page_size": 10,
+  //         "page_number": 1
+  //     }
+  // }
+  //
+  // Response:
+  // {
+  //     "data": [
+  //         {
+  //             "user_id": "user id",
+  //             "user_name": "user name",
+  //             "user_email": "user email"
+  //         }
+  //     ],
+  //     "total": 1
+  // }
+  rpc SearchMemberListByUserSetId(SearchMemberListByUserSetIdRequest) returns (stream SearchMemberListByUserSetIdResponse) {}
+  // The method for get user set by id
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "user_set_id": "user set id"
+  // }
+  //
+  // Response:
+  // {
+  //     "data": {
+  //         "user_set_id": "user set id",
+  //         "user_set_name": "user set name",
+  //         "user_set_key": "user set key",
+  //         "description": "description"
+  //     },
+  //     "conditions": [
+  //         {
+  //             "user_set_condition_id": "user set condition id",
+  //             "user_attribute_id": "user attribute id",
+  //             "user_attribute_name": "user attribute name",
+  //             "condition": "condition",
+  //             "value": "value"
+  //         }
+  //     ]
+  // }
+  rpc GetUserSetById(GetUserSetByIdRequest) returns (GetUserSetByIdResponse) {}
+  // The method for create user set
+  //
+  // Operation: CREATE
+  //
+  // Request:
+  // {
+  //     "user_set_name": "user set name",
+  //     "user_set_key": "user set key",
+  //     "description": "description",
+  //     "conditions": [
+  //         {
+  //             "user_attribute_id": "user attribute id",
+  //             "condition": "condition",
+  //             "value": "value"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "user_set_id": "user set id"
+  // }
+  rpc CreateUserSet(CreateUserSetRequest) returns (CreateUserSetResponse) {}
+  // The method for update user set
+  //
+  // Operation: UPDATE
+  //
+  // Request:
+  // {
+  //     "user_set_id": "user set id",
+  //     "user_set_name": "user set name",
+  //     "user_set_key": "user set key",
+  //     "description": "description",
+  //     "conditions": [
+  //         {
+  //             "user_set_condition_id": "user set condition id",
+  //             "user_attribute_id": "user attribute id",
+  //             "condition": "condition",
+  //             "value": "value"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "success": true
+  // }
+  rpc UpdateUserSet(UpdateUserSetRequest) returns (UpdateUserSetResponse) {}
+  // The method for delete user set
+  //
+  // Operation: DELETE
+  //
+  // Request:
+  // {
+  //     "user_set_id": "user set id"
+  // }
+  //
+  // Response:
+  // {
+  //     "success": true
+  // }
+  rpc DeleteUserSet(DeleteUserSetRequest) returns (DeleteUserSetResponse) {}
+}

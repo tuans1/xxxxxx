@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package chorus.mdm.sub_trade.v1;
+
+import "google/protobuf/empty.proto";
+
+// The sub trade information.
+message SubTrade {
+  // The sub_trade_code is the sub trade code of the sub trade. sub_trd_cd in OPUS.
+  string sub_trade_code = 1;
+  // The sub_trade_name is the sub trade name of the sub trade. sub_trd_nm in OPUS.
+  string sub_trade_name = 2;
+  // The trade_code is the trade code of the sub trade. trd_cd in OPUS.
+  string trade_code = 3;
+}
+
+// The sub trade code information.
+message SubTradeCode {
+  // The sub trade code of the sub trade.
+  string sub_trade_code = 1;
+}
+
+// The trade code information.
+message TradeCode {
+  // The trade code of the sub trade.
+  string trade_code = 1;
+}
+
+// Request message for `SubTradeInfoService.GetSubTradesBySubTradeCodes`.
+message GetSubTradesBySubTradeCodesRequest {
+  // The sub trade code list.
+  repeated SubTradeCode sub_trade_code_list = 1;
+}
+
+// Response message for `SubTradeInfoService.GetSubTradesBySubTradeCodes`.
+message GetSubTradesBySubTradeCodesResponse {
+  // The sub trade information.
+  SubTrade sub_trade = 1;
+}
+
+// Request message for `SubTradeInfoService.GetSubTradesByTradeCodes`.
+message GetSubTradesByTradeCodesRequest {
+  // The trade code list.
+  repeated TradeCode trade_code_list = 1;
+}
+
+// Response message for `SubTradeInfoService.GetSubTradesByTradeCodes`.
+message GetSubTradesByTradeCodesResponse {
+  // The sub trade information.
+  SubTrade sub_trade = 1;
+}
+
+// Response message for `SubTradeInfoService.GetSubTrades`.
+message GetSubTradesResponse {
+  // The sub trade information.
+  SubTrade sub_trade = 1;
+}
+
+// Services for sub trade.
+service SubTradeInfoService {
+  // Get all list of sub trades.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "sub_trade": {
+  //         "sub_trade_code": "NE",
+  //         "sub_trade_name": "ASIA NORTH EUROPE SUB TRADE",
+  //         "trade_code": "NET"
+  //     }
+  // }
+  // ...
+  rpc GetSubTrades(google.protobuf.Empty) returns (stream GetSubTradesResponse);
+
+  // Get list of sub trades by sub trade codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "sub_trade_code_list": [
+  //         {
+  //             "sub_trade_code": "NE"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "sub_trade": {
+  //         "sub_trade_code": "NE",
+  //         "sub_trade_name": "ASIA NORTH EUROPE SUB TRADE",
+  //         "trade_code": "NET"
+  //     }
+  // }
+  // ...
+  rpc GetSubTradesBySubTradeCodes(GetSubTradesBySubTradeCodesRequest) returns (stream GetSubTradesBySubTradeCodesResponse);
+
+  // Get list of sub trades by trade codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "trade_code_list": [
+  //         {
+  //             "trade_code": "NET"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "sub_trade": {
+  //         "sub_trade_code": "NE",
+  //         "sub_trade_name": "ASIA NORTH EUROPE SUB TRADE",
+  //         "trade_code": "NET"
+  //     }
+  // }
+  // ...
+  rpc GetSubTradesByTradeCodes(GetSubTradesByTradeCodesRequest) returns (stream GetSubTradesByTradeCodesResponse);
+}

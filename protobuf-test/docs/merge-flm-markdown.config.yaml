@@ -1,0 +1,5 @@
+input:
+  README.md: ""
+  flm.md: ""
+output:
+  name: ../proto/chorus/flm/README.md

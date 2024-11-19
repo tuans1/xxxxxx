@@ -1,0 +1,92 @@
+syntax = "proto3";
+package chorus.flm.user_setting.v1;
+
+// The vessel filter request
+message GetVesselSettingRequest {
+    // The  User id
+  string user_id = 1;
+    // The Configuration ui code
+  repeated string configuration_ui_codes = 2;
+}
+
+// The vessel filter response for get and upsert
+message GetVesselSettingResponse {
+  // User filter info 
+  string user_id = 1;
+  // The Configuration ui code
+  repeated string configuration_ui_codes = 2;
+  // Configuration value
+  string configuration_ui_values = 3;
+}
+
+// The vessel filter request
+message UpSertVesselSettingRequest {
+  // User id
+  optional string user_id = 1;
+  // Configuration ui code
+  optional string configuration_ui_code = 2;
+  // Configuration value
+  optional string configuration_value = 3;
+}
+
+// The vessel filter response for get and upsert
+message UpSertVesselSettingResponse {
+  // User id
+  optional string user_id = 1;
+  // Configuration ui code
+  optional string configuration_ui_code = 2;
+  // Configuration value
+  optional string configuration_value = 3;
+}
+
+// The vessel filter
+message ConfigurationCode {
+   // The Configuration ui code
+  string configuration_ui_code = 1;
+    // Configuration value
+  string configuration_value = 2;
+}
+
+// The vessel filter
+service VesselSettingService {
+  //Method get vessel filter by user
+  //
+  //Operation: MATCH
+  //Request:{
+  //  
+  //     "user_id": "string",
+  //     "configuration_ui_codes": ["FLM_VSL_01_FLTR"],
+  //   },
+  //
+  //Response:
+  // {
+  //     "user_id": "string",
+  //     "configuration_ui_codes": ["FLM_VSL_01_FLTR"],
+  //     "configuration_ui_values": "string",
+  // }
+  rpc GetVesselSetting(GetVesselSettingRequest) returns (GetVesselSettingResponse);
+
+  //Method insert or update vessel filter
+  //
+  //Operation: Insert or Update
+  //
+  //Request:
+  // {
+  // VesselSettingRequest:
+  //   {
+  //     "user_id": "string",
+  //     "configuration_ui_code": "string",
+  //     "configuration_value": "string",
+  //   }
+  // }
+  //Response: 
+  // 
+  // VesselSettingResponse:
+  //  {
+  //     "user_id": "string",
+  //     "configuration_ui_code": "string",
+  //     "configuration_value": "string",
+  //  }
+  // } 
+  rpc UpSertVesselSetting(UpSertVesselSettingRequest) returns (UpSertVesselSettingResponse);
+}

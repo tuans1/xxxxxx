@@ -1,0 +1,40 @@
+{
+  "name": "@ocean-network-express/om-cod-protobuf",
+  "version": "0.0.2",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "gen": "cd ../../../proto && buf generate --path chorus/cod --output ../build/chorus/cod --template buf.index.gen.yaml && buf generate --path chorus/cod --output ../build/chorus/cod --template buf.gen.yaml && cp -r chorus/cod/* ../build/chorus/cod/",
+    "tsc-build": "tsc",
+    "lint": "buf lint",
+    "build": "buf build",
+    "breaking": "buf breaking ./ --against 'https://github.com/ocean-network-express/om-protobuf.git#branch=main,ref=HEAD~1,subdir=proto/chorus/cod'",
+    "merge-markdown": "merge-markdown -m ../../../docs/merge-cod-markdown.config.yaml --nolinkcheck"
+  },
+  "exports": {
+    "./*": {
+      "import": "./dist/*",
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "*",
+    "!*.json",
+    "!*.yaml",
+    "!proto-gen"
+  ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.ts"
+      ]
+    }
+  },
+  "dependencies": {
+    "@bufbuild/buf": "^1.26.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

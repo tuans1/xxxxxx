@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package chorus.mdm.data_change_history.v1;
+
+import "google/protobuf/timestamp.proto";
+import "chorus/mdm/base/v1/base.proto";
+
+// The data change history information
+message DataChangeHistory {
+  // The change_date is the change date of the data change history. cng_dt in OPUS
+  google.protobuf.Timestamp change_date = 1;
+  // The table_name is the table name of the data change history. tbl_nm in OPUS
+  string table_name = 2;
+  // The column_name is the column name of the data change history. col_nm in OPUS
+  string column_name = 3;
+  // The change_sequence is the change sequence of the data change history. cng_seq in OPUS
+  int32 change_sequence = 4;
+  // The first_key_column_name is the first key column name of the data change history. n1st_key_col_nm in OPUS
+  string first_key_column_name = 5;
+  // The second_key_column_name is the second key column name of the data change history. n2nd_key_col_nm in OPUS
+  string second_key_column_name = 6;
+  // The third_key_column_name is the third key column name of the data change history. n3rd_key_col_nm in OPUS
+  string third_key_column_name = 7;
+  // The fourth_key_column_name is the fourth key column name of the data change history. n4th_key_col_nm in OPUS
+  string fourth_key_column_name = 8;
+  // The fifth_key_column_name is the fifth key column name of the data change history. n5th_key_col_nm in OPUS
+  string fifth_key_column_name = 9;
+  // The previous_content is the previous content of the data change history. pre_ctnt in OPUS
+  string previous_content = 10;
+  // The after_content is the after content of the data change history. aft_ctnt in OPUS
+  string after_content = 11;
+}
+
+// The table name information.
+message TableName {
+  // The table name of the data change history.
+  string table_name = 1;
+}
+
+// Request message for `DataChangeHistoryService.GetDataChangeHistoryByTableNamesRequest`.
+message GetDataChangeHistoryByTableNamesRequest {
+  // The table name list.
+  repeated TableName table_name_list = 1;
+  // The pagination info.
+  chorus.mdm.base.v1.Pagination pagination = 2;
+}
+
+// Response message for `DataChangeHistoryService.GetDataChangeHistoryByTableNames`.
+message GetDataChangeHistoryByTableNamesResponse {
+  // The data change history information.
+  DataChangeHistory data_change_history = 1;
+}
+
+// Services for data change history.
+service DataChangeHistoryInfoService {
+  // Get list of data change history by table names.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "table_name_list": [
+  //         {
+  //             "table_name": "MDM_CUSTOMER"
+  //         },
+  //         {
+  //             "table_name": "MDM_EXAMPLE"
+  //         }
+  //     ],
+  //     "pagination" : {
+  //         offset : 0,
+  //         limit : 10,
+  //     },
+  // }
+  //
+  // Response:
+  // {
+  //     "data_change_history": {
+  //         "change_date": {
+  //             "seconds": "1567417581",
+  //             "nanos": 0
+  //         },
+  //         "table_name": "MDM_CUSTOMER",
+  //         "column_name": "OFC_CD",
+  //         "change_sequence": "424",
+  //         "first_key_column_name": "MX",
+  //         "second_key_column_name": "301494",
+  //         "third_key_column_name": null,
+  //         "fourth_key_column_name": null,
+  //         "fifth_key_column_name": null,
+  //         "previous_content": "MEXHQ",
+  //         "after_content": "SAOHQ"
+  //     }
+  // }
+  // ...
+  rpc GetDataChangeHistoryByTableNames(GetDataChangeHistoryByTableNamesRequest) returns (stream GetDataChangeHistoryByTableNamesResponse);
+}

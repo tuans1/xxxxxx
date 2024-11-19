@@ -1,0 +1,242 @@
+syntax = "proto3"; // Define the syntax version to be used for this protocol buffer file.
+
+package chorus.mom.tariff_object_item.v1; // Define the package name for the protocol buffer messages.
+
+// Message used to specify sorting parameters.
+message SortRequest {
+  // Field by which the results should be sorted.
+  string field = 1;
+
+  // Order of sorting (e.g., asc or desc).
+  string order = 2;
+}
+
+// Message used for pagination request parameters.
+message PaginationRequest {
+  // Page number to retrieve (optional).
+  optional int32 page = 1;
+
+  // Maximum number of items to return per page (optional).
+  optional int32 limit = 2;
+}
+
+// Message representing pagination details in the response.
+message PaginationResponse {
+  // Current page number.
+  int32 page = 1;
+
+  // Maximum number of items per page.
+  int32 limit = 2;
+
+  // Total number of pages available.
+  int32 total_page = 3;
+
+  // Total number of items available.
+  int32 total = 4;
+}
+
+// Message representing an error that occurred.
+message Error {
+  // Error code representing the type of error.
+  int32 code = 1;
+
+  // Human-readable message describing the error.
+  string message = 2;
+
+  // List of field-specific errors related to the overall error.
+  repeated FieldError details = 3;
+}
+
+// Message representing a specific field error.
+message FieldError {
+  // Code representing the specific field error.
+  string code = 1;
+
+  // Name of the field that has an error.
+  string field_name = 2;
+
+  // Message describing the field-specific error.
+  string message = 3;
+}
+
+// Message representing a data source.
+message DataSource {
+  // Unique identifier for the data source.
+  int32 id = 1;
+
+  // Name of the data source.
+  string name = 2;
+
+  // The timestamp when the entity was created, represented as Unix time in seconds or milliseconds.
+  string created_at = 3;
+
+  // The user or system that created the entity.
+  string created_by = 4;
+
+  // The timestamp when the entity was last updated, represented as Unix time in seconds or milliseconds.
+  string updated_at = 5;
+
+  // The user or system that last updated the entity.
+  string updated_by = 6;
+
+  // The timestamp when the entity was deleted, represented as Unix time in seconds or milliseconds.
+  // This field might be null or zero if the entity is not deleted.
+  optional string deleted_at = 7;
+
+  // The user or system that deleted the entity.
+  optional string deleted_by = 8;
+}
+
+// Message representing a unit of measure.
+message MeasureUnit {
+  // Unique identifier for the measure unit.
+  int32 id = 1;
+
+  // Name of the measure unit.
+  string name = 2;
+
+  // The timestamp when the entity was created, represented as Unix time in seconds or milliseconds.
+  string created_at = 3;
+
+  // The user or system that created the entity.
+  string created_by = 4;
+
+  // The timestamp when the entity was last updated, represented as Unix time in seconds or milliseconds.
+  string updated_at = 5;
+
+  // The user or system that last updated the entity.
+  string updated_by = 6;
+
+  // The timestamp when the entity was deleted, represented as Unix time in seconds or milliseconds.
+  // This field might be null or zero if the entity is not deleted.
+  optional string deleted_at = 7;
+
+  // The user or system that deleted the entity.
+  optional string deleted_by = 8;
+}
+
+// Message representing a type of value.
+message ValueType {
+  // Unique identifier for the value type.
+  int32 id = 1;
+
+  // Name of the value type.
+  string name = 2;
+
+  // The timestamp when the entity was created, represented as Unix time in seconds or milliseconds.
+  string created_at = 3;
+
+  // The user or system that created the entity.
+  string created_by = 4;
+
+  // The timestamp when the entity was last updated, represented as Unix time in seconds or milliseconds.
+  string updated_at = 5;
+
+  // The user or system that last updated the entity.
+  string updated_by = 6;
+
+  // The timestamp when the entity was deleted, represented as Unix time in seconds or milliseconds.
+  // This field might be null or zero if the entity is not deleted.
+  optional string deleted_at = 7;
+
+  // The user or system that deleted the entity.
+  optional string deleted_by = 8;
+}
+
+// Message representing an item in a tariff object.
+message TariffObjectItem {
+  // Unique identifier for the tariff object item.
+  int32 id = 1;
+
+  // Name of the tariff object item.
+  string name = 2;
+
+  // Type of the tariff object item.
+  string type = 3;
+
+  // Indicates if vessel direction is required.
+  optional string is_vessel_direction_required = 4;
+
+  // Description of the tariff object item.
+  string description = 5;
+
+  // Current location of the data source.
+  string data_source_location_as_is = 6;
+
+  // Current target system.
+  string target_system_as_is = 7;
+
+  // Future target system.
+  string target_system_to_be = 8;
+
+  // Additional remarks about the tariff object item.
+  string remarks = 9;
+
+  // List of data source associated with the tariff object item.
+  repeated DataSource data_sources = 10;
+
+  // List of measure units associated with the tariff object item.
+  repeated MeasureUnit measure_units = 11;
+
+  // List of value types associated with the tariff object item.
+  repeated ValueType value_types = 12;
+
+  // The timestamp when the entity was created, represented as Unix time in seconds or milliseconds.
+  string created_at = 13;
+
+  // The user or system that created the entity.
+  string created_by = 14;
+
+  // The timestamp when the entity was last updated, represented as Unix time in seconds or milliseconds.
+  string updated_at = 15;
+
+  // The user or system that last updated the entity.
+  string updated_by = 16;
+
+  // The timestamp when the entity was deleted, represented as Unix time in seconds or milliseconds.
+  // This field might be null or zero if the entity is not deleted.
+  optional string deleted_at = 17;
+
+  // The user or system that deleted the entity.
+  optional string deleted_by = 18;
+}
+
+// Message used to filter tariff object items.
+message TariffObjectItemsFilter {
+  // Optional filter to specify the type of tariff object items to retrieve.
+  optional string type = 1;
+  optional string search = 2;
+  repeated int32 measure_units = 3;
+  repeated int32 data_sources = 4;
+  repeated string is_vessel_direction_required = 5;
+}
+
+// Message used to request tariff object items with optional filters, sorting, and pagination.
+message TariffObjectItemServiceFindRequest {
+  // Optional filters to apply when finding tariff object items.
+  optional TariffObjectItemsFilter filters = 1;
+
+  // List of sorting requests to apply.
+  repeated SortRequest sorts = 2;
+
+  // Optional pagination details for the response.
+  optional PaginationRequest pagination = 3;
+}
+
+// Message representing the response for finding tariff object items.
+message TariffObjectItemServiceFindResponse {
+  // Optional tariff object item data returned from the request.
+  repeated TariffObjectItem data = 1;
+
+  // pagination details for the response.
+  PaginationResponse pagination = 2;
+
+  // Optional error information if the request failed.
+  optional Error error = 3;
+}
+
+// Service for handling tariff object item operations.
+service TariffObjectItemService {
+  // RPC method to find tariff object items based on request parameters.
+  rpc Find(TariffObjectItemServiceFindRequest) returns (TariffObjectItemServiceFindResponse);
+}

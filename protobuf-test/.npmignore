@@ -1,0 +1,5 @@
+# .npmignore
+buf.gen.yaml
+buf.yaml 
+.github/
+proto-gen/

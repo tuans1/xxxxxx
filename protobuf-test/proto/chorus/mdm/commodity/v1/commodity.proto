@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package chorus.mdm.commodity.v1;
+
+// The commodity information.
+message Commodity {
+  // The commodity_code is the code of Commodity. cmdt_cd in OPUS
+  string commodity_code = 1;
+  // The commodity_name is the name of Commodity. cmdt_nm in OPUS
+  string commodity_name = 2;
+  // The commodity_representative_code is the code of representative Commodity. rep_cmdt_cd in OPUS
+  string commodity_representative_code = 3;
+}
+
+// The commodity code information.
+message CommodityCode {
+  // The code of the commodity.
+  string commodity_code = 1;
+}
+
+// Request message for `CommodityInfoService.GetCommoditiesByCodes`.
+message GetCommoditiesByCodesRequest {
+  // The commodity code list
+  repeated CommodityCode commodity_code_list = 1;
+}
+
+// Response message for `CommodityInfoService.GetCommoditiesByCodes`.
+message GetCommoditiesByCodesResponse {
+  // The commodity information
+  Commodity commodity = 1;
+}
+
+// Request message for `CommodityInfoService.SearchCommoditiesByNameRequest`.
+message SearchCommoditiesByNameRequest {
+  // The commodity name information
+  string commodity_name = 1;
+}
+
+// Response message for `CommodityInfoService.SearchCommoditiesByNameResponse`.
+message SearchCommoditiesByNameResponse {
+  // The commodity information
+  Commodity commodity = 1;
+}
+
+// The service that implements the CommodityInfoService definition.
+service CommodityInfoService {
+  // Get list of commodities by codes
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  //  {
+  //    "commodity_code_list": [
+  //      {
+  //        "commodity_code": "040411"
+  //      }
+  //      {
+  //        "commodity_code": "121210"
+  //      }
+  //    ]
+  //  }
+  //
+  // Response:
+  //  {
+  //    "commodity": {
+  //      "commodity_code": "121210",
+  //      "commodity_name": "LOCUST (CARBO) BEANS, INCL. LOCUST BEAN SEEDS",
+  //      "commodity_representative_code": "1212"
+  //    }
+  //  }
+  // ...
+  rpc GetCommoditiesByCodes(GetCommoditiesByCodesRequest) returns (stream GetCommoditiesByCodesResponse);
+
+  // Search list of commodities by name
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  //  {
+  //    "commodity_name": "EXPLOSIVES"
+  //  }
+  //
+  // Response:
+  //  {
+  //    "commodity": {
+  //      "commodity_code": "360200",
+  //      "commodity_name": "DYNAMITE & HIGH EXPLOSIVES, NOS  CLASS 1",
+  //      "commodity_representative_code": "3602"
+  //    }
+  //  }
+  // ...
+  rpc SearchCommoditiesByName(SearchCommoditiesByNameRequest) returns (stream SearchCommoditiesByNameResponse);
+}

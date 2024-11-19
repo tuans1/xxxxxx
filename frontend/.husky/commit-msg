@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+echo Commit-msg processing...
+npx --no-install commitlint --edit

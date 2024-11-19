@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package chorus.mdm.package_type.v1;
+
+// The package type.
+message PackageType {
+  // The package code is the package code of the package type. pck_cd in OPUS.
+  string package_code = 1;
+  // The package_name is the package name of the package type. pck_nm in OPUS.
+  string package_name = 2;
+}
+
+// The package code information.
+message PackageCode {
+  // The code of the package type.
+  string package_code = 1;
+}
+
+// Request message for `PackageTypeInfoService.GetPackageTypseByCodes`.
+message GetPackageTypesByCodesRequest{
+  // The package code list.
+  repeated PackageCode package_code_list = 1;
+}
+
+// Response message for `PackageTypeInfoService.GetPackageTypesByCodes`.
+message GetPackageTypesByCodesResponse {
+  // The Package Type information.
+  PackageType package_type = 1;
+}
+
+// Request message for `PackageTypeInfoService.SearchPackageTypesByName`.
+message SearchPackageTypesByNameRequest{
+  // The package name.
+  string package_name = 1;
+}
+
+// Response message for `PackageTypeInfoService.SearchPackageTypesByName`.
+message SearchPackageTypesByNameResponse {
+  // The Package Type information.
+  PackageType package_type = 1;
+}
+
+
+// Services for organization
+service PackageTypeInfoService {
+  // Get list of packages type by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "package_code_list": [
+  //         {
+  //             "package_code": "AT"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "package_type": {
+  //         "package_code": "AT",
+  //         "package_name": "ATOMIZER",
+  //     }
+  // }
+  // ...
+  rpc GetPackageTypesByCodes(GetPackageTypesByCodesRequest) returns (stream GetPackageTypesByCodesResponse);
+  // Search list of packages type by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "package_name": "ATOMIZER"
+  // }
+  //
+  // Response:
+  // {
+  //     "package_type": {
+  //         "package_code": "AT",
+  //         "package_name": "ATOMIZER",
+  //     }
+  // }
+  // ...
+  rpc SearchPackageTypesByName(SearchPackageTypesByNameRequest) returns (stream SearchPackageTypesByNameResponse);
+}

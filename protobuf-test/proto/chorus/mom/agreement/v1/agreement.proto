@@ -1,0 +1,231 @@
+syntax = "proto3";
+
+package chorus.mom.agreement.v1;
+
+// Message representing an error that occurred.
+message Error {
+  // Error code representing the type of error.
+  int32 code = 1;
+
+  // Human-readable message describing the error.
+  string message = 2;
+
+  // List of field-specific errors related to the overall error.
+  repeated FieldError details = 3;
+}
+
+// Message representing a specific field error.
+message FieldError {
+  // Code representing the specific field error.
+  string code = 1;
+
+  // Name of the field that has an error.
+  string field_name = 2;
+
+  // Message describing the field-specific error.
+  string message = 3;
+}
+
+// Pagination request to specify page number and size.
+message PaginationRequest {
+  // The current page number.
+  int32 page = 1;
+  
+  // The number of items per page.
+  int32 limit = 2;
+}
+
+// Pagination response with details about total items, pages, and current page.
+message PaginationResponse {
+  // Current page.
+  int32 page = 1;
+  
+  // Limit of each page.
+  int32 limit = 2;
+  
+  // Total pages.
+  int32 total_page = 3;
+  
+  // Total number of items.
+  int32 total = 4;
+}
+
+// Message representing a country.
+message Country {
+  // The code representing the country.
+  string code = 1;
+  
+  // A list of ports located in this country.
+  repeated Port ports = 2;
+}
+
+// Message representing a port.
+message Port {
+  // The code representing the port.
+  string code = 1;
+  
+  // A list of terminal codes within this port.
+  repeated string terminal_codes = 2;
+}
+
+// Message representing an agreement.
+message Agreement {
+  // The current status of the agreement.
+  string status = 1;
+  
+  // The unique number identifying the agreement.
+  string agreement_number = 2;
+}
+
+// Represents a single agreement entry in the list of agreements.
+message ListAgmtResponse {
+  // The unique agreement number.
+  string agmt_number = 1;
+}
+
+// Country information for agreements.
+message CountryResponse {
+  // Code of the country.
+  string country_code = 1;
+  
+  // Name of the country.
+  string country_name = 2;
+}
+
+// Port information for agreements.
+message PortResponse {
+  // Code of the port.
+  string port_code = 1;
+  
+  // Name of the port.
+  string port_name = 2;
+  
+  // Country code of the port.
+  string country_code = 3;
+}
+
+// Terminal information for agreements.
+message TerminalResponse {
+  // Code of the terminal.
+  string terminal_code = 1;
+  
+  // Name of the terminal.
+  string terminal_name = 2;
+  
+  // Code of the port.
+  string port_code = 3;
+}
+
+// Vendor information for agreements.
+message VendorResponse {
+  // Code of the vendor.
+  string vendor_code = 1;
+  
+  // Name of the vendor.
+  string vendor_name = 2;
+  
+  // Country code of the vendor.
+  string country_code = 3;
+}
+
+// Response containing details of a single agreement.
+message AgmtResponse {
+  // Agreement number.
+  string agmt_number = 1;
+  
+  // List of countries associated with the agreement.
+  repeated CountryResponse countries = 2;
+  
+  // List of ports associated with the agreement.
+  repeated PortResponse ports = 3;
+  
+  // List of terminals associated with the agreement.
+  repeated TerminalResponse terminals = 4;
+  
+  // Start date of the agreement.
+  string effective_from = 5;
+  
+  // End date of the agreement.
+  string effective_to = 6;
+  
+  // Vendor information.
+  VendorResponse vendor = 7;
+
+  // Type
+  string type = 8;
+
+  // Status
+  string status = 9;
+}
+
+// Request to find a specific agreement by its number.
+message AgreementServiceFindOneRequest {
+  // The agreement number to search for.
+  string agmt_number = 1;
+}
+
+// Response containing details of a single agreement and any error that may occur.
+message AgreementServiceFindOneResponse {
+  // The agreement data.
+  optional AgmtResponse data = 1;
+  
+  // Error information, if an error occurs.
+  optional Error error = 2;
+}
+
+// Request to retrieve a list of agreements with pagination.
+message AgreementServiceFindRequest {
+  // Pagination details for the request.
+  optional PaginationRequest pagination = 1;
+}
+
+// Response containing a list of agreements along with pagination details and errors (if any).
+message AgreementServiceFindResponse {
+  // List of agreements.
+  repeated ListAgmtResponse data = 1;
+  
+  // Pagination details for the response.
+  PaginationResponse pagination = 2;
+  
+  // Error information, if an error occurs.
+  optional Error error = 3;
+}
+
+// Response message for the 'Create' method of AgreementService.
+message AgreementServiceCreateResponse {
+  // The agreement data returned in the response.
+  Agreement data = 1;
+  
+  // The error information if an error occurred during creation.
+  optional Error error = 2;
+}
+
+// Request message for the 'Create' method of AgreementService.
+message AgreementServiceCreateRequest {
+  // The type of agreement being created.
+  string type = 1;
+  
+  // The start date when the agreement becomes effective.
+  string effective_from = 2;
+  
+  // The end date when the agreement expires.
+  string effective_to = 3;
+  
+  // The code representing the vendor related to this agreement.
+  int32 vendor_code = 4;
+  
+  // A list of countries involved in the agreement, each with its own ports.
+  repeated Country countries = 5;
+}
+
+// Service definition for managing agreements.
+service AgreementService {
+  // RPC to find a list of agreements, returns FindAgmtsResponse.
+  rpc Find (AgreementServiceFindRequest) returns (AgreementServiceFindResponse);
+  
+  // RPC to find a single agreement by agreement number, returns FindAgmtResponse.
+  rpc FindOne (AgreementServiceFindOneRequest) returns (AgreementServiceFindOneResponse);
+
+  // RPC method to create a new agreement.
+  rpc Create(AgreementServiceCreateRequest) returns (AgreementServiceCreateResponse);
+}

@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package chorus.mdm.credit_customer_contract.v1;
+
+// The credit customer contract information
+message CreditCustomerContract {
+  // The customer_country_code is the customer country code of the credit customer contract. cust_cnt_cd in OPUS
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the credit customer contract. cust_seq in OPUS
+  int32 customer_sequence = 2;
+  // The customer_agreement_number is the customer agreement number of the credit customer contract. cust_agmt_no in OPUS
+  string customer_agreement_number = 3;
+  // The customer_contract_sequence is the customer contract sequence of the credit customer contract. cust_ctrt_seq in OPUS
+  int32 customer_contract_sequence = 4;
+  // The contract_number is the contract number of the credit customer contract. ctrt_no in OPUS
+  string contract_number = 5;
+}
+
+// The customer country code and sequence.
+message CustomerCountryCodeAndSequence {
+  // The customer country code of the credit customer contract.
+  string customer_country_code = 1;
+  // The customer sequence of the credit customer contract.
+  int32 customer_sequence = 2;
+}
+
+// Request message for `CreditCustomerContractInfoService.GetCreditCustomerContractsByCustomerCountryCodesAndSequencesRequest`.
+message GetCreditCustomerContractsByCustomerCountryCodesAndSequencesRequest {
+// The customer country code and sequence list.
+  repeated CustomerCountryCodeAndSequence customer_country_code_and_sequence_list = 1;
+}
+
+// Response message for `CreditCustomerContractInfoService.GetCreditCustomerContractsByCustomerCountryCodesAndSequencesResponse`.
+message GetCreditCustomerContractsByCustomerCountryCodesAndSequencesResponse {
+  // The credit customer contract information.
+  CreditCustomerContract credit_customer_contract = 1;
+}
+
+// Services for credit customer contract.
+service CreditCustomerContractInfoService {
+  // Get list of credit customer contract by customer country codes and customer sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_country_code_and_sequence_list": [
+  //         {
+  //             "customer_country_code": "AU"
+  //             "customer_sequence": "101647"
+  //         }
+  //     ],
+  // }
+  //
+  // Response:
+  // {
+  //     "credit_customer_contract": {
+  //         "customer_country_code": "AU",
+  //         "customer_sequence": "101647",
+  //         "customer_agreement_number": "AU/AU000159",
+  //         "customer_contract_sequence": "25",
+  //         "contract_number": "SHAN00147A",
+  //     }
+  // }
+  // ...
+  rpc GetCreditCustomerContractsByCustomerCountryCodesAndSequences(GetCreditCustomerContractsByCustomerCountryCodesAndSequencesRequest) returns (stream GetCreditCustomerContractsByCustomerCountryCodesAndSequencesResponse);
+}

@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package chorus.com.notification.v1;
+
+// The options for the in app notification.
+message InAppOptions {
+    //The link to the notification.
+    string link = 1;
+}
+
+// The In App notification message definition.
+message InAppNotification {
+    // The product code
+    string product = 1;
+    // The email of the recipients.
+    repeated string recipients = 2;
+    // The title of the notification.
+    string title = 3;
+    // The message the notification.
+    string message = 4;
+    // Options for the notification.
+    InAppOptions options = 5;
+}
+
+// The email notification message definition
+message EmailNotification {
+    // The product code
+    string product = 1;
+    // The email of the recipients.
+    repeated string recipients = 2;
+    // The subject of the email.
+    string subject = 3;
+    // The content of the email.
+    string content = 4;
+    // The templete of the email.
+    string template_id = 5;
+    // The dynamic template data.
+    map<string, string> dynamic_template_data = 6;
+    // The files to attach to the email.
+    repeated string files = 7;
+    // The options for the email.
+    optional string notification_message_id = 8;
+}
+
+// The request for the create notification.
+message CreateInAppNotificationRequest {
+    // The notification to create.
+    InAppNotification notification = 1;
+}
+
+// The response for the create notification request.
+message CreateInAppNotificationResponse {
+    // The status of the create.
+    bool status = 1;
+    // The message of the response.
+    string message = 2;
+}
+
+// The request for the create email notification.
+message CreateEmailNotificationRequest {
+    // The notification to create.
+    EmailNotification notification = 1;
+}
+
+// The response for the create email notification request.
+message CreateEmailNotificationResponse {
+    // The status of the create.
+    bool status = 1;
+    // The message of the response.
+    string message = 2;
+}
+
+// The notification service definition.
+service NotificationService {
+    // Create a in app notification.
+    //
+    // Operation: CREATE
+    //
+    // Request:
+    // {
+    //   "notification": {
+    //     "product": "product_code",
+    //     "recipients": ["email1", "email2"],
+    //     "title": "Notification Title",
+    //     "message": "Notification Message",
+    //     "options": {
+    //       "link": "https://example.com"
+    //     }
+    //   }
+    // }
+    //
+    // Response:
+    // {
+    //   "status": true,
+    //   "message": "Notification created successfully"
+    // }
+    rpc CreateInAppNotification(CreateInAppNotificationRequest) returns (CreateInAppNotificationResponse);
+    // create a email notification.
+    //
+    // Operation: CREATE
+    //
+    // Request:
+    // {
+    //   "notification": {
+    //     "product": "product_code",
+    //     "recipients": ["email1", "email2"],
+    //     "subject": "Email Subject",
+    //     "content": "Email Content",
+    //     "template_id": "template_id",
+    //     "dynamic_template_data": {
+    //       "key1": "value1",
+    //       "key2": "value2"
+    //     },
+    //     "files": ["file1", "file2"],
+    //     "notification_message_id": "notification_message_id"
+    //   }
+    // }
+    //
+    // Response:
+    // {
+    //   "status": true,
+    //   "message": "Notification created successfully"
+    // }
+    rpc CreateEmailNotification(CreateEmailNotificationRequest) returns (CreateEmailNotificationResponse);
+}

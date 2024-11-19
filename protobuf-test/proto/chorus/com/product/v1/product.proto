@@ -1,0 +1,232 @@
+syntax = "proto3";
+
+package chorus.com.product.v1;
+
+import "chorus/com/base/v1/base.proto";
+
+// The message that contains the product information
+message Product {
+    //Product ID
+    string product_id = 1;
+    //Product Name
+    string product_name = 2;
+    //Active or not
+    bool is_active = 3;
+    //Description
+    string description = 4;
+    //Product Code
+    string product_code = 5;
+}
+//The message that contains the create product request
+message CreateProductRequest {
+    //Product Name
+    string product_name = 1;
+    //Active or not
+    bool is_active = 2;
+    //Description
+    string description = 3;
+    //Product Code
+    string product_code = 4;
+}
+//The message that contains the create product response
+message CreateProductResponse {
+    //Product ID
+    string product_id = 1;
+}
+//The message that contains the update product request
+message UpdateProductRequest {
+    //Product ID
+    string product_id = 1;
+    //Product Name
+    string product_name = 2;
+    //Active or not
+    bool is_active = 3;
+    //Description
+    string description = 4;
+    //Product Code
+    string product_code = 5;
+}
+//The message that contains the update product response
+message UpdateProductResponse {
+    //Result of update
+    bool result = 1;
+}
+//The message for query product
+message ProductQuery {
+    //Product Name
+    optional string product_name = 1;
+    // is active
+    optional bool is_active = 2;
+    //Product Code
+    optional string product_code = 3;
+}
+
+//The message request for search product
+message SearchProductRequest {
+    //Query
+    optional ProductQuery query = 1;
+    //pagination
+    optional chorus.com.base.v1.Pagination pagination = 2;
+}
+//The message response for search product
+message SearchProductResponse {
+    //Product list
+    Product data = 1;
+    //total
+    int32 total = 2;
+}
+//The message request for get product by user email
+message GetProductsByUserEmailRequest {
+    // User email
+    string email = 1;
+}
+//The message response for get product by user email
+message GetProductsByUserEmailResponse {
+    //Product list
+    Product product = 1;
+}
+//The message request for get product detail
+message GetProductDetailRequest {
+    //Product ID
+    string product_id = 1;
+}
+//The message response for get product detail
+message GetProductDetailResponse {
+    //Product
+    Product data = 1;
+}
+//The message request for set activate flag product
+message UpdateActivateFlagProductRequest {
+    //Product ID
+    string product_id = 1;
+    //Active or not
+    bool is_active = 2;
+}
+//The message response for set activate flag product
+message UpdateActivateFlagProductResponse {
+    //Result of update
+    bool result = 1;
+}
+//The service for product
+service ProductService {
+    //The method for create product
+    //
+    //Operation: Create
+    //
+    //Request:
+    // {
+    //   "product_name": "string",
+    //   "is_active": true,
+    //   "description": "string",
+    //   "product_code": "string",
+    // }
+    //
+    //Response:
+    // {
+    //   "product_id": "string"
+    // }
+    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+    //The method for search product
+    //
+    //Operation: LIKE
+    //
+    //Request:
+    // {
+    //   "query": {
+    //     "product_name": "string",
+    //     "product_code": "string",
+    //   },
+    //   "pagination": {
+    //     "page": 0,
+    //     "page_size": 0
+    //   }
+    // }
+    //
+    //Response:
+    // {
+    //   "data": {
+    //     "product_id": "string",
+    //     "product_name": "string",
+    //     "is_active": true,
+    //     "description": "string",
+    //     "product_code": "string",
+    //   },
+    //   "total": 0
+    // }
+    rpc SearchProduct(SearchProductRequest) returns (stream SearchProductResponse);
+    //The method for get product detail
+    //
+    //Operation: MATCH
+    //
+    //Request:
+    // {
+    //   "product_id": "string"
+    // }
+    //
+    //Response:
+    // {
+    //   "data": {
+    //     "product_id": "string",
+    //     "product_name": "string",
+    //     "is_active": true,
+    //     "description": "string",
+    //     "product_code": "string",
+    //   }
+    // }
+    rpc GetProductDetail(GetProductDetailRequest) returns (GetProductDetailResponse);
+    //The method for update product
+    //
+    //Operation: Update
+    //
+    //Request:
+    // {
+    //   "product_id": "string",
+    //   "product_name": "string",
+    //   "is_active": true,
+    //   "description": "string",
+    //   "product_code": "string",
+    // }
+    //
+    //Response:
+    // {
+    //   "result": true
+    // }
+    rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+    //The method for set activate flag product
+    //
+    //Operation: Update
+    //
+    //Request:
+    // {
+    //   "product_id": "string",
+    //   "is_active": true
+    // }
+    //
+    //Response:
+    // {
+    //   "result": true
+    // }
+    rpc UpdateActivateFlagProduct(UpdateActivateFlagProductRequest) returns (UpdateActivateFlagProductResponse);
+
+    //The method for get product by user email
+    //
+    //Operation: MATCH
+    //
+    //Request:
+    // {
+    //      email: string
+    // }
+    //
+    //Response:
+    // {
+    //   "data": {
+    //     "product_id": "string",
+    //     "product_name": "string",
+    //     "is_active": true,
+    //     "description": "string",
+    //     "product_code": "string",
+    //   },
+    //   "total": 0
+    // }
+    rpc GetProductsByUserEmail(GetProductsByUserEmailRequest) returns (stream GetProductsByUserEmailResponse);
+}

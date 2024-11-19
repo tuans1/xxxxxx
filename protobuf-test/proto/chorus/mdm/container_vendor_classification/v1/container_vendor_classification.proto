@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package chorus.mdm.container_vendor_classification.v1;
+
+// The container vendor classification information.
+message ContainerVendorClassification {
+  // The vendor_sequence is the vendor sequence of the container vendor classification. vndr_seq in OPUS.
+  int32 vendor_sequence = 1;
+  // The vendor_cost_code is the vendor cost code of the container vendor classification. vndr_cost_cd in OPUS.
+  string vendor_cost_code = 2;
+  // The container_vendor_service_code is the container vendor service code of the container vendor classification. cntr_vndr_svc_cd in OPUS.
+  string container_vendor_service_code = 3;
+}
+
+// The container vendor classification sequence information.
+message VendorSequence {
+  // The vendor_sequence is the sequence of the container vendor classification information.
+  int32 vendor_sequence = 1;
+}
+
+// Request message for `ContainerVendorClassificationInfoService.GetContainerVendorClassificationsBySequences`.
+message GetContainerVendorClassificationsBySequencesRequest {
+  // The vendor sequence list.
+  repeated VendorSequence vendor_sequence_list = 1;
+}
+
+// Response message for `ContainerVendorClassificationInfoService.GetContainerVendorClassificationsBySequences`.
+message GetContainerVendorClassificationsBySequencesResponse {
+  // The container vendor classification information.
+  ContainerVendorClassification container_vendor_classification = 1;
+}
+
+// Services for container vendor classification information.
+service ContainerVendorClassificationInfoService {
+  // Get list of container vendor classification by sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vendor_sequence_list": [
+  //         {
+  //             "vendor_sequence": 141085,
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "container_vendor_classification": {
+  //         "vendor_sequence": 141085,
+  //         "vendor_cost_code": "EQ",
+  //         "container_vendor_service_code": "LSR",
+  //     }
+  // }
+  // ...
+  rpc GetContainerVendorClassificationsBySequences(GetContainerVendorClassificationsBySequencesRequest) returns (stream GetContainerVendorClassificationsBySequencesResponse);
+}

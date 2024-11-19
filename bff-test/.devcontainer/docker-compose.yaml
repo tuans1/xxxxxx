@@ -1,0 +1,123 @@
+version: '3'
+
+volumes:
+    mongo-volume:
+    kafka-volume:
+    kafka-zookeper-volume:
+
+services:
+    # Dev Container
+    dev-container:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - ${DEV_CONTAINER_HTTP_PORT}:${DEV_CONTAINER_HTTP_PORT}
+            - ${DEV_CONTAINER_GRPC_PORT}:${DEV_CONTAINER_GRPC_PORT}
+        volumes:
+            - ../:/workspaces/om-vsm-backend-template:cached
+        environment:
+            APP_HTTP_PORT: ${DEV_CONTAINER_HTTP_PORT}
+            APP_GRPC_PORT: ${DEV_CONTAINER_GRPC_PORT}
+        command: sleep infinity
+
+    # Postgres
+    postgres:
+        image: postgres:12.18-bullseye
+        ports:
+            - ${POSTGRES_PORT}:5432
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    # Postgres GUI
+    postgres-gui:
+        image: dpage/pgadmin4
+        depends_on:
+            - postgres
+        ports:
+            - ${POSTGRES_GUI_PORT}:80
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${POSTGRES_GUI_USERNAME}
+            PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_GUI_PASSWORD}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+
+    # # Mongo
+    # mongo:
+    #     image: 'mongo:jammy'
+    #     ports:
+    #         - ${MONGO_PORT}:27017
+    #     volumes:
+    #         - mongo-volume:/data/db
+    #     environment:
+    #         MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+    #         MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+
+    # # Mongo GUI
+    # mongo-gui:
+    #     image: mongo-express:1.0.2-20-alpine3.19
+    #     depends_on:
+    #         - mongo
+    #     ports:
+    #         - ${MONGO_GUI_PORT}:8081
+    #     environment:
+    #         ME_CONFIG_BASICAUTH: 'false'
+    #         ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:${MONGO_PORT}/
+
+    # Redis
+    redis:
+        image: 'redis:bookworm'
+        ports:
+            - ${REDIS_PORT}:6379
+        environment:
+            REDIS_PASSWORD: ${REDIS_PASSWORD}
+            REDIS_PORT: ${REDIS_PORT}
+
+    # Redis GUI
+    redis-gui:
+        image: rediscommander/redis-commander:latest
+        depends_on:
+            - redis
+        ports:
+            - ${REDIS_GUI_PORT}:8081
+        environment:
+            REDIS_HOSTS: local:redis:${REDIS_PORT}
+
+    # Kafka
+    kafka:
+        image: docker.io/confluentinc/cp-kafka:latest
+        depends_on:
+            - kafka-zookeeper
+        ports:
+            - ${KAFKA_PORT}:9092
+        volumes:
+            - kafka-volume:/confluentinc
+        environment:
+            - KAFKA_BROKER_ID=1
+            - KAFKA_ZOOKEEPER_CONNECT=kafka-zookeeper:${KAFKA_ZOOKEEPER_PORT}
+            - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+            - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+            - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+            - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+    # Kafka Zookeeper
+    kafka-zookeeper:
+        image: docker.io/confluentinc/cp-zookeeper:latest
+        ports:
+            - '${KAFKA_ZOOKEEPER_PORT}:2181'
+        volumes:
+            - kafka-zookeper-volume:/confluentinc
+        environment:
+            - ZOOKEEPER_CLIENT_PORT=2181
+            - ZOOKEEPER_TICK_TIME=2000
+
+    # Kafka GUI
+    kafka-gui:
+        image: provectuslabs/kafka-ui:latest
+        depends_on:
+            - kafka-zookeeper
+            - kafka
+        ports:
+            - ${KAFKA_GUI_PORT}:8080
+        environment:
+            - DYNAMIC_CONFIG_ENABLED=true

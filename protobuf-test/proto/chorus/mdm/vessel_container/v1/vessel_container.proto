@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+import "chorus/mdm/base/v1/base.proto";
+
+package chorus.mdm.vessel_container.v1;
+
+// The vessel container information.
+message VesselContainer {
+  // vessel_code is the code of the vessel container. vsl_cd in OPUS.
+  string vessel_code = 1;
+  // vessel_english_name is the english name of the vessel container. vsl_eng_nm in OPUS.
+  string vessel_english_name = 2;
+  // carrier_code is the carrier code of the vessel container. crr_cd in OPUS.
+  string carrier_code = 3;
+}
+
+// The vessel container information for multiple search.
+message VesselContainerMultipleSearch {
+  // vessel_code is the code of the vessel container. vsl_cd in OPUS.
+  string vessel_code = 1;
+  // vessel_english_name is the english name of the vessel container. vsl_eng_nm in OPUS.
+  string vessel_english_name = 2;
+}
+
+// The vessel container code information.
+message VesselCode {
+  // The code of the vessel container.
+  string vessel_code = 1;
+}
+
+// Request message for `VesselContainerInfoService.GetVesselContainersByVesselCodes`.
+message GetVesselContainersByVesselCodesRequest {
+  // The vessel container code list
+  repeated VesselCode vessel_code_list = 1;
+}
+
+// Response message for `VesselContainerInfoService.GetVesselContainersByVesselCodes`.
+message GetVesselContainersByVesselCodesResponse {
+  // The vessel container information.
+  VesselContainer vessel_container = 1;
+}
+
+// Request message for `VesselContainerInfoService.SearchVesselContainersByVesselEnglishName`.
+message SearchVesselContainersByVesselEnglishNameRequest {
+  // The english name of the vessel container.
+  string vessel_english_name = 1;
+}
+
+// Response message for `VesselContainerInfoService.SearchVesselContainersByVesselEnglishName`.
+message SearchVesselContainersByVesselEnglishNameResponse {
+  // The vessel container information.
+  VesselContainer vessel_container = 1;
+}
+
+// Request message for `VesselContainerInfoService.SearchVesselContainersByMultipleFields`.
+message SearchVesselContainersByMultipleFieldsRequest {
+  // The code of the vessel container.
+  string vessel_code = 1;
+  // The english name of the vessel container.
+  string vessel_english_name = 2;
+  // The condition of like search.
+  chorus.mdm.base.v1.Option options = 3;
+}
+
+// Response message for `VesselContainerInfoService.SearchVesselContainersByMultipleFields`.
+message SearchVesselContainersByMultipleFieldsResponse {
+  // The vessel container information.
+  VesselContainerMultipleSearch vessel_container = 1;
+}
+
+// Services for vessel container.
+service VesselContainerInfoService {
+  // Get list of vessel containers by vessel codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vessel_code_list": [
+  //         {
+  //             "vessel_code": "GTGT"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel_container": {
+  //         "vessel_code": "GTGT"
+  //         "vessel_english_name": "GSL TIANJIN"
+  //         "carrier_code": "YML"
+  //     }
+  // }
+  // ...
+  rpc GetVesselContainersByVesselCodes(GetVesselContainersByVesselCodesRequest) returns (stream GetVesselContainersByVesselCodesResponse);
+
+  // Get list of vessel containers by english name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "vessel_english_name": "GSL"
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel_container": {
+  //         "vessel_code": "YRST"
+  //         "vessel_english_name": "GSL SYROS"
+  //         "carrier_code": "YML"
+  //     }
+  // }
+  // ...
+  rpc SearchVesselContainersByVesselEnglishName(SearchVesselContainersByVesselEnglishNameRequest) returns (stream SearchVesselContainersByVesselEnglishNameResponse);
+    
+  // Get list of vessel containers by multiple search.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "vessel_code": "GT"
+  //     "vessel_english_name": "GS"
+  //     "options": {
+  //        "start_with": true
+  //     }
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel_container": {
+  //         "vessel_code": "YRST"
+  //         "vessel_english_name": "GSL SYROS"
+  //         "carrier_code": "YML"
+  //     }
+  // }
+  // ...
+  rpc SearchVesselContainersByMultipleFields(SearchVesselContainersByMultipleFieldsRequest) returns (stream SearchVesselContainersByMultipleFieldsResponse);
+}

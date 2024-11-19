@@ -1,0 +1,134 @@
+syntax = "proto3";
+
+package chorus.mdm.activity.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// The activity information.
+message Activity {
+  // The activity_code is the code of Activity. act_cd in OPUS
+  string activity_code = 1;
+  // The activity_name is the name of Activity. act_nm in OPUS
+  string activity_name = 2;
+  //The activity description. act_desc in OPUS
+  string activity_desc = 3;
+  //The type_code of activity. act_tp_cd in OPUS
+  string activity_type_code = 4;
+  //The full empty code of activity. full_mty_cd in OPUS
+  string full_empty_code = 5;
+  //The bound vessel schedule sequence code. bnb_vskd_seq_cd in OPUS
+  string bound_vessel_schedule_seq_code = 6;
+  //The node type code. nod_tp_cd in OPUS
+  string node_type_code = 7;
+  //The activity operation type code. act_op_tp_cd in OPUS
+  string activity_operation_type_code = 8;
+  //The transport mode code. trsp_mod_cd in OPUS
+  string transport_mode_code = 9;
+  //The origin destination code. org_dest_cd in OPUS
+  string origin_destination_code = 10;
+  //The active flag. act_flg in OPUS
+  string active_flag = 11;
+  //The activity status mapping code. act_sts_mapg_cd in OPUS
+  string activity_status_mapping_code = 12;
+  //The activity standard edi status code. act_stnd_edi_sts_cd in OPUS
+  string activity_standard_edi_status_code = 13;
+  //The basic visibility flag. bzc_vis_flg in OPUS
+  string basic_visibility_flg = 14;
+  //The customer visibility flag. cust_vis_flg in OPUS
+  string customer_visibility_flg = 15;
+  //The activity receive type code. act_rcv_tp_cd in OPUS
+  string activity_receive_type_code = 16;
+  //The cop scheduling logic number. cop_skd_lgc_no in OPUS
+  string cop_scheduling_logic_number = 17;
+  //The cop scheduling logic type code. cop_skd_lgc_tp_cd in OPUS
+  string cop_scheduling_logic_type_code = 18;
+  //The update available flag. upd_aval_flg in OPUS
+  string update_available_flag = 19;
+  //The delete flag. delt_flg in OPUS
+  string delete_flag = 20;
+  //The eai event date. eai_evnt_dt in OPUS
+  google.protobuf.Timestamp eai_event_date = 21;
+  //The vendor event tolerance hours. vndr_ev_tol_hrs in OPUS
+  double vendor_event_tolerance_hours = 22;
+  //The vendor event service category code. vndr_ev_svc_cate_cd in OPUS
+  string vendor_event_service_category_code = 23;
+  //The eai interface id. eai_if_id in OPUS
+  string eai_interface_id = 24;
+  //The edw update date. edw_upd_dt in OPUS
+  google.protobuf.Timestamp edw_update_date = 25;
+}
+
+// The activity code information.
+message ActivityCode {
+  // The code of the Activity
+  string activity_code = 1;
+}
+
+// Request message for `ActivityInfoService.GetActivitiesByCodes`.
+message GetActivitiesByCodesRequest {
+  // The ActivityCode list
+  repeated ActivityCode activity_code_list = 1;
+}
+
+// Response message for `ActivityInfoService.GetActivitiesByCodes`.
+message GetActivitiesByCodesResponse {
+  // The Activity information
+  Activity activity = 1;
+}
+
+// The service that implements the ActivityInfoService definition.
+service ActivityInfoService {
+  // Get all list of activities by codes
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "activity_code_list": [
+  //         {
+  //             "activity_code": "EFE"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  //{
+  //     "activity": {
+  //         "activity_code": "EFE",
+  //         "activity_name": "EAST AFRICA - ASIA (EB)",
+  //         "activity_desc": "",
+  //         "activity_type_code": "SCH",
+  //         "full_empty_code": "F",
+  //         "bound_vessel_schedule_seq_code": "1",
+  //         "node_type_code": "P",
+  //         "activity_operation_type_code": "SCH",
+  //         "transport_mode_code": "SEA",
+  //         "origin_destination_code": "EFE",
+  //         "active_flag": "Y",
+  //         "activity_status_mapping_code": "SCH",
+  //         "activity_standard_edi_status_code": "SCH",
+  //         "basic_visibility_flg": "Y",
+  //         "customer_visibility_flg": "Y",
+  //         "activity_receive_type_code": "SCH",
+  //         "cop_scheduling_logic_number": "1",
+  //         "cop_scheduling_logic_type_code": "SCH",
+  //         "update_available_flag": "Y",
+  //         "delete_flag": "N",
+  //         "eai_event_date":
+  //            {
+  //                "seconds": 1577836800,
+  //                "nanos": 0
+  //            },
+  //         "vendor_event_tolerance_hours": 0,
+  //         "vendor_event_service_category_code": "SCH",
+  //         "eai_interface_id": "SCH",
+  //         "edw_update_date":
+  //            {
+  //                "seconds": 1577836800,
+  //                "nanos": 0
+  //            }
+  //     }
+  // }
+  // ...
+  rpc GetActivitiesByCodes(GetActivitiesByCodesRequest) returns (stream GetActivitiesByCodesResponse);
+}

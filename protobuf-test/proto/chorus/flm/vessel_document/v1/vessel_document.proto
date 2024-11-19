@@ -1,0 +1,158 @@
+syntax = "proto3";
+
+package chorus.flm.vessel_document.v1;
+
+
+// Service for Vessel Document
+service VesselDocumentService {
+  // Save vessel document
+  //
+  // Operation: POST
+  //
+  // Request:
+  // {
+  //    "vessel_id":"vesselId",
+  //    "file_name":"fileName",
+  //    "file_path":"filePath",
+  //    "file_size":"fileSize",
+  //    "user_id":"userId"    
+  // }
+
+  //Response:
+  // {
+  //    "vessel_id":"vesselId",
+  //    "file_name":"fileName",
+  //    "file_path":"filePath",
+  //    "file_size":"fileSize",
+  //    "user_id":"userId"    
+  // }
+  rpc SaveVesselDocument(SaveVesselDocumentRequest) returns (SaveVesselDocumentResponse);
+
+  // Get vessel documents
+  //
+  // Operation: POST
+  //
+  // Request:
+  // {
+  //    "vessel_id": string
+  //    "user_id": string
+  //    "current_page": number
+  //    "row_per_page": number
+  //    "sort_type": string
+  // }
+
+  //Response:
+  // {
+  //    "total": number
+  //    "data": {
+  //      "vessel_id": string,
+  //      "file_name": string,
+  //      "file_path": string,
+  //      "file_size": number,
+  //      "user_id": string    
+  //    }
+  // } 
+  rpc GetVesselDocuments(GetVesselDocumentsRequest) returns (GetVesselDocumentsResponse);
+
+  // Delete vessel documents
+  //
+  // Operation: POST
+  //
+  // Request:
+  // {
+  //    "vessel_id": string
+  //    "user_id": string
+  //    "document_id": string[]
+  // }
+
+  //Response:
+  // {
+  //    success: boolean
+  // } 
+  rpc DeleteVesselDocuments(DeleteVesselDocumentsRequest) returns (DeleteVesselDocumentsResponse);
+}
+
+// Request message for GetVesselDocuments
+message GetVesselDocumentsRequest {
+  // Vessel ID
+  string vessel_id = 1;
+  // User ID
+  string user_id = 2;
+  // Current page
+  int32 current_page = 3;
+  // Row per page
+  int32 row_per_page = 4;
+  // Sorting type
+  string sort_type = 5;
+}
+
+// Vessel Document Entity
+message VesselDocument {
+  // Document ID
+  string id = 1;
+  // Vessel ID
+  string vessel_id = 2;
+  // File name
+  string file_name = 3;
+  // Uploaded file path to GCP
+  string file_path = 4;
+  // Upload file size
+  int32 file_size = 5;
+  // Created time
+  string create_date = 6;
+  // Created by
+  string create_user_id = 7;
+}
+
+// DeleteVesselDocumentRequest
+message DeleteVesselDocumentsRequest {
+  // User ID
+  string user_id = 1;
+  // Vessel ID
+  string vessel_id = 2;
+  // List of document IDs which are need deleting
+  repeated string document_id = 3;
+}
+
+// DeleteVesselDocumentResponse
+message DeleteVesselDocumentsResponse {
+  // success indicator
+  bool success = 1;
+}
+
+// GetVesselDocumentsResponse
+message GetVesselDocumentsResponse {
+  // List of vessel documents
+  repeated VesselDocument data = 1; 
+  // Total of documents uploaded in vessel
+  int32 total = 2;
+}
+
+// Request message for GetVesselDocument
+message SaveVesselDocumentRequest {
+
+  // Document ID
+  string document_id = 1;
+
+  // Vessel ID
+  string vessel_id = 2;
+
+  // File name
+  string file_name = 3;
+
+  // File path
+  string file_path = 4;
+
+  // File size
+  int32 file_size = 5;
+
+  // User Id
+  string user_id = 6;
+}
+
+// Message request for saving new vessel document
+message SaveVesselDocumentResponse {
+  // Document data of vessel
+  VesselDocument data = 1;
+}
+

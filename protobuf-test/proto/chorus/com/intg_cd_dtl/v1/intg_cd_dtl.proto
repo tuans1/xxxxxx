@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package chorus.com.intg_cd_dtl.v1;
+
+// The integration code information.
+message IntegrationCodeDetail {
+  // The integration_code_id is the integration code id. intg_cd_id in OPUS.
+  string integration_code_id = 1;
+  // The integration_code_value_content is the integration code value content. intg_cd_val_ctnt in OPUS.
+  string integration_code_value_content = 2;
+  // The integration_code_value_display_description is the integration code value display description. intg_cd_val_dp_desc in OPUS.
+  string integration_code_value_display_description = 3;
+  // The requestor name of integration code value display sequence. intg_cd_val_dp_seq in OPUS.
+  int32 integration_code_value_display_sequence = 4;
+}
+
+// The integration code information.
+message IntegrationCode {
+  // The integration code id.
+  string integration_code_id = 1;
+  // The integration code value content.
+  string integration_code_value_content = 2;
+}
+
+// Request message for `IntegrationCodeDetailInfoService.GetIntegrationCodeDetailsByIntegrationCodeIdAndIntegrationCodeValueContent`.
+message GetIntegrationCodeDetailsByIntegrationCodeIdAndIntegrationCodeValueContentRequest {
+  // The integration code list.
+  repeated IntegrationCode integration_code_list = 1;
+}
+
+// Response message for `IntegrationCodeDetailInfoService.GetIntegrationCodeDetailsByIntegrationCodeIdAndIntegrationCodeValueContent`.
+message GetIntegrationCodeDetailsByIntegrationCodeIdAndIntegrationCodeValueContentResponse {
+  // The integration code information.
+  IntegrationCodeDetail integration_code_detail = 1;
+}
+
+// Services for integration code information detail.
+service IntegrationCodeDetailInfoService {
+  // Get integration code detail information by the integration code id and integration code value content.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  //     "integration_code_list": [
+  //         {
+  //             "integration_code_id": "CD00033"
+  //             "integration_code_value_content": "MON"
+  //         }
+  //     ]
+  //
+  // Response:
+  // {
+  //     "integration_code_detail": {
+  //         "integration_code_id": "CD00033",
+  //         "integration_code_value_content": "MON",
+  //         "integration_code_value_display_description": "Per 30 Days",
+  //         "integration_code_value_display_sequence": 3,
+  //     }
+  // }
+  // ...
+  rpc GetIntegrationCodeDetailsByIntegrationCodeIdAndIntegrationCodeValueContent(GetIntegrationCodeDetailsByIntegrationCodeIdAndIntegrationCodeValueContentRequest) returns (stream GetIntegrationCodeDetailsByIntegrationCodeIdAndIntegrationCodeValueContentResponse);
+}

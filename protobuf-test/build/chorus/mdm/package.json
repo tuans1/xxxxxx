@@ -1,0 +1,40 @@
+{
+  "name": "@ocean-network-express/om-mdm-protobuf",
+  "version": "0.5.51",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "gen": "cd ../../../proto && buf generate --path chorus/mdm --output ../build/chorus/mdm --template buf.index.gen.yaml && buf generate --path chorus/mdm --output ../build/chorus/mdm --template buf.gen.yaml && cp -r chorus/mdm/*.md ../build/chorus/mdm/ && cp -r chorus/mdm/* ../build/chorus/mdm/chorus/mdm/",
+    "tsc-build": "tsc",
+    "lint": "buf lint",
+    "build": "buf build",
+    "breaking": "buf breaking ./ --against 'https://github.com/ocean-network-express/om-protobuf.git#branch=main,ref=HEAD~1,subdir=proto/chorus/mdm'",
+    "merge-markdown": "merge-markdown -m ../../../docs/merge-mdm-markdown.config.yaml --nolinkcheck"
+  },
+  "exports": {
+    "./*": {
+      "import": "./dist/*",
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "*",
+    "!*.json",
+    "!*.yaml",
+    "!proto-gen"
+  ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.ts"
+      ]
+    }
+  },
+  "dependencies": {
+    "@bufbuild/buf": "^1.26.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

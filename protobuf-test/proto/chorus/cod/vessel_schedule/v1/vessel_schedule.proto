@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+import "chorus/cod/base/v1/base.proto";
+
+package chorus.cod.vessel_schedule.v1;
+
+// Vessel Schedule message
+message VesselSchedules {
+  // Service lane code
+  string service_lane = 1;
+  // Vessel Voyage Direction Code
+  string vvd = 2;
+  // Port
+  string port = 3;
+  // Estimated Time of Arrival
+  string eta = 4;
+  // Estimated Time of Berthing
+  string etb = 5;
+  // Estimated time of departure 
+  string etd = 6;
+}
+
+// Get vessel schedule by port request
+message GetVesselSchedulesRequest {
+  // Port
+  string port = 1;
+  // Pagination Request
+  chorus.cod.base.v1.PaginationRequest pagination = 2;
+}
+
+// Get vessel schedule by port response
+message GetVesselSchedulesResponse {
+  // Vessel Schedules list
+  repeated VesselSchedules vessel_schedules = 1;
+   // Pagination Response
+  chorus.cod.base.v1.PaginationResponse pagination = 2;
+}
+
+// VesselSchedules service
+service VesselSchedulesService {
+  // GetVesselSchedules service
+  rpc GetVesselSchedules(GetVesselSchedulesRequest) returns (GetVesselSchedulesResponse) {}
+}

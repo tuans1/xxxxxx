@@ -1,0 +1,765 @@
+syntax = "proto3";
+
+package chorus.flm.time_charter_comparison.v1;
+
+// Service for Time Charter Comparison
+service TimeCharterComparisonService {
+    //  Get time charter comparison
+    //
+    //  Operation: GET
+    //
+    //  Request:
+    //      {
+    //          "tc_id":"1",
+    //          "user_id":"1"
+    //      }
+    //
+    //  Response:
+    //      {
+    //          "tc_comparison_id": "1",
+    //          "vessels" :[vessel],
+    //          "properties":[property]
+    //          "vessel_property_values":[VesselPropertyValue]
+    //          "comparison_criteria":[ComparisonCriteria]
+    //          "comparison_criteria_values":[ComparisonCriteriaValue],
+    //          "formulas":[Formula],
+    //          "formula_values":[FormulaValue],
+    //          "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    rpc GetTimeCharterComparison(GetTimeCharterComparisonRequest) returns (GetTimeCharterComparisonResponse);
+
+    // Add vessel to comparison table
+    //
+    // Operation: POST
+    //
+    // Request: 
+    //  {
+    //    "tc_comparison_id" : "1",
+    //    "vessel_ids": [
+    //                      {"vessel_id" :"vessel1"},
+    //                      {"vessel_id" :"vessel2"}
+    //                  ],
+    //     "create_user_id": "test@one.com" 
+    //  }
+    //
+    //  Response:
+    //      {
+    //              "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    //
+    rpc AddVesselToTimeCharterComparison (AddVesselToTimeCharterComparisonRequest) returns (AddVesselToTimeCharterComparisonResponse);
+    // Add vessel from comparison pool to main comparison table
+    // Operation: POST
+    // Request: 
+    //  {
+    //    "comparison_id" : [uuid],
+    //    "vessel_data": [
+    //                      {"vessel_id": uuid, "tab_id": uuid},
+    //                      {"vessel_id": uuid, "tab_id": uuid},
+    //                  ],
+    //     "create_user_id": "test@one.com" 
+    //  }
+    //  Response:
+    //  {
+    //    "api_response" : {
+    //      "is_error":false,
+    //      "error_message":""
+    //    }
+    //  }
+    //
+    rpc AddVesselsFromPoolToComparison(AddVesselsFromPoolToComparisonRequest) returns (AddVesselsFromPoolToComparisonResponse);
+    //  Remove vessel from comparison 
+    //
+    //  Operation: POST
+    //
+    //  Request:
+    //      {
+    //          "tc_comparison_id":"1"
+    //          "vessel_ids":[
+    //              {
+    //                  "vessel_id":"1",
+    //                  "vessel_id":"2"        
+    //              }    
+    //          ]
+    //      }
+    //
+    //  Response:
+    //      {
+    //          "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    rpc RemoveVesselFromTimeCharterComparison(RemoveVesselFromTimeCharterComparisonRequest) returns (RemoveVesselFromTimeCharterComparisonResponse);
+
+    //  Add criteria
+    //
+    //  Operation: POST
+    //
+    //  Request:
+    //      {
+    //          "id":"1",
+    //          "tc_comparison_id" :"1",
+    //          "header_text":"new criteria",
+    //          "create_user_id:"test@one.com",
+    //          "time_charter_comparison_vessel_criteria": [TimeCharterComparisonVesselCriteriaRequest]
+    //      }
+    //
+    //  Response:      
+    //      {
+    //          "criteria_id":"1",    
+    //          "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    //    
+    rpc AddCriteriaToTimeCharterComparison(AddCriteriaToTimeCharterComparisonRequest) returns (AddCriteriaToTimeCharterComparisonResponse);
+    
+    //  Update criteria
+    //
+    //  Operation: POST
+    //
+    //  Request:
+    //      {
+    //          "id":"1",
+    //          "tc_comparison_id" :"1",
+    //          "update_user_id:"test@one.com",
+    //          "comparison_criteria":[
+    //              SaveComparisonCriteriaRequest
+    //          ]            
+    //      }
+    //
+    //  Response:      
+    //      {
+    //          "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    //    
+    rpc UpdateCriteriaToTimeCharterComparison(UpdateCriteriaToTimeCharterComparisonRequest) returns (UpdateCriteriaToTimeCharterComparisonResponse);
+
+    //  Remove criteria from comparison
+    //
+    //  Operation: POST
+    //
+    //  Request:
+    //      {
+    //          "tc_comparison_id":"1",
+    //          "criteria_ids":[
+    //              {
+    //                  "criteria_id":"1",
+    //                  "criteria_id":"2",
+    //              }    
+    //          ]
+    //      }
+    //
+    //  Response:
+    //      {
+    //              "criteria_ids":[
+    //                  {
+    //                      "criteria_id":"1",
+    //                      "criteria_id":"2",
+    //                  }    
+    //              ],
+    //              "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //                  
+    //      }
+    //
+    rpc RemoveCriteriaFromComparison(RemoveCriteriaFromComparisonRequest) returns (RemoveCriteriaFromComparisonResponse);
+
+    // Add formula
+    //
+    //  Operation : POST
+    //
+    //  Request:
+    //      {
+    //          "create_user_id":"1",
+    //          "tc_comparison_id":"1",
+    //          "formula_request":[
+    //              {
+    //                  "formula_id":"1",
+    //                  "vessel_id":"2",
+    //                  "tc_comparison_id":"3"
+    //              }
+    //          ]
+    //      }
+    //
+    //  Response:
+    //      {
+    //          "tc_comparison_id":"1",
+    //          "property_response":[
+    //              {
+    //                  "property_id":"1",
+    //                  "property_name":"name",
+    //              }
+    //           ]
+    //      }
+    rpc AddFormulaToTimeCharterComparison (AddFormulaToTimeCharterComparisonRequest) returns (AddFormulaToTimeCharterComparisonResponse);
+
+    //  Save formula property value
+    //
+    //  Operation: POST
+    //
+    //  Request:
+    //      {
+    //          "tc_comparison_id":"1",
+    //         "create_user_id":"test@one.com"   ,
+    //          "property_value_requests":[
+    //              {
+    //                  "vessel_id":"1",
+    //                  "value":"value",
+    //                  "property_id":"1",
+    //                      
+    //              }   
+    //          ]
+    //      }
+    //
+    //  Response:
+    //      {
+    //          "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    rpc SaveFormulaPropertyValue(SaveFormulaPropertyValueRequest) returns (SaveFormulaPropertyValueResponse);
+
+    // Remove formula from time charter comparison table
+    //
+    // Operation: POST 
+    //
+    //  Request:
+    //      {
+    //          "tc_comparison_id":"1",
+    //          "formula_ids":[formula_id]
+    //      }
+    //
+    //  Response:
+    //      {
+    //         "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    rpc RemoveFormulaFromTimeCharterComparison(RemoveFormulaFromTimeCharterComparisonRequest) returns (RemoveFormulaFromTimeCharterComparisonResponse);
+    // Save property default value
+    // Operation: POST 
+    //  Request:
+    //      {
+    //          "comparison_id": [uuid],
+    //          "property_id": [uuid],
+    //          "value": double,
+    //      }
+    //  Response:
+    //      {
+    //         "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    rpc SavePropertyDefaultValue(SavePropertyDefaultValueRequest) returns (SavePropertyDefaultValueResponse);
+    // Get property default value
+    // Operation: GET 
+    //  Request:
+    //      {
+    //          "comparison_id": [uuid],
+    //          "property_id": [uuid],
+    //      }
+    //  Response:
+    //      {
+    //         "api_response" :{
+    //              "is_error":false,
+    //              "error_message":""
+    //          }
+    //      }
+    rpc GetPropertyDefaultValue(GetPropertyDefaultValueRequest) returns (GetPropertyDefaultValueResponse);
+}
+
+// message body for duplicate error details
+message DuplicateErrorDetail {
+    // List of duplicate criteria ids
+    repeated string criteria_ids = 1;
+    // is error duplicate occur
+    bool is_duplicate = 2;
+}
+
+//api response
+message ApiResponse {
+    //true has error else ok
+    bool is_error = 1;
+    //error message
+    string error_message = 2;
+    // duplicate error details
+    optional DuplicateErrorDetail duplicate_error_detail = 3;
+}
+
+// remove formula from time charter comparison request
+message RemoveFormulaFromTimeCharterComparisonRequest {
+    // tc comparison id
+    string tc_comparison_id = 1;
+    // formula ids
+    repeated FormulaId formula_ids = 2;
+}
+
+// formula Id request
+message FormulaId{
+    // formula id
+    string formula_id = 1;
+}
+
+// remove formula from time charter comparison response
+message RemoveFormulaFromTimeCharterComparisonResponse {
+    //api response
+    ApiResponse api_response = 1;
+}
+
+//get time charter comparison request
+message GetTimeCharterComparisonRequest {
+    //time charter id
+    string tc_id = 1;
+    //user id
+    string user_id = 2;
+    //phase
+    // Phase: The values of time charter status include:
+    // 1: Draft
+    // 2: Ongoing
+    // 3: Evaluation
+    // 4: FM Internal Approval 
+    // 5: MD Approval
+   optional int32 phase = 3;
+}
+
+
+//get time charter comparison response
+message GetTimeCharterComparisonResponse {
+    //time charter comparison id
+    string tc_comparison_id = 1; 
+    //list of vessel in comparison
+    repeated Vessel vessels = 2;
+    //list of property in comparison
+    repeated Property properties = 3;
+    //list of property value in comparison
+    repeated VesselPropertyValue vessel_property_values = 4;
+    //list of criteria 
+    repeated ComparisonCriteria comparison_criteria = 5;
+    //list of criteria value
+    repeated ComparisonCriteriaValue comparison_criteria_values = 6;
+    //list of formula
+    repeated Formula formulas = 7;
+    //list of formula value
+    repeated FormulaValue formula_values = 8;
+    //api response
+    ApiResponse api_response  = 9;
+}
+
+//property
+message Property {
+    //property id
+    string id = 1;
+    //property name
+    string name = 2;
+}
+
+//comparison criteria
+message ComparisonCriteria {
+    //criteria id
+    string id = 1;
+    //header text
+    string header_text = 2;
+    //True: The Criteria will be displayed on the top on criteria
+    bool is_top = 3;
+}
+
+//comparison criteria value
+message ComparisonCriteriaValue{
+    //criteria id
+    string criteria_id = 1;
+    //vessel id
+    string vessel_id = 2;
+    //criteria value
+    string value = 3;
+} 
+
+//formula
+message Formula {
+    //formula id
+    string id = 1;
+    //formula expression
+    string expression = 2;
+    //formula name
+    string name = 3;
+    //Formula property
+    repeated string properties = 4;
+}
+
+//formula value
+message FormulaValue{
+    //formula id
+    string formula_id = 1;
+    //vessel id
+    string vessel_id = 2;
+    //calculated value return null if any errors happen
+    string value = 3;
+    //is value error
+    bool is_error = 4;
+}
+
+//Remove Criteria FromComparison Request
+message RemoveCriteriaFromComparisonRequest {
+    //list of criteria id to remove
+    repeated Criteria criteria_ids = 1;
+    //time charter comparison id
+    string tc_comparison_id = 2;
+}
+
+//criteria id
+message Criteria {
+    //id
+    string criteria_id = 1;  
+}
+
+//remove criteria from comparison response
+message RemoveCriteriaFromComparisonResponse {
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+// remove vessel from time charter comparison request
+message RemoveVesselFromTimeCharterComparisonRequest {
+    //time charter comparison id
+    string tc_comparison_id = 1;
+    //list vessel ids 
+    repeated VesselId vessel_ids =2;
+}
+
+//remove vessel from time charter comparison response 
+message RemoveVesselFromTimeCharterComparisonResponse {
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+//save formula property value request
+message SaveFormulaPropertyValueRequest{
+    //time charter comparison id
+    string tc_comparison_id = 1;
+    //create user id
+    string create_user_id = 2;
+    // list of property value to save
+    repeated PropertyValueRequest property_value_requests = 3;
+}
+
+// property value request
+message PropertyValueRequest{
+    // vessel id
+    string vessel_id = 1;
+    //property value
+    string value = 2;
+    //property id
+    string property_id = 3;
+
+}
+
+//property value response
+message PropertyValueResponse{
+    //property value id
+    string id = 1;
+    //vessel id
+    string vessel_id = 12;
+    //property value
+    string value = 3;
+    //time charter comparison id
+    string tc_comparison_id = 4;
+    //property id
+    string property_id = 5;
+    //create user id
+    string create_user_id = 6;
+}
+
+// save formula property value response
+message SaveFormulaPropertyValueResponse {
+    //api response
+    ApiResponse api_response = 2;
+
+}
+
+//add formula to time charter comparison request
+message AddFormulaToTimeCharterComparisonRequest {
+    //list of formula
+    repeated FormulaRequest formula_request = 1;
+    //time charter comparison id
+    string tc_comparison_id = 2;
+    //create user id
+    string create_user_id = 3;
+}
+
+//formula request
+message FormulaRequest{
+    //formula id
+     string formula_id = 1;
+}
+
+//vessel formula response
+message VesselPropertyValue {   
+    //property id
+    string property_id = 1;
+    //property value
+    string value = 2;
+    //vessel id
+    string vessel_id = 3;
+}
+
+//property response
+message PropertyResponse{
+    //property id
+    string property_id =1;
+    //property name
+    string property_name =2;
+}
+
+//add formula to time charter comparison response
+message AddFormulaToTimeCharterComparisonResponse{
+    //api response 
+    ApiResponse api_response = 2;
+}
+
+//update criteria to time charter comparison request
+message UpdateCriteriaToTimeCharterComparisonRequest {
+    //time charter comparison id
+    string tc_comparison_id = 1;
+    //create user id
+    string update_user_id = 2;
+    // list of comparison criteria to update
+    repeated SaveComparisonCriteriaRequest comparison_criteria = 3;
+}
+
+// comparison criteria
+message SaveComparisonCriteriaRequest {
+    //criteria id
+    string id = 1;
+    //criteria header text
+    string header_text = 2;
+    //list of vessel criteria value
+    repeated TimeCharterComparisonVesselCriteriaRequest time_charter_comparison_vessel_criteria =3;
+}
+
+//time charter comparison criteria request
+message TimeCharterComparisonVesselCriteriaRequest {
+    //vessel id
+    string vessel_id = 1;
+    //criteria value
+    string criteria_value = 2;
+}
+
+// time charter criteria
+message TimeCharterComparisonCriteriaResponse {
+    //criteria id
+    string id = 1;
+    //header text of criteria
+    string header_text = 2;
+    // tc comparison vessel criteria response
+    repeated TimeCharterComparisonVesselCriteriaResponse time_charter_comparison_vessel_criteria = 3;
+}
+
+//time charter criteria response
+message TimeCharterComparisonVesselCriteriaResponse{
+    //vessel id
+    string vessel_id = 1;
+    //criteria value
+    string criteria_value = 2;
+    //created user id
+    string create_user_id = 3;
+    //criteria id
+    string criteria_id = 4;
+}
+
+//update criteria to time charter comparison response
+message UpdateCriteriaToTimeCharterComparisonResponse{
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+//add criteria to time charter comparison request
+message AddCriteriaToTimeCharterComparisonRequest{
+     //time charter comparison id
+    string tc_comparison_id = 1;
+    //criteria header text
+    string header_text = 2;
+        //created user id
+    string create_user_id = 3;
+    //list of vessel criteria value
+    repeated TimeCharterComparisonVesselCriteriaRequest time_charter_comparison_vessel_criteria =4;
+}
+
+//add criteria to time charter comparison response
+message AddCriteriaToTimeCharterComparisonResponse{
+    // criteria id
+    string criteria_id = 1;
+    //api response 
+    ApiResponse api_response = 2;
+}
+
+// add vessel to time charter comparison request
+message AddVesselToTimeCharterComparisonRequest{
+    //time charter id
+    string tc_comparison_id = 1;
+    //list of vessel id to add
+    repeated VesselId vessel_ids = 2;
+    //created user id
+    string create_user_id = 3;
+}
+
+//add vessel to time charter comparison response
+message AddVesselToTimeCharterComparisonResponse{
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+// add vessel from pool to time charter comparison request
+message AddVesselsFromPoolToComparisonRequest {
+    //time charter id
+    string comparison_id = 1;
+    //list of vessel id to add
+    repeated VesselsFromPool vessel_data = 2;
+    //created user id
+    string create_user_id = 3;
+}
+
+// add vessel from comparison to time charter comparison response
+message AddVesselsFromPoolToComparisonResponse {
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+// vessels from pool
+message VesselsFromPool {
+    // vessel id
+    string vessel_id = 1;
+    // pool id
+    string tab_id = 2;
+}
+
+//Duplicated Vessel
+message DuplicatedVessel {
+    //vessel id 
+    string vessel_id = 1;
+    //vessel name
+    string vessel_name =2;
+}
+
+//vessel id
+message VesselId {
+    //id
+    string vessel_id = 1;
+}
+
+// Phase status
+message PhaseStatus {
+    //for_evaluation
+    bool for_evaluation = 1;
+    //for_fm_internal_approval
+    bool for_fm_internal_approval = 2;
+    //for_md_approval
+    bool for_md_approval = 3;
+ }
+
+//vessel add to comparison
+message Vessel {
+  // The id is the id of the vessel
+  string id = 1;
+  // The vessel_name is the name of the vessel
+  string vessel_name = 2;
+  // The vessel_code is the code of the vessel
+  optional string vessel_code = 3;
+  // The imo_number is the imo number of the vessel
+  optional string imo_number = 4;
+  // The loadable_teu is the teu of the vessel
+  int32 loadable_teu = 5;
+  // The owner is the owner of the vessel
+  optional string owner = 6;
+  // The year_built is the year build of the vessel
+  int32 year_built = 7;
+  // The dead_weight is the dead weight of the vessel
+  optional string dead_weight = 8;
+  // The loa is the length of overall of the vessel
+  optional string loa = 9;
+  // The design is to compare the vessel series
+  string design = 11;
+  // The reefer_plugs is the the number of Reefer Plug
+  int32 reefer_plugs = 12;
+  // The beam is the width of overall of the vessel
+  string beam = 13;
+  // The draft is the draft of the vessel
+  optional string draft = 14;
+  // The owner_indication is the proposal charter hire amount by owner
+  optional string owner_indication = 15;
+  // The delivery_location is the location of delivery of the vessel
+  string delivery_location = 16;
+  // The delivery_timing is the time of delivery of the vessel
+  string delivery_timing = 17;
+  // The channel is the channel of the vessel
+  optional string channel = 18;
+  // The flexible_trading is the flexible trading of the vessel
+  optional string flexible_trading = 19;
+  // The ex_charters is the ex-charterer of the vessel
+  optional string ex_charters = 20;
+  // The remark is the remark of the vessel
+  optional string remark = 21;
+  // The basic_teu_14_t is how many TEUs we can load on the vessel 
+  int32 basic_teu_xx_t = 22;
+  // The foc_14_knots is the fuel consumption per day of the vessel
+  string foc_xx_knots = 23;
+  // The period is the period of chartering
+  optional string period = 24; 
+  // Existing time charter rate: current charter rate of the vessel
+  optional string existing_tc_rate = 25;
+  //gear
+  optional string gear = 26;
+  //vessel status
+  string vessel_status = 27;
+  //phase status
+  PhaseStatus phase_status = 28;
+}
+
+// Property default value request
+message SavePropertyDefaultValueRequest {
+  //comparison id
+  string comparison_id = 1;
+  //property id
+  string property_id = 2;
+  //value
+  double value = 3;
+  //create user id
+  string create_user_id = 4;
+}
+
+// Property default value response
+message SavePropertyDefaultValueResponse {
+  //api response
+  ApiResponse api_response = 1;
+}
+
+// Get property default value request
+message GetPropertyDefaultValueRequest {
+  //comparison id
+  string comparison_id = 1;
+  //property id
+  string property_id = 2;
+}
+
+// Get property default value response
+message GetPropertyDefaultValueResponse {
+    // property default value
+    string value = 1;
+    //api response
+    ApiResponse api_response = 2;
+}

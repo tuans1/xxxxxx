@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package chorus.mdm.container_type_size.v1;
+
+import "google/protobuf/empty.proto";
+
+// The container type size information.
+message ContainerTypeSize {
+  // The container_type_size_code is the code of the container type size. cntr_tpsz_cd in OPUS.
+  string container_type_size_code = 1;
+  // The container_type_size_iso_code is the psa code of the container type size. cntr_tpsz_psa_cd in OPUS.
+  string container_type_size_psa_code = 2;
+  // The container_type_size_iso_code is the iso code of the container type size. cntr_tpsz_iso_cd in OPUS.
+  string container_type_size_iso_code = 3;
+  // The modified_container_type_size_code is the modified code of the container type size. modi_cntr_tpsz_cd in OPUS.
+  string modified_container_type_size_code = 4;
+  // The container_type_size_remark is the remark of the container type size. cntr_tpsz_rmk in OPUS.
+  string container_type_size_remark = 5;
+  // The container_size_code is the container size code of the container type size. cntr_sz_cd in OPUS.
+  string container_size_code = 6;
+  // The container_type_code is the container type code of the container type size. cntr_tp_cd in OPUS.
+  string container_type_code = 7;
+}
+
+// Response message for `ContainerTypeSizeInfoService.GetContainerTypeSize`.
+message GetContainerTypeSizesResponse {
+  // The container type size information.
+  ContainerTypeSize container_type_size = 1;
+}
+
+// Services for container type size.
+service ContainerTypeSizeInfoService {
+  // Get all list of container type sizes.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "container_type_size": {
+  //         "container_type_size_code": "D3",
+  //         "container_type_size_psa_code": "",
+  //         "container_type_size_iso_code": "25G0",
+  //         "modified_container_type_size_code": "20HQ",
+  //         "container_type_size_remark": "Only for partners",
+  //         "container_size_code": "3",
+  //         "container_type_code": "D"
+  //     }
+  // }
+  // ...
+  rpc GetContainerTypeSizes(google.protobuf.Empty) returns (stream GetContainerTypeSizesResponse);
+}

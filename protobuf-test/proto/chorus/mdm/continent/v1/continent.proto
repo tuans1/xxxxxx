@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package chorus.mdm.continent.v1;
+
+import "google/protobuf/empty.proto";
+
+// The continent information.
+message Continent {
+  // The continent_code is the code of the continent. conti_cd in OPUS.
+  string continent_code = 1;
+  // The continent_name is the name of the continent. conti_nm in OPUS.
+  string continent_name = 2;
+}
+
+// The continent code information.
+message ContinentCode {
+  // The code of the continent.
+  string continent_code = 1;
+}
+
+// Request message for `ContinentInfoService.GetContinentsByCodes`.
+message GetContinentsByCodesRequest {
+  // The continent code list.
+  repeated ContinentCode continent_code_list = 1;
+}
+
+// Response message for `ContinentInfoService.GetContinentsByCodes`.
+message GetContinentsByCodesResponse {
+  // The continent information
+  Continent continent = 1;
+}
+
+// Request message for `ContinentInfoService.SearchContinentsByName`.
+message SearchContinentsByNameRequest {
+  // The name of the continent
+  string continent_name = 1;
+}
+
+// Response message for `ContinentInfoService.SearchContinentsByName`.
+message SearchContinentsByNameResponse {
+  // The continent information.
+  Continent continent = 1;
+}
+
+// Response message for `ContinentInfoService.GetContinents`.
+message GetContinentsResponse {
+  // The continent information.
+  Continent continent = 1;
+}
+
+// Services for continent.
+service ContinentInfoService {
+  // Get all list of continents.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "continent": {
+  //         "continent_code": "X",
+  //         "continent_name": "DUMMY CODE FOR EXTRA COUNTRY"
+  //     }
+  // }
+  // ...
+  rpc GetContinents(google.protobuf.Empty) returns (stream GetContinentsResponse);
+
+  // Get list of continents by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "continent_code_list": [
+  //         {
+  //             "continent_code": "X"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "continent": {
+  //         "continent_code": "X",
+  //         "continent_name": "DUMMY CODE FOR EXTRA COUNTRY"
+  //     }
+  // }
+  // ...
+  rpc GetContinentsByCodes(GetContinentsByCodesRequest) returns (stream GetContinentsByCodesResponse);
+
+  // Search list of continents by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "continent_name": "DUM"
+  // }
+  //
+  // Response:
+  // {
+  //     "continent": {
+  //         "continent_code": "X",
+  //         "continent_name": "DUMMY CODE FOR EXTRA COUNTRY"
+  //     }
+  // }
+  // ...
+  rpc SearchContinentsByName(SearchContinentsByNameRequest) returns (stream SearchContinentsByNameResponse);
+}

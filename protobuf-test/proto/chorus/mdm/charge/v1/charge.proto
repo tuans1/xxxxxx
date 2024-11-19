@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package chorus.mdm.charge.v1;
+
+// The charge information.
+message Charge {
+  // The charge_code is the charge code of the charge. chg_cd in OPUS.
+  string charge_code = 1;
+  // The charge_name is the charge name of the charge. chg_nm in OPUS.
+  string charge_name = 2;
+  // The representative_charge_code is the representative charge code of the charge. rep_chg_cd in OPUS.
+  string representative_charge_code = 3;
+}
+
+// The charge code information.
+message ChargeCode {
+  // The charge_code is the charge code of the charge.
+  string charge_code = 1;
+}
+
+// Request message for `ChargeInfoService.GetChargesByChargeCodes`.
+message GetChargesByChargeCodesRequest {
+  // The charge code list.
+  repeated ChargeCode charge_code_list = 1;
+}
+
+// Response message for `ChargeInfoService.GetChargesByChargeCodes`.
+message GetChargesByChargeCodesResponse {
+  // The charge information.
+  Charge charge = 1;
+}
+
+// Request message for `ChargeInfoService.SearchChargesByName`.
+message SearchChargesByNameRequest {
+  // The charge name of charge.
+  string charge_name = 1;
+}
+
+// Response message for `ChargeInfoService.SearchChargesByName`.
+message SearchChargesByNameResponse {
+  // The charge information.
+  Charge charge = 1;
+}
+
+// Services for charge.
+service ChargeInfoService { 
+  // Get list of charge by charge codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "charge_code_list": [
+  //         {
+  //             "charge_code": "FGP"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "charge": {
+  //         "charge_code": "FGP",
+  //         "charge_name": "FOOD GRADE PREMIUM",
+  //         "representative_charge_code": "OTH"
+  //     }
+  // }
+  // ...
+  rpc GetChargesByChargeCodes(GetChargesByChargeCodesRequest) returns (stream GetChargesByChargeCodesResponse);
+
+  // Search list of charge by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "charge_name": "FOOD GRADE PREMIUM"
+  // }
+  //
+  // Response:
+  // {
+  //     "charge": {
+  //         "charge_code": "FGP",
+  //         "charge_name": "FOOD GRADE PREMIUM",
+  //         "representative_charge_code": "OTH"
+  //     }
+  // }
+  // ...
+  rpc SearchChargesByName(SearchChargesByNameRequest) returns (stream SearchChargesByNameResponse);
+}

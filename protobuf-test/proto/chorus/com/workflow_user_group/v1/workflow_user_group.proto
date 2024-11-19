@@ -1,0 +1,550 @@
+syntax = "proto3";
+
+package chorus.com.workflow_user_group.v1;
+
+import "chorus/com/base/v1/base.proto";
+
+// WorkflowUserGroup represents a group of users that can be assigned to a workflow
+message WorkflowUserGroup {
+  // group_id is the unique identifier for the group
+  string group_id = 1;
+  // group_name is the name of the group
+  string group_name = 2;
+  // description is a description of the group
+  string description = 3;
+  // status is the status of the group
+  string status = 4;
+}
+
+// WorkflowUserGroupQuery is used to filter the search results
+message WorkflowUserGroupQuery {
+  // group_id is the unique identifier for the group
+  string group_name = 1;
+  // group_name is the name of the group
+  string status = 2;
+}
+
+// SearchWorkflowUserGroupRequest is the request to get list workflow user group
+message SearchWorkflowUserGroupRequest {
+  //query
+  optional WorkflowUserGroupQuery query = 1;
+  //pagination
+  optional chorus.com.base.v1.Pagination pagination = 2;
+}
+
+// SearchWorkflowUserGroupResponse is the response to get list workflow user group
+message SearchWorkflowUserGroupResponse {
+  // user_group is the workflow user group
+  WorkflowUserGroup user_group = 1;
+  // total is the total number of workflow user group
+  int32 total = 2;
+}
+
+//UpdateActivateFlagRequest is the request to update the activate flag
+message UpdateActivateFlagRequest {
+  // group_id is the unique identifier for the group
+  string group_id = 1;
+  // status is the status of the group
+  string status = 2;
+}
+
+// UpdateActivateFlagResponse is the response to update the activate flag
+message UpdateActivateFlagResponse {
+  // success is true if the group was updated successfully
+  bool success = 1;
+}
+
+// DeleteWorkflowUserGroupRequest is the request to delete a workflow user group
+message DeleteWorkflowUserGroupRequest {
+  // group_id is the unique identifier for the group
+  string group_id = 1;
+}
+
+// DeleteWorkflowUserGroupResponse is the response to delete a workflow user group
+message DeleteWorkflowUserGroupResponse {
+  // success is true if the group was deleted successfully
+  bool success = 1;
+}
+
+// Represents a member mapping for creating a user group
+message CreateWorkflowUserGroupMemberMapping {
+  // Member ID belong to workflow user group
+  string member_id = 1;
+  // role of member work flow user group
+  string workflow_user_group_role = 2;
+}
+
+// Represents a member mapping for updating a user group
+message UpdateWorkflowUserGroupMemberMapping {
+  // Mapping ID of workflow user group with user
+  optional string mapping_id = 1;
+  // Member ID belong to workflow user group
+  string member_id = 2;
+  // Add flg to remove member of workflow user group
+  optional bool is_deleted = 3;
+  // role of member work flow user group
+  string workflow_user_group_role = 4;
+}
+
+// The request for creating a workflow user group.
+message CreateWorkflowUserGroupRequest {
+  // Name of the workflow user group.
+  string group_name = 1;
+  // Description of the workflow user group.
+  string description = 2;
+  // Status of the workflow user group(true/false)
+  bool is_active = 4;
+  // Members belong to workflow user group
+  repeated CreateWorkflowUserGroupMemberMapping members = 5;
+}
+
+// The response create a user group.
+message CreateWorkflowUserGroupResponse {
+  // Id of the workflow user group.
+  string group_id = 1;
+  // Name of the workflow user group.
+  string group_name = 2;
+  // Description of the user group.
+  string description = 3;
+  // Status of the workflow user group (true/false).
+  bool is_active = 4;
+}
+
+// The request for update a user group.
+message UpdateWorkflowUserGroupRequest {
+  // Identifier of the workflow user group to update.
+  string group_id = 1;
+  // New name for the user group.
+  string group_name = 2;
+  // New description for the workflow user group.
+  string description = 3;
+  // Status for the workflow user group(true/false)
+  bool is_active = 4;
+  // Members belong to workflow user group
+  repeated UpdateWorkflowUserGroupMemberMapping members = 5;
+}
+
+// The request for update member for user group.
+message UpdateMemberForWorkflowUserGroupRequest {
+  // Identifier of the workflow user group to update.
+  string group_id = 1;
+  // Members belong to workflow user group
+  repeated UpdateWorkflowUserGroupMemberMapping members = 2;
+}
+
+// The request for update role for member of group.
+message UpdateRoleForMemberOfGroupRequest {
+  // Identifier of the workflow user group to update.
+  string group_id = 1;
+  // Member ID belong to workflow user group
+  string member_id = 2;
+  // role of member work flow user group
+  string workflow_user_group_role = 3;
+}
+
+// The response update a user group.
+message UpdateWorkflowUserGroupResponse {
+  // Id of the workflow user group.
+  string group_id = 1;
+  // Name of the workflow user group.
+  string group_name = 2;
+  // Description of the workflow user group.
+  string description = 3;
+  // Status of the workflow user group (true/false).
+  bool is_active = 4;
+}
+
+// The response update role for member of group.
+message UpdateRoleForMemberOfGroupResponse {
+  // Id of the workflow user group.
+  string group_id = 1;
+  // Name of the workflow user group.
+  string group_name = 2;
+  // Description of the workflow user group.
+  string description = 3;
+  // Status of the workflow user group (true/false).
+  bool is_active = 4;
+}
+
+// The response update a user group.
+message UpdateMemberForWorkflowUserGroupResponse {
+  // Id of the workflow user group.
+  string group_id = 1;
+  // Name of the workflow user group.
+  string group_name = 2;
+  // Description of the workflow user group.
+  string description = 3;
+  // Status of the workflow user group (true/false).
+  bool is_active = 4;
+}
+
+// The request for get detail a user group.
+message GetWorkflowUserGroupDetailRequest {
+  // group Id
+  string group_id = 1;
+}
+
+//The response get detail a user group.
+message GetWorkflowUserGroupDetailResponse {
+  // Id of the workflow user group.
+  string group_id = 1;
+  // Name of the workflow user group.
+  string group_name = 2;
+  // Description of the workflow user group.
+  string description = 3;
+  // Status of the workflow user group (true/false).
+  bool is_active = 4;
+}
+
+// UserSuggestList represents a group of users that can be assigned to a workflow
+message UserList {
+  // user_id of user
+  string user_id = 1;
+  // user_name of user
+  string user_name = 2;
+  // email of user
+  string email = 3;
+  // workflow user group mapping role
+  optional string workflow_user_group_role = 4;
+}
+
+// UserSuggestList represents a group of users that can be assigned to a workflow
+message UserListSuggest {
+  // user_id of user
+  string user_id = 1;
+  // user_name of user
+  string user_name = 2;
+  // email of user
+  string email = 3;
+  // flag check exist user
+  bool disabled = 4;
+}
+
+// MemberUserGroupQuery for seach member
+message MemberUserGroupQuery {
+  // the group_id of member
+  string group_id = 1;
+  // the first name or last name or email for search
+  string key_word = 2;
+}
+
+// The Search user set by name or email request
+message SearchMemberListByNameOrEmailRequest {
+  // The user member query
+  optional MemberUserGroupQuery query = 1;
+  // Order by field
+  repeated chorus.com.base.v1.OrderBy order_by = 2;
+  // Pagination
+  optional chorus.com.base.v1.Pagination pagination = 3;
+}
+
+// The Search user set by name or email response
+message SearchMemberListByNameOrEmailResponse {
+  // The list data of search member
+  UserList data = 1;
+  // The total number of user group member
+  int32 total = 2;
+}
+
+//The request get suggest member
+message GetListUserSuggestRequest {
+  // the user name or email for search
+  string key_word = 1;
+  // The group id of suggest member
+  optional string group_id = 2;
+  // The limit of suggest member
+  optional int32 limit = 3;
+  // The is active user
+  optional bool is_active = 4;
+}
+
+//The response get suggest member
+message GetListUserSuggestResponse {
+  // The list data of suggest member
+  UserListSuggest data = 1;
+}
+
+// The search workflow user group by email request
+message SearchWorkflowUserGroupByEmailRequest {
+  // email of user
+  string email = 1;
+}
+
+// The search workflow user group type response
+message SearchWorkflowUserGroup {
+  // Id of the workflow user group.
+  string group_id = 1;
+  // Name of the workflow user group.
+  string group_name = 2;
+  // Role of the workflow user group.
+  string workflow_user_group_role = 3;
+}
+
+// The search workflow user group by email response
+message SearchWorkflowUserGroupByEmailResponse {
+  // The list data of workflow user group
+  SearchWorkflowUserGroup data = 1;
+}
+
+// Represents a member mapping for remove a user group
+message RemoveMemberWorkflowUserGroupMapping {
+  // Member ID belong to workflow user group
+  string member_id = 1;
+}
+
+// The remove workflow user group request
+message RemoveMemberWorkflowUserGroupRequest {
+  // Id of the workflow user group.
+  string group_id = 1;
+  // Members belong to workflow user group
+  repeated RemoveMemberWorkflowUserGroupMapping members = 2;
+}
+
+// RemoveWorkflowUserGroupMemberResponse is the response to remove member of workflow user group
+message RemoveMemberWorkflowUserGroupResponse {
+  // success is true if the group was deleted successfully
+  bool success = 1;
+}
+
+// Represents a member for bulk import
+message BulkImportMember {
+    // Email of the user
+    string email = 1;
+    // Role of the user in the workflow group (MANAGER or MEMBER)
+    optional string role = 2;
+}
+
+// Request for bulk importing members
+message BulkImportMembersRequest {
+    // The group ID to which the members will be added
+    string group_id = 1;
+    // The list of members to be added
+    repeated BulkImportMember members = 2;
+}
+
+// Request for get group by userId
+message GetWorkflowUserGroupsByUserIdRequest {
+  // The user id
+  string user_id = 1;
+}
+
+// Response for get group by userId
+message GetWorkflowUserGroupsByUserIdResponse {
+  // The workflow user group id
+  string workflow_user_group_id = 1;
+  // The workflow user group role name
+  string workflow_user_group_role_name = 2;
+}
+
+// Response for bulk importing members
+message BulkImportMembersResponse {
+    // Success flag indicating whether the import was successful
+    bool success = 1;
+    // Optional message for additional information
+    string message = 2;
+}
+
+// WorkflowUserGroupService is the service to manage workflow user group
+service WorkflowUserGroupService {
+  // The method to search workflow user group
+  //
+  //Operation: LIKE
+  //
+  //Request:
+  // {
+  //     "query": {
+  //         "group_name": "string",
+  //         "status": "string"
+  //     },
+  //     "pagination": {
+  //         "page": 1,
+  //         "per_page": 10
+  //     }
+  // }
+  //
+  //Response:
+  // {
+  //     "user_group": {
+  //         "group_id": "string",
+  //         "group_name": "string",
+  //         "description": "string",
+  //         "status": "string"
+  //     }
+  // }
+  rpc SearchWorkflowUserGroup(SearchWorkflowUserGroupRequest) returns (stream SearchWorkflowUserGroupResponse);
+  // The method to update the activate flag
+  //
+  //Operation: UPDATE
+  //
+  //Request:
+  // {
+  //     "group_id": "string",
+  //     "status": "string"
+  // }
+  //
+  //Response:
+  // {
+  //     "success": true
+  // }
+  rpc UpdateActivateFlag(UpdateActivateFlagRequest) returns (UpdateActivateFlagResponse);
+  // The method to delete workflow user group
+  //
+  //Operation: DELETE
+  //
+  //Request:
+  // {
+  //     "group_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //     "success": true
+  // }
+  rpc DeleteWorkflowUserGroup(DeleteWorkflowUserGroupRequest) returns (DeleteWorkflowUserGroupResponse);
+
+  // Create a workflow user group.
+  rpc CreateWorkflowUserGroup(CreateWorkflowUserGroupRequest) returns (CreateWorkflowUserGroupResponse);
+
+  // Update an workflow user group
+  rpc UpdateWorkflowUserGroup(UpdateWorkflowUserGroupRequest) returns (UpdateWorkflowUserGroupResponse);
+
+  // Update role for user of group
+  rpc UpdateRoleForMemberOfGroup(UpdateRoleForMemberOfGroupRequest) returns (UpdateRoleForMemberOfGroupResponse);
+
+  // Update member for workflow user group
+  rpc UpdateMemberForWorkflowUserGroup(UpdateMemberForWorkflowUserGroupRequest) returns (UpdateMemberForWorkflowUserGroupResponse);
+
+  //The method for workflow user group detail
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "group_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "data": {
+  //     "group_id": "string",
+  //     "group_name": "string",
+  //     "is_active": true,
+  //     "description": "string",
+  //   }
+  // }
+  rpc GetWorkflowUserGroupDetail(GetWorkflowUserGroupDetailRequest) returns (GetWorkflowUserGroupDetailResponse);
+
+  //The method for get all data of user
+  //
+  //Operation: MATCH
+  //
+  // empty input
+  //Request:
+  // {
+  //  "group_id":"string",
+  //  "key_word":"string"
+  // }
+  //
+  //Response:
+  // {
+  //   "data": [{
+  //     "user_id": "string",
+  //     "user_name": "string",
+  //     "email": "string",
+  //   }]
+  // }
+  rpc GetListUserSuggest(GetListUserSuggestRequest) returns (stream GetListUserSuggestResponse);
+
+  //The method for search member of the work flow user group
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //     "group_id": "string",
+  //      "key_word":"string"
+  // }
+  //
+  //Response:
+  // {
+  //   "data": [{
+  //     "user_id": "string",
+  //     "user_name": "string",
+  //     "email": "string",
+  //   }]
+  // }
+  rpc SearchMemberListByNameOrEmail(SearchMemberListByNameOrEmailRequest) returns (stream SearchMemberListByNameOrEmailResponse);
+
+  //The method for search workflow user group of the user email
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "email": "string",
+  // }
+  //
+  //Response:
+  // {
+  //   "data": [{
+  //     "group_id": "string",
+  //     "group_name": "string",
+  //   }]
+  // }
+  rpc SearchWorkflowUserGroupByEmail(SearchWorkflowUserGroupByEmailRequest) returns (stream SearchWorkflowUserGroupByEmailResponse);
+
+  //The method for remove member workflow user group
+  //
+  //Operation: MATCH
+  //
+  //Request:
+  // {
+  //   "group_id": "string",
+  //    "members": "array"
+  // }
+  //
+  //Response:
+  // {
+  //     "success": true
+  // }
+  rpc RemoveMemberWorkflowUserGroup(RemoveMemberWorkflowUserGroupRequest) returns (RemoveMemberWorkflowUserGroupResponse);
+
+  // Bulk import members into a workflow user group
+  //
+  // Operation: IMPORT
+  //
+  // Request:
+  // {
+  //   "group_id": "string",
+  //   "members": [
+  //     {
+  //       "email": "string",
+  //       "role": "MANAGER" or "MEMBER"
+  //     }
+  //   ]
+  // }
+  //
+  // Response:
+  // {
+  //   "success": true,
+  //   "message": "Bulk import completed successfully"
+  // }
+  rpc BulkImportMembers(BulkImportMembersRequest) returns (BulkImportMembersResponse);
+
+  // Get workflow user groups by user id
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //   "user_id": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "workflow_user_group_id": "string",
+  //   "workflow_user_group_role_name": "string"
+  // }
+  // ...
+  rpc GetWorkflowUserGroupsByUserId(GetWorkflowUserGroupsByUserIdRequest) returns (stream GetWorkflowUserGroupsByUserIdResponse);
+}

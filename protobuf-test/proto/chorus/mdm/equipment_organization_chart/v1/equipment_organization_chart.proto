@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package chorus.mdm.equipment_organization_chart.v1;
+
+import "google/protobuf/empty.proto";
+
+// The Equipment Organization Chart record information.
+message EquipmentOrganizationChart {
+  // The scc_code is the scc code of Equipment Organization Chart. scc_cd in OPUS
+  string scc_code = 1;
+  // The ecc_code is the ecc code of Equipment Organization Chart. ecc_cd in OPUS
+  string ecc_code = 2;
+  // The lcc_code is the lcc code of Equipment Organization Chart. lcc_cd in OPUS
+  string lcc_code = 3;
+  // The rcc_code is the rcc code of Equipment Organization Chart. rcc_cd in OPUS
+  string rcc_code = 4;
+}
+
+// The scc code information.
+message SccCode {
+  // The scc code
+  string scc_code = 1;
+}
+
+// The rcc code information.
+message RccCode {
+  // The rcc code
+  string rcc_code = 1;
+}
+
+// Request message for `EquipmentOrganizationChartInfoService.GetEquipmentOrganizationChartsBySccCodesRequest`.
+message GetEquipmentOrganizationChartsBySccCodesRequest {
+  // The Equipment Organization Chart scc code list
+  repeated SccCode scc_code_list = 1;
+}
+
+// Response message for `EquipmentOrganizationChartInfoService.GetEquipmentOrganizationChartsBySccCodesResponse`.
+message GetEquipmentOrganizationChartsBySccCodesResponse {
+  // The Equipment Organization Chart information
+  EquipmentOrganizationChart equipment_organization_chart = 1;
+}
+
+// Request message for `EquipmentOrganizationChartInfoService.GetEquipmentOrganizationChartsByRccCodesRequest`.
+message GetEquipmentOrganizationChartsByRccCodesRequest {
+  // The Equipment Organization Chart rcc code list
+  repeated RccCode rcc_code_list = 1;
+}
+
+// Response message for `EquipmentOrganizationChartInfoService.GetEquipmentOrganizationChartsByRccCodesResponse`.
+message GetEquipmentOrganizationChartsByRccCodesResponse {
+  // The Equipment Organization Chart information
+  EquipmentOrganizationChart equipment_organization_chart = 1;
+}
+// Response message for `EquipmentOrganizationChartInfoService.GetAllRccCodes`.
+message GetRccCodesResponse {
+  // The rcc code
+  string rcc_code = 1;
+}
+// The service that implements the EquipmentOrganizationChartInfoService definition.
+service EquipmentOrganizationChartInfoService {
+  // Get the list of Equipment Organization Charts by scc codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  //  {
+  //    "scc_code_list": [
+  //      {
+  //        "scc_code" : "BRPTV"
+  //      }
+  //    ]
+  //  }
+  //
+  // Response:
+  //  {
+  //    "equipment_organization_chart": {
+  //      "scc_code": "BRPTV",
+  //      "ecc_code": "BRPTV",
+  //      "lcc_code": "BRMAO",
+  //      "rcc_code": "PAMIT"
+  //    }
+  //  }
+  /// ...
+  rpc GetEquipmentOrganizationChartsBySccCodes(GetEquipmentOrganizationChartsBySccCodesRequest) returns (stream GetEquipmentOrganizationChartsBySccCodesResponse);
+
+  // Get the list of Equipment Organization Charts by rcc codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  //  {
+  //    "rcc_code_list": [
+  //      {
+  //        "rcc_code" : "TYOBB"
+  //      }
+  //    ]
+  //  }
+  //
+  //
+  // Response:
+  //  {
+  //    "equipment_organization_chart": {
+  //      "scc_code": "BRPTV",
+  //      "ecc_code": "BRPTV",
+  //      "lcc_code": "BRMAO",
+  //      "rcc_code": "PAMIT"
+  //    }
+  //  }
+  // ...
+  rpc GetEquipmentOrganizationChartsByRccCodes(GetEquipmentOrganizationChartsByRccCodesRequest) returns (stream GetEquipmentOrganizationChartsByRccCodesResponse);
+  // Get the list of all scc codes.
+  //
+  // Operation: MATCH
+  //
+  // Response:
+  //  {
+  //    "scc_code": "BRPTV"
+  //  }
+  // ...
+  rpc GetRccCodes(google.protobuf.Empty) returns (stream GetRccCodesResponse);
+}

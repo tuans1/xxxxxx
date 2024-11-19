@@ -1,0 +1,38 @@
+syntax = "proto3"; // Specify the syntax version of Protocol Buffers used
+
+// Import the necessary proto file for base types
+import "chorus/spm/base/v1/base.proto";
+
+package chorus.spm.rob_port_level.v1; // Define the package name
+
+// Define the message structure for RobPortLevel
+message RobPortLevel {
+    // Unique identifier for the RobPortLevel
+    string id = 1;
+    // VVD id associated with this port level
+    string vvd_configuration_id = 2;
+    // Port name or code
+    string port = 3;
+    // Bound direction (e.g., inbound, outbound)
+    string bound = 4;
+}
+
+// Define the message structure for the GetListLoadingPortRequest
+message GetListLoadingPortRequest {
+    // VVD id to filter the loading ports
+    string vvd_id = 1;
+    // Optional query parameters from the imported base.proto file
+    optional chorus.spm.base.v1.Query query = 2;
+}
+
+// Define the message structure for the ListLoadingPortsResponse
+message GetListLoadingPortResponse {
+    // List of RobPortLevel items matching the request
+    repeated RobPortLevel items = 1;
+}
+
+// Define the RobPortLevelService with a single RPC method getListLoadingPort
+service RobPortLevelService {
+    // Define the RPC method getListLoadingPort which takes a GetListLoadingPortRequest and returns a ListLoadingPortsResponse
+    rpc GetListLoadingPort (GetListLoadingPortRequest) returns (GetListLoadingPortResponse) {}
+}

@@ -1,0 +1,463 @@
+syntax = "proto3";
+
+package chorus.com.resource.v1;
+
+import "chorus/com/base/v1/base.proto";
+
+//The message for the resource
+message Resource {
+  //The resource id
+  string resource_id = 1;
+  //The resource name
+  string resource_name = 2;
+  //The resource atributes
+  string attributes = 3;
+  // The resource actions
+  string actions = 4;
+  //The product id
+  string product_id = 5;
+  //The product name
+  string product_name = 6;
+  //The is_active flag
+  bool is_active = 7;
+}
+
+//The message for the resource action method
+message ResourceActionMethod {
+  //The resource action method id
+  string resource_action_method_id = 1;
+  //The resource action id
+  string resource_action_id = 2;
+  //The resource action method seq
+  int32 resource_action_method_seq = 3;
+  //The action method
+  string method = 4;
+}
+
+//The message for the resource action
+message ResourceActionCreate {
+  //The resource action name
+  string resource_action_name = 1;
+  //The resource action type
+  string resource_action_type = 5;
+  //The method action
+  repeated string method = 2;
+  //The resource action uri
+  string uri = 3;
+  //The resource action description
+  string description = 4;
+}
+
+//The message for the resource attribute
+message ResourceAttributeCreate {
+  //The resource attribute name
+  string resource_attribute_name = 1;
+  //The resource attribute type
+  string resource_attribute_type = 2;
+}
+
+//The message request for create resource
+message CreateResourceRequest {
+  //The resource name
+  string resource_name = 1;
+  //The resource description
+  string description = 2;
+  //The resource action
+  repeated ResourceActionCreate resource_actions = 3;
+  //The resource attribute
+  repeated ResourceAttributeCreate resource_attributes = 4;
+  //The product id
+  string product_id = 5;
+  //The is_active flag
+  bool is_active = 6;
+}
+
+//The message response for create resource
+message CreateResourceResponse {
+  //The resource id
+  string resource_id = 1;
+  //The resource name
+  string resource_name = 2;
+}
+
+//The message for query resource
+message ResourceQuery {
+  //The resource name
+  optional string resource_name = 1;
+  // The product id
+  optional string product_id = 2;
+}
+
+//The message request for search resource
+message SearchResourceByNameRequest {
+  //Query
+  optional ResourceQuery query = 1;
+  //pagination
+  optional chorus.com.base.v1.Pagination pagination = 2;
+}
+
+//The message response for search resource
+message SearchResourceByNameResponse {
+  //data
+  Resource data = 1;
+  //total
+  int32 total = 2;
+}
+
+//The message request for query search resource attributes
+message ResourceAttributeQuery {
+  //The resource attribute name
+  optional string resource_attribute_name = 1;
+}
+
+//The message request for search resource attributes
+message SearchResourceAttributesRequest {
+  //Query
+  optional ResourceAttributeQuery query = 1;
+  //pagination
+  optional chorus.com.base.v1.Pagination pagination = 2;
+}
+
+//The message for the resource attribute
+message ResourceAttribute {
+  //The resource id
+  string resource_id = 1;
+  //The resource attribute id
+  string resource_attribute_id = 2;
+  //The resource attribute name
+  string resource_attribute_name = 3;
+}
+
+//The message response for search resource attributes
+message SearchResourceAttributesResponse {
+  //data
+  ResourceAttribute data = 1;
+  //total
+  int32 total = 2;
+}
+
+//The message request for get resource detail
+message GetResourceDetailRequest {
+  //The resource id
+  string resource_id = 1;
+}
+
+//The message response for get resource action detail
+message ResourceActionDetail {
+  //The resource id
+  string resource_action_id = 1;
+  //The resource action name
+  string resource_action_name = 2;
+  //The method action
+  optional string method = 3;
+  //The resource action uri
+  string uri = 4;
+  //The resource action description
+  string description = 5;
+  //The resource action method
+  repeated ResourceActionMethod resource_action_methods = 6;
+  //The resource action type
+  string resource_action_type = 7;
+}
+
+//The message response for get resource attribute detail
+message ResourceAttributeDetail {
+  //The resource attribute id
+  string resource_attribute_id = 1;
+  //The resource attribute name
+  string resource_attribute_name = 2;
+  //The resource attribute type
+  string resource_attribute_type = 3;
+}
+
+//The message response for get resource detail
+message GetResourceDetailResponse {
+  //The resource id
+  string resource_id = 1;
+  //The resource name
+  string resource_name = 2;
+  //The resource description
+  string description = 3;
+  //The is_active flag
+  bool is_active = 7;
+  //The resource action
+  repeated ResourceActionDetail resource_actions = 4;
+  //The resource attribute
+  repeated ResourceAttributeDetail resource_attributes = 5;
+  //The product id
+  string product_id = 6;
+}
+
+//The message request for update resource
+message UpdateResourceRequest {
+  //The resource id
+  string resource_id = 1;
+  //The resource name
+  string resource_name = 2;
+  //The resource description
+  string description = 3;
+  //The resource action
+  repeated ResourceActionDetail resource_actions = 4;
+  //The resource attribute
+  repeated ResourceAttributeDetail resource_attributes = 5;
+  //The product id
+  string product_id = 6;
+  //The is_active flag
+  bool is_active = 7;
+}
+
+//The message response for update resource
+message UpdateResourceResponse {
+  //The result of update resource
+  bool result = 1;
+}
+
+//The message request for delete resource
+message DeleteResourceRequest {
+  //The resource id
+  string resource_id = 1;
+}
+
+//The message response for delete resource
+message DeleteResourceResponse {
+  //The result of delete resource
+  bool result = 1;
+}
+
+//The message for resource action type screen
+message ResourceActionTypeScreen {
+  //The resource name
+  string resource_name = 1;
+  //The resource action id
+  string resource_action_id = 2;
+  //The resource action uri
+  string uri = 3;
+}
+
+//The message request for get resource action type screen
+message GetResourceActionsTypeScreenRequest {
+  //The product id
+  string product_id = 1;
+}
+
+//The message response for get resource action type screen
+message GetResourceActionsTypeScreenResponse {
+  //The result of get resource action type screen
+  ResourceActionTypeScreen resource_action = 1;
+}
+//The message request for set active flag resource
+message SetActiveFlagResourceRequest {
+  //The resource id
+  string resource_id = 1;
+  //The is_active flag
+  bool is_active = 2;
+}
+//The message response for set active flag resource
+message SetActiveFlagResourceResponse {
+  //The result of set active flag resource
+  bool result = 1;
+}
+//The service for resource
+service ResourceService {
+  //The method for create resource
+  //
+  //Operation: CREATE
+  //
+  // Request:
+  // {
+  //     "resource_name": "resource_name",
+  //     "description": "description",
+  //      "product_id": "product_id",
+  //      "is_active": "is_active",
+  //     "resource_actions": [
+  //         {
+  //             "resource_action_name": "resource_action_name",
+  //             "method": "method",  //get,post,put,patch,delete
+  //             "uri": "uri",
+  //             "description": "description"
+  //         }
+  //     ],
+  //     "resource_attributes": [
+  //         {
+  //             "resource_attribute_name": "resource_attribute_name",
+  //             "resource_attribute_type": "resource_attribute_type" //string,number,array,boolean
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "resource_id": "resource_id",
+  //     "resource_name": "resource_name"
+  // }
+  rpc CreateResource(CreateResourceRequest) returns (CreateResourceResponse);
+  //The method for search resource
+  //
+  //Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "query": {
+  //         "resource_name": "resource_name"
+  //     },
+  //     "pagination": {
+  //         "page_number": 1,
+  //         "page_size": 10
+  //     }
+  // }
+  //
+  // Response:
+  // {
+  //     "data": {
+  //         "resource_id": "resource_id",
+  //         "resource_name": "resource_name",
+  //         "attributes": "attributes",
+  //         "actions" : "actions",
+  //         "product_id": "product_id",
+  //         "product_name": "product_name",
+  //         "is_active": "is_active"
+  //     },
+  //     "total": 1
+  // }
+  rpc SearchResourceByName(SearchResourceByNameRequest) returns (stream SearchResourceByNameResponse);
+  //The method for search resource attributes
+  //
+  //Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "query": {
+  //         "resource_attribute_name": "resource_attribute_name"
+  //     },
+  //     "pagination": {
+  //         "page_number": 1,
+  //         "page_size": 10
+  //     }
+  // }
+  //
+  // Response:
+  // {
+  //     "data": {
+  //         "resource_id": "resource_id",
+  //         "resource_attribute_id": "resource_attribute_id",
+  //         "resource_attribute_name": "resource_attribute_name"
+  //     },
+  //     "total": 1
+  // }
+  rpc SearchResourceAttributes(SearchResourceAttributesRequest) returns (stream SearchResourceAttributesResponse);
+  //The method for get resource detail
+  //
+  //Operation: GET
+  //
+  // Request:
+  // {
+  //     "resource_id": "resource_id"
+  // }
+  //
+  // Response:
+  // {
+  //     "resource_id": "resource_id",
+  //     "resource_name": "resource_name",
+  //     "description": "description",
+  //     "resource_actions": [
+  //         {
+  //             "resource_action_id": "resource_action_id",
+  //             "resource_action_name": "resource_action_name",
+  //             "method": "method",
+  //             "uri": "uri",
+  //             "description": "description"
+  //         }
+  //     ],
+  //     "resource_attributes": [
+  //         {
+  //             "resource_attribute_id": "resource_attribute_id",
+  //             "resource_attribute_name": "resource_attribute_name",
+  //             "resource_attribute_type": "resource_attribute_type"
+  //         }
+  //     ]
+  // }
+  rpc GetResourceDetail(GetResourceDetailRequest) returns (GetResourceDetailResponse);
+  //The method for update resource
+  //
+  //Operation: UPDATE
+  //
+  // Request:
+  // {
+  //     "resource_id": "resource_id",
+  //     "resource_name": "resource_name",
+  //     "description": "description",
+  //     "product_id": "product_id",
+  //     "is_active": "is_active",
+  //     "resource_actions": [
+  //         {
+  //             "resource_action_id": "resource_action_id",
+  //             "resource_action_name": "resource_action_name",
+  //             "method": "method",
+  //             "uri": "uri",
+  //             "description": "description"
+  //         }
+  //     ],
+  //     "resource_attributes": [
+  //         {
+  //             "resource_attribute_id": "resource_attribute_id",
+  //             "resource_attribute_name": "resource_attribute_name",
+  //             "resource_attribute_type": "resource_attribute_type"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "result": true
+  // }
+  rpc UpdateResource(UpdateResourceRequest) returns (UpdateResourceResponse);
+  //The method for delete resource
+  //
+  //Operation: DELETE
+  //
+  // Request:
+  // {
+  //     "resource_id": "resource_id"
+  // }
+  //
+  // Response:
+  // {
+  //     "result": true
+  // }
+  rpc DeleteResource(DeleteResourceRequest) returns (DeleteResourceResponse);
+
+  //The method get resource action type screen
+  //
+  //Operation: ALL
+  //
+  // Request:
+  // {
+
+  // }
+  //
+  // Response:
+  // {
+  //     resource_action:
+  //        {
+  //          resource_name = "resource_name",
+  //          resource_action_id = "resource_action_id",
+  //          uri = "uri",
+  //        }
+  // }
+  rpc GetResourceActionsTypeScreen(GetResourceActionsTypeScreenRequest) returns (stream GetResourceActionsTypeScreenResponse);
+  //The method for set Active Flag Resource
+  //
+  //Operation: UPDATE
+  //
+  // Request:
+  // {
+  //     "resource_id": "resource_id",
+  //     "is_active": "is_active"
+  // }
+  //
+  // Response:
+  // {
+  //     "result": true
+  // }
+  rpc SetActiveFlagResource(SetActiveFlagResourceRequest) returns (SetActiveFlagResourceResponse);
+}

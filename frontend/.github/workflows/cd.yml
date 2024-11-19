@@ -1,0 +1,88 @@
+name: CD
+
+on:
+    workflow_call:
+        inputs:
+            delivery-environment:
+                type: string
+                required: true
+            delivery-region:
+                type: string
+                required: true
+            docker-registry:
+                type: string
+                required: true
+            artifact-registry:
+                type: string
+                required: true
+        secrets:
+            SERVICE_ACCOUNT_KEY:
+                required: true
+            CONFIG_REPO_SYNC_DEPLOYMENT_WORKFLOW_PAT:
+                required: true
+            GCP_ENV_SECRET_ID:
+                required: true
+
+jobs:
+    build-and-delivery:
+        environment: ${{ inputs.delivery-environment }}
+        name: Build & Delivery
+        runs-on: [om-vsm-runner]
+        steps:
+            - name: Checkout Branch "${{ github.head_ref || github.ref_name }}"
+              uses: actions/checkout@v4
+
+            - name: Auth Google Cloud Github Action
+              id: 'auth'
+              uses: 'google-github-actions/auth@v1'
+              with:
+                  credentials_json: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+            - name: Setup Google Cloud SDK
+              uses: 'google-github-actions/setup-gcloud@v1'
+
+            - name: Check Google Cloud Info
+              run: 'gcloud info'
+
+            - name: Get GCP Secrets
+              id: secrets
+              uses: 'google-github-actions/get-secretmanager-secrets@v2'
+              with:
+                  secrets: |-
+                      env:${{ secrets.GCP_ENV_SECRET_ID }}
+
+            - name: Configure Docker Client
+              run: |
+                  gcloud auth configure-docker --quiet
+                  gcloud auth configure-docker ${{ inputs.docker-registry }} --quiet
+
+            - name: Build & Push Image To Artifact Registry "${{ inputs.artifact-registry }}"
+              run: |
+                  echo "${{ steps.secrets.outputs.env }}" > .env
+                  export IMAGE_NAME=${{ inputs.artifact-registry }}/${{ github.event.repository.name }}:${{ github.sha }}
+                  docker build -t $IMAGE_NAME --secret id=npm-token,env=NPM_TOKEN .
+                  docker push $IMAGE_NAME
+                  echo "Built Image: $IMAGE_NAME"
+
+    dispatch-deployment:
+        name: Dispatch Sync Deployment
+        runs-on: [om-vsm-runner]
+        needs: [build-and-delivery]
+        steps:
+            - name: Dispatch Sync Deployment To "${{ inputs.delivery-environment }}"
+              uses: actions/github-script@v6
+              with:
+                  github-token: ${{ secrets.CONFIG_REPO_SYNC_DEPLOYMENT_WORKFLOW_PAT }}
+                  script: |
+                      await github.rest.actions.createWorkflowDispatch({
+                        owner: 'ocean-network-express',
+                        repo: 'om-vsm-config',
+                        workflow_id: 'sync-deployment.yml',
+                        ref: 'main',
+                        inputs: {
+                          repository: '${{ github.event.repository.name }}',
+                          image: '${{ inputs.artifact-registry }}/${{ github.event.repository.name }}:${{ github.sha }}',
+                          env: '${{ inputs.delivery-environment }}',
+                          message: 'Deploy "${{ github.event.repository.name }}" to "${{ inputs.delivery-region }}/${{ inputs.delivery-environment }}"',
+                        },
+                      });

@@ -1,0 +1,41 @@
+{
+	"name": "@ocean-network-express/om-spm-protobuf",
+	"version": "4.0.91",
+	"description": "",
+	"main": "./dist/index.js",
+	"scripts": {
+		"gen": "cd ../../../proto && buf generate --path chorus/spm --output ../build/chorus/spm --template buf.index.gen.yaml && buf generate --path chorus/spm --output ../build/chorus/spm --template buf.gen.yaml && cp -r chorus/spm/* ../build/chorus/spm/",
+		"tsc-build": "tsc",
+		"lint": "buf lint",
+		"build": "buf build",
+		"breaking": "buf breaking ./ --against 'https://github.com/ocean-network-express/om-protobuf.git#branch=main,ref=HEAD~1,subdir=proto/chorus/spm'",
+		"merge-markdown": "merge-markdown -m ../../../docs/merge-spm-markdown.config.yaml --nolinkcheck"
+	},
+	"exports": {
+		"./*": {
+			"import": "./dist/*",
+			"types": "./dist/*.d.ts",
+			"require": "./dist/*.js"
+		}
+	},
+	"files": [
+		"*",
+		"!*.json",
+		"!*.yaml",
+		"!proto-gen"
+	],
+	"typesVersions": {
+		"*": {
+			"*": [
+				"./dist/*.d.ts"
+			]
+		}
+	},
+	"dependencies": {
+		"@bufbuild/buf": "^1.26.1"
+	},
+	"devDependencies": {
+		"@knennigtri/merge-markdown": "^1.1.0",
+		"typescript": "^5.2.2"
+	}
+}

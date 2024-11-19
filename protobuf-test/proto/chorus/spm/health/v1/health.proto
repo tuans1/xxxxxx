@@ -1,0 +1,59 @@
+syntax = "proto3";  // Specify the syntax version as proto3
+
+// Define the package for the health check service
+package chorus.spm.health.v1;
+
+// Message for health check request
+message CheckRequest {
+  // Name of the service to check
+  string service = 1;
+}
+
+// Message for health check response
+message CheckResponse {
+  // Enum representing the serving status of the service
+  enum ServingStatus {
+    // Status is unknown
+    SERVING_STATUS_UNKNOWN_UNSPECIFIED = 0;
+    // Service is up and running
+    SERVING_STATUS_SERVING = 1;
+    // Service is not running
+    SERVING_STATUS_NOT_SERVING = 2;
+    // Service status unknown, used only by the Watch method
+    SERVING_STATUS_SERVICE_UNKNOWN = 3;
+  }
+  // The current serving status of the service
+  ServingStatus status = 1;
+}
+
+// Message for health watch request
+message WatchRequest {
+  // Name of the service to watch
+  string service = 1;
+}
+
+// Message for health watch response
+message WatchResponse {
+  // Enum representing the serving status of the service
+  enum ServingStatus {
+    // Status is unknown
+    SERVING_STATUS_UNKNOWN_UNSPECIFIED = 0;
+    // Service is up and running
+    SERVING_STATUS_SERVING = 1;
+    // Service is not running
+    SERVING_STATUS_NOT_SERVING = 2;
+    // Service status unknown, used only by the Watch method
+    SERVING_STATUS_SERVICE_UNKNOWN = 3;
+  }
+  // The current serving status of the service
+  ServingStatus status = 1;
+}
+
+// Service definition for health checking
+service HealthService {
+  // Unary RPC for checking the health of a service
+  rpc Check(CheckRequest) returns (CheckResponse);
+
+  // Server-side streaming RPC for watching the health of a service
+  rpc Watch(WatchRequest) returns (stream WatchResponse);
+}

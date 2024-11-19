@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package chorus.mdm.revenue_lane.v1;
+
+// The revenue lane information.
+message RevenueLane {
+  // The revenue_lane_code is the code of Revenue Lane. rlane_cd in OPUS
+  string revenue_lane_code = 1;
+  // The revenue_lane_name is the name of Revenue Lane. rlane_nm in OPUS
+  string revenue_lane_name = 2;
+}
+
+// The revenue lane code information.
+message RevenueLaneCode {
+  // The code of the revenue lane
+  string revenue_lane_code = 1;
+}
+
+// Request message for `RevenueLaneInfoService.GetRevenueLanesByCodes`.
+message GetRevenueLanesByCodesRequest {
+  // The RevenueLaneCode list
+  repeated RevenueLaneCode revenue_lane_code_list = 1;
+}
+
+// Response message for `RevenueLaneInfoService.GetRevenueLanesByCodes`.
+message GetRevenueLanesByCodesResponse {
+  // The RevenueLane information
+  RevenueLane revenue_lane = 1;
+}
+
+// The service that implements the RevenueLaneInfoService definition.
+service RevenueLaneInfoService {
+  // Get all list of revenue lanes by codes
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "revenue_lane_code_list": [
+  //         {
+  //             "revenue_lane_code": "EFE"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "revenue_lane": {
+  //         "revenue_lane_code": "EFE",
+  //         "revenue_lane_name": "EAST AFRICA - ASIA (EB)",
+  //     }
+  // }
+  // ...
+  rpc GetRevenueLanesByCodes(GetRevenueLanesByCodesRequest) returns (stream GetRevenueLanesByCodesResponse);
+}

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package chorus.mdm.base.v1;
+
+// Order Direction
+enum SortBy {
+    // unspecified
+    SORT_BY_UNSPECIFIED = 0;
+    // Ascending
+    SORT_BY_ASC = 1;
+    // Descending
+    SORT_BY_DESC = 2;
+}
+
+// OderBy Field
+message OrderBy {
+    // The field name
+    string field_name = 1;
+    // The order direction
+    SortBy sort_by = 2;
+}
+
+// Pagination info
+message Pagination {
+  // The offset of the list;
+  int32 offset = 1;
+  // The limit number of records of the list;
+  int32 limit = 2;
+}
+
+// Optional field
+message Option {
+  // The start with condition for search;
+  bool start_with = 1;
+}

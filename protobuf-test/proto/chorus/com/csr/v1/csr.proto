@@ -1,0 +1,180 @@
+syntax = "proto3";
+
+package chorus.com.csr.v1;
+
+// The Csr information.
+message Csr {
+    // The business name of csr: CSR, SPM ...
+    string business = 1;
+    // The request id of csr.
+    string request_id = 2;
+    // The amount of csr.
+    double amount = 3;
+    // The requestor name of csr.
+    string requestor_name = 4;
+    // The requestor email of csr.
+    string requestor_email = 5;
+    // The first approver name of csr.
+    string first_approver_name = 6;
+    // The first approver email of csr.
+    string first_approver_email = 7;
+    // The second approver name of csr.
+    string second_approver_name = 8;
+    // The second approver email of csr.
+    string second_approver_email = 9;
+    // The redirect url of csr.
+    string redirect_url = 10;
+}
+
+// Request message for `CsrInfoService.GetCsrById`.
+message GetCsrByIdRequest {
+    // The request id of csr.
+    string request_id = 1;
+}
+
+// Response message for `CsrInfoService.GetCsrById`.
+message GetCsrByIdResponse {
+    // The Csr information.
+    Csr csr = 1;
+}
+
+// Request message for `CsrInfoService.CreateCsr`.
+message CreateCsrRequest {
+    // The Csr information.
+    Csr csr = 1;
+}
+
+// Response message for `CsrInfoService.CreateCsr`.
+message CreateCsrResponse {
+    // The status response.
+    bool status = 1;
+    // The message response.
+    string message = 2;
+}
+
+// Request message for `CsrInfoService.UpdateCsr`.
+message UpdateCsrRequest {
+    // The request id of csr.
+    string request_id = 1;
+    // The amount of csr.
+    double amount = 2;
+}
+
+// Response message for `CsrInfoService.UpdateCsr`.
+message UpdateCsrResponse {
+    // The status response.
+    bool status = 1;
+    // The message response.
+    string message = 2;
+}
+
+// Request message for `CsrInfoService.ApprovalCsr`.
+message ApprovalCsrRequest {
+    // The approver name of csr.
+    string approver_name = 1;
+    // The approver email of csr.
+    string approver_email = 2;
+    // The value of approval
+    bool is_approved = 3;
+    // The request id of csr.
+    string request_id = 4;
+
+}
+
+// Response message for `CsrInfoService.ApprovalCsr`.
+message ApprovalCsrResponse {
+    // The status response.
+    bool status = 1;
+    // The message response.
+    string message = 2;
+}
+
+// Services for csr.
+service CsrInfoService {
+    // Get csr information by Id.
+    // 
+    // Operation: MATCH
+    //
+    // Request:
+    // {
+    //     "request_id" : "11501021"
+    // }
+    // 
+    // Response:
+    // {
+    //     "csr": {
+    //         "business": "CSR",
+    //         "request_id": "11501021",
+    //         "amount": "100.00",
+    //         "requestor_name": "system",
+    //         "requestor_email": "system@one-line.com",
+    //         "first_approver_name": "approver1",
+    //         "first_approver_email": "approver1@one-line.com",
+    //         "second_approver_name": "approver2",
+    //         "second_approver_email": "approver2@one-line.com",
+    //         "redirect_url": "https://chorus-dev.one-line.com/csr/",
+    //     }
+    // }
+    rpc GetCsrById(GetCsrByIdRequest) returns (GetCsrByIdResponse);
+
+    // Create csr information.
+    // 
+    // Operation: CREATE
+    //
+    // Request:
+    //     "csr": {
+    //         "business": "CSR",
+    //         "request_id": "11501021",
+    //         "amount": "100.00",
+    //         "requestor_name": "system",
+    //         "requestor_email": "system@one-line.com",
+    //         "first_approver_name": "approver1",
+    //         "first_approver_email": "approver1@one-line.com",
+    //         "second_approver_name": "approver2",
+    //         "second_approver_email": "approver2@one-line.com",
+    //         "redirect_url": "https://chorus-dev.one-line.com/csr/",
+    //     }
+    // 
+    // Response:
+    // {
+    //     "status" : true,
+    //     "message" : ''
+    // }
+    rpc CreateCsr(CreateCsrRequest) returns (CreateCsrResponse);
+
+    // Update csr information.
+    // 
+    // Operation: UPDATE
+    //
+    // Request:
+    // {
+    //     "request_id": "11501021",
+    //     "amount": "100.00",
+    // }
+    // 
+    // Response:
+    // {
+    //     "status" : true,
+    //     "message" : ''
+    // }
+    rpc UpdateCsr(UpdateCsrRequest) returns (UpdateCsrResponse);
+
+    // Approval csr information.
+    // 
+    // Operation: APPROVAL
+    //
+    // Request:
+    // {
+    //     "request_id": "11501021",
+    //     "approver_name": "approver1",
+    //     "approver_email": "approver1@one-line.com",
+    //     "is_approved": true,
+    // }
+    // 
+    // Response:
+    // {
+    //     "status" : true,
+    //     "message" : ''
+    // }
+    rpc ApprovalCsr(ApprovalCsrRequest) returns (ApprovalCsrResponse);
+}

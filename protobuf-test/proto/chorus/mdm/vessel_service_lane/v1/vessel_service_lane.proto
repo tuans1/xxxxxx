@@ -1,0 +1,192 @@
+syntax = "proto3";
+
+package chorus.mdm.vessel_service_lane.v1;
+
+import "chorus/mdm/base/v1/base.proto";
+
+// The vessel service lane information.
+message VesselServiceLane {
+  // The vessel_service_lane_code is the code of the vessel service lane. vsl_slan_cd in OPUS.
+  string vessel_service_lane_code = 1;
+  // The vessel_service_lane_name  is the name of the vessel service lane. vsl_slan_nm in OPUS.
+  string vessel_service_lane_name = 2;
+  // The vessel_service_type_code  is the type code of the vessel service lane. vsl_svc_tp_cd in OPUS.
+  string vessel_service_type_code = 3;
+}
+
+// The vessel service lane direction information.
+message VesselServiceLaneDirection {
+  // The vessel_service_lane_code is the code of the vessel service lane. vsl_slan_cd in OPUS.
+  string vessel_service_lane_code = 1;
+  // The vessel_service_lane_direction_code is the code of the vessel service lane direction. vsl_slan_dir_cd in OPUS.
+  string vessel_service_lane_direction_code = 2;
+  // The vessel_service_lane_direction_sequence is the sequence of the vessel service lane direction. vsl_slan_dir_seq in OPUS.
+  int32 vessel_service_lane_direction_sequence = 3;
+}
+
+// The vessel service lane code information.
+message VesselServiceLaneCode {
+  // The code of the vessel service lane.
+  string vessel_service_lane_code = 1;
+}
+
+// Request message for `VesselServiceLaneInfoService.GetVesselServiceLanesByCodes`.
+message GetVesselServiceLanesByCodesRequest {
+  // The vessel service lane code list.
+  repeated VesselServiceLaneCode vessel_service_lane_code_list = 1;
+}
+
+// Response message for `VesselServiceLaneInfoService.GetVesselServiceLanesByCodes`.
+message GetVesselServiceLanesByCodesResponse {
+  // The vessel service lane information.
+  VesselServiceLane vessel_service_lane = 1;
+  // The vessel service lane direction information.
+  repeated VesselServiceLaneDirection vessel_service_lane_direction = 2;
+}
+
+// Request message for `VesselServiceLaneInfoService.SearchVesselServiceLanesByName`.
+message SearchVesselServiceLanesByNameRequest {
+  // The vessel service lane name.
+  string vessel_service_lane_name = 1;
+}
+
+// Response message for `VesselServiceLaneInfoService.SearchVesselServiceLanesByName`.
+message SearchVesselServiceLanesByNameResponse {
+  // The vessel service lane information.
+  VesselServiceLane vessel_service_lane = 1;
+  // The vessel service lane direction information.
+  repeated VesselServiceLaneDirection vessel_service_lane_direction = 2;
+}
+
+// Request message for `VesselServiceLaneInfoService.SearchVesselServiceLanesByMultipleFields`.
+message SearchVesselServiceLanesByMultipleFieldsRequest {
+  // The code of the vessel service lane.
+  optional string vessel_service_lane_code = 1;
+  // The name of the vessel service lane.
+  optional string vessel_service_lane_name = 2;
+  // The code of the vessel service lane type.
+  optional string vessel_service_type_code = 3;
+  // The pagination info.
+  chorus.mdm.base.v1.Pagination pagination = 4;
+  // The order by list
+  repeated chorus.mdm.base.v1.OrderBy order_by = 5;
+}
+
+// The vessel service lane code information.
+message VesselServiceLaneInfo {
+  // The code of the vessel service lane. vsl_slan_cd in OPUS.
+  string vessel_service_lane_code = 1;
+  // The name of the vessel service lane. vsl_slan_nm in OPUS.
+  string vessel_service_lane_name = 2;
+  // The code of the vessel service lane type. vsl_svc_tp_cd in OPUS.
+  string vessel_service_type_code = 3;
+  // The integration_code_value_display_description is the integration code value display description. intg_cd_val_dp_desc in OPUS.
+  string integration_code_value_display_description = 4;
+  // The total_row_count total records of the search request.
+  int32 total_row_count = 5;
+}
+
+// Response message for `VesselServiceLaneInfoService.SearchVesselServiceLanesByMultipleFields`.
+message SearchVesselServiceLanesByMultipleFieldsResponse {
+  // The vessel service lane information.
+  VesselServiceLaneInfo vessel_service_lane_info = 1;
+}
+
+// Services for vessel service lane.
+service VesselServiceLaneInfoService {
+  // Get list of vessel service lanes by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vessel_service_lane_code_list": [
+  //         {
+  //             "vessel_service_lane_code": "9VV"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel_service_lane_direction": [
+  //         {
+  //             "vessel_service_lane_code": "9VV",
+  //             "vessel_service_lane_direction_code": "N",
+  //             "vessel_service_lane_direction_sequence": 1
+  //         },
+  //         {
+  //             "vessel_service_lane_code": "9VV",
+  //             "vessel_service_lane_direction_code": "S",
+  //             "vessel_service_lane_direction_sequence": 2
+  //         }
+  //     ],
+  //     "vessel_service_lane": {
+  //         "vessel_service_lane_code": "9VV",
+  //         "vessel_service_lane_name": "HO CHI MINH - HAIPHONG",
+  //         "vessel_service_type_code": "C"
+  //     }
+  // }
+  // ...
+  rpc GetVesselServiceLanesByCodes(GetVesselServiceLanesByCodesRequest) returns (stream GetVesselServiceLanesByCodesResponse);
+
+  // Get list of vessel service lanes by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "vessel_service_lane_name": "HO CHI MINH"
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel_service_lane_direction": [
+  //         {
+  //             "vessel_service_lane_code": "9VV",
+  //             "vessel_service_lane_direction_code": "N",
+  //             "vessel_service_lane_direction_sequence": 1
+  //         },
+  //         {
+  //             "vessel_service_lane_code": "9VV",
+  //             "vessel_service_lane_direction_code": "S",
+  //             "vessel_service_lane_direction_sequence": 2
+  //         }
+  //     ],
+  //     "vessel_service_lane": {
+  //         "vessel_service_lane_code": "9VV",
+  //         "vessel_service_lane_name": "HO CHI MINH - HAIPHONG",
+  //         "vessel_service_type_code": "C"
+  //     }
+  // }
+  // ...
+  rpc SearchVesselServiceLanesByName(SearchVesselServiceLanesByNameRequest) returns (stream SearchVesselServiceLanesByNameResponse);
+
+  // Search list of vessel service lanes by multiple fields.
+  //
+  // Operation: LIKE & MATCH
+  //
+  // Request:
+  // {
+  //     "vessel_service_lane_code" : "9VV",
+  //     "vessel_service_lane_name" : "HO CHI MINH - HAIPHONG",
+  //     "vessel_service_type_code" : "O",
+  //     "pagination" : {
+  //         offset : 0,
+  //         limit : 10,
+  //     },
+  // }
+  //
+  // Response:
+  // {
+  //     "vessel_service_lane_info": {
+  //         "vessel_service_lane_code": "9VV",
+  //         "vessel_service_lane_name": "HO CHI MINH - HAIPHONG",
+  //         "vessel_service_type_code": "O",
+  //         "integration_code_value_display_description": "ONE",
+  //         "totalRowCount": 1
+  //     }
+  // }
+  // ...
+  rpc SearchVesselServiceLanesByMultipleFields(SearchVesselServiceLanesByMultipleFieldsRequest) returns (stream SearchVesselServiceLanesByMultipleFieldsResponse);
+}

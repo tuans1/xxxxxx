@@ -1,0 +1,49 @@
+name: Pull request
+on:
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - main
+      - develop
+jobs:
+  build:
+    runs-on: [om-com-runner]
+    steps:
+      # Run `git checkout`
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@ocean-network-express"
+          cache: "npm"
+
+      # Install the `buf` CLI
+      - uses: bufbuild/buf-setup-action@v1
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - uses: bufbuild/buf-lint-action@v1
+        with:
+          input: proto
+
+      - uses: bufbuild/buf-breaking-action@v1
+        with:
+          input: "proto"
+          against: "https://github.com/ocean-network-express/om-protobuf.git#branch=main,ref=HEAD~1,subdir=proto"
+      # - name: Buf breaking
+      #   run: |
+      #     npm run breaking ---workspaces
+      # Run breaking change detection against the `main` branch
+      # - name: Breaking changes
+      #   uses: bufbuild/buf-breaking-action@v1
+      #   with:
+      #     input: "proto/chorus/mdm"
+      #     against: "https://github.com/ocean-network-express/om-protobuf.git#branch=main,ref=HEAD~1,subdir=proto/chorus/mdm"
+
+      # - name: Tyscirpt build
+      #   run: |
+      #     npm run gen --workspaces

@@ -1,0 +1,79 @@
+syntax = "proto3";  // Specify the syntax version as proto3
+
+// Import statements for dependencies
+// Import SaleMainOffice definitions
+import "chorus/spm/sale_main_office/v1/sale_main_office.proto";
+// Import OpenCaseReason definitions
+import "chorus/spm/open_case_reason/v1/open_case_reason.proto";
+
+package chorus.spm.shortfall_case.v1;  // Define the package name
+
+// Message representing a shortfall case
+message ShortfallCase {
+    // Unique identifier for the shortfall case
+    string id = 1;
+    // Type of cargo
+    string cargo_type = 2;
+    // Returnable TEU (Twenty-foot Equivalent Unit)
+    double returnable_teu = 3;
+    // Returnable weight
+    double returnable_wgt = 4;
+    // Optional acceptable TEU
+    optional double acceptable_teu = 5;
+    // Optional acceptable weight
+    optional double acceptable_wgt = 6;
+    // Requester's sale office information
+    chorus.spm.sale_main_office.v1.SaleMainOffice requester_sale_office = 7;
+    // Due date for the shortfall case
+    string due_date = 8;
+    // List of reasons for the request
+    repeated chorus.spm.open_case_reason.v1.OpenCaseReason request_reasons = 9;
+    // Optional other reason for the request
+    optional string request_other_reason = 10;
+    // Optional additional comment
+    optional string additional_comment = 11;
+    // Optional reason for rejection
+    optional string reject_reason = 12;
+    // Optional returnable OOG (Out of Gauge)
+    optional double returnable_oog = 13;
+    // Optional returnable void
+    optional double returnable_void = 14;
+    // Optional number of reefer plug units requested
+    optional int32 request_reefer_plug_unit = 15;
+    // Optional reason for cancellation
+    optional string cancel_reason = 16;
+    // Optional reason for pending status
+    optional string pending_reason = 17;
+    // Code of the discharge port for the case (optional)
+    optional string pod_code = 18;
+    // Bound of the discharge port for the case (optional)
+    optional string pod_bound = 19;
+}
+
+// Response message for opening a shortfall case
+message OpenShortfallCaseResponse {
+    // Unique identifier for the shortfall case
+    string id = 1;
+    // Type of cargo
+    string cargo_type = 2;
+    // Returnable TEU
+    double returnable_teu = 3;
+    // Returnable weight
+    double returnable_wgt = 4;
+    // Acceptable TEU
+    double acceptable_teu = 5;
+    // Acceptable weight
+    double acceptable_wgt = 6;
+    // Due date for the shortfall case
+    string due_date = 7;
+    // Optional other reason for the request
+    optional string request_other_reason = 8;
+    // Optional additional comment
+    optional string additional_comment = 9;
+    // Optional returnable OOG
+    optional double returnable_oog = 10;
+    // Optional returnable void
+    optional double returnable_void = 11;
+    // Optional number of reefer plug units requested
+    optional int32 request_reefer_plug_unit = 12;
+}

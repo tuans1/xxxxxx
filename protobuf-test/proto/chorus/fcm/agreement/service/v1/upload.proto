@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package chorus.fcm.agreement.service.v1;
+
+import "chorus/fcm/agreement/upload/v1/upload.proto";
+
+// Upload Service
+service UploadService {
+  /**
+     Save upload file
+     Request:
+     {
+     	   "uploads": [
+     	   	{
+     	   		objectName: "objectName",
+     	   		fileName: "fileName",
+     	   		fileType: "fileType",
+     	   		fileUrl: "fileUrl",
+     	   	}
+     	   ]
+     }
+
+     Response:
+     {
+     	   "uploads": [
+     	   	{
+     	   		id: 0,
+     	   		objectName: "objectName",
+     	   		fileName: "fileName",
+     	   		fileType: "fileType",
+     	   		fileUrl: "fileUrl",
+     	   	}
+     	   ]
+     }
+  */
+  rpc SaveUploadFile(chorus.fcm.agreement.upload.v1.SaveUploadFileRequest) returns (chorus.fcm.agreement.upload.v1.SaveUploadFileResponse);
+
+  /**
+     Get upload file by id
+     Request:
+     {
+        	"id": 10
+     }
+
+     Response:
+     {
+     	   "upload": {
+           	id: 10,
+           	objectName: "",
+           	fileName: "",
+           	fileType: "",
+           	fileUrl: "",
+         }
+     }
+  */
+  rpc GetUploadFileById(chorus.fcm.agreement.upload.v1.GetUploadFileByIdRequest) returns (chorus.fcm.agreement.upload.v1.GetUploadFileByIdResponse);
+
+  /**
+     Get upload file by id
+     Request:
+     {
+        	"agreementId": "a72d2c8b-de1b-48c8-bb1e-6ab46b3b3488"
+     }
+
+     Response:
+     {
+     	   "uploads": [
+     	   	{
+     	   		id: "id",
+     	   		objectName: "objectName",
+     	   		fileName: "fileName",
+     	   		fileType: "fileType",
+     	   		fileUrl: "fileUrl",
+     	   	}
+     	   ]
+     }
+  */
+  rpc GetUploadFileByAgreementId(chorus.fcm.agreement.upload.v1.GetUploadFileByAgreementIdRequest) returns (chorus.fcm.agreement.upload.v1.GetUploadFileByAgreementIdResponse);
+}

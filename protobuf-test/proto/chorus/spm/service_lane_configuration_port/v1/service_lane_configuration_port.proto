@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+import "chorus/spm/base/v1/base.proto";
+
+package chorus.spm.service_lane_configuration_port.v1;
+
+// Represents a service lane configuration port with its attributes
+message ServiceLaneConfigurationPort {
+    // Unique identifier for the service lane configuration port
+    string id = 1;
+    // Identifier for the service lane configuration
+    string service_lane_configuration_id = 2;
+    // Name of the port
+    string port = 3;
+    // Optional bound information
+    optional string bound = 4;
+    // Order of the port in the configuration
+    int32 order = 5;
+    // Type of the port
+    string port_type = 6;
+    // Optional aggregated port information
+    optional string aggregated_port = 7;
+}
+
+// Request message for retrieving a list of discharge ports by service lane configuration ID
+message GetListDischargePortRequest {
+    // ID of the service lane configuration for which discharge ports are requested
+    string service_lane_configuration_id = 1;
+    // Optional query parameters
+    optional chorus.spm.base.v1.Query query = 2;
+}
+
+// Response message containing a list of discharge ports
+message GetListDischargePortResponse {
+    // List of service lane configuration ports
+    repeated ServiceLaneConfigurationPort items = 1;
+}
+
+// Service for managing service lane configuration ports
+service ServiceLaneConfigurationPortService {
+    // Retrieves a list of discharge ports associated with a specific service lane configuration ID
+    rpc GetListDischargePort (GetListDischargePortRequest) returns (GetListDischargePortResponse) {}
+}

@@ -1,0 +1,360 @@
+syntax = "proto3";  // Specify the syntax version as proto3
+
+// Import statements for dependencies
+import "chorus/spm/base/v1/base.proto"; // Import base-related definitions
+import "chorus/spm/user/v1/user.proto"; // Import user-related definitions
+import "chorus/spm/service_lane/v1/service_lane.proto";  // Import service lane definitions
+
+package chorus.spm.vvd.v1;  // Define the package name for VVD (Voyage/Vessel Details)
+
+// Enum representing VVD status
+enum VvdStatusEnum {
+  // VVD is open
+  VVD_STATUS_ENUM_OPEN_UNSPECIFIED = 0;  
+  // VVD has sailed
+  VVD_STATUS_ENUM_SAILED = 1;
+  // VVD is void
+  VVD_STATUS_ENUM_VOID = 2;
+}
+
+// Message representing a VVD code
+message VvdCode {
+  // The VVD code
+  string code = 1;
+}
+
+// Request message to get VVD summary
+message GetVvdSummaryRequest {
+  // VVD code
+  string code = 1;
+  // Trade code
+  string trade_code = 2;
+  // Revenue code
+  string revenue_lane_code = 3;
+  // Optional user information
+  optional chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Message for VVD summary response
+message GetVvdSummaryResponse {
+  // Sales week of the VVD
+  string sales_week = 1;
+  // VVD code
+  string code = 2;
+  // Vessel code
+  string vessel_code = 3;
+  // Previous VVD code
+  string previous_code = 4;
+  // Service lane details
+  chorus.spm.service_lane.v1.ServiceLane service_lane = 5;
+  // Status of the VVD
+  string status = 6;
+  // Number of open cases
+  int64 open_case = 7;
+  // Unique identifier for the VVD
+  string id = 8;
+}
+
+// Message representing VVD details
+message Vvd {
+  // Unique identifier for the VVD
+  string id = 1;
+  // VVD code
+  string code = 2;
+  // Flag indicating if a port is omitted
+  bool port_omit = 3;
+  // Phase of the VVD
+  string phase = 4;
+  // Previous VVD code
+  string previous_code = 5;
+  // Vessel code
+  string vessel_code = 6;
+  // Sales week
+  string sales_week = 7;
+  // Service lane details
+  chorus.spm.service_lane.v1.ServiceLane service_lane = 8;
+  // Optional status of the VVD
+  optional string status = 9;
+  // Optional number of open cases
+  optional int64 open_case = 10;
+  // Optional deletion timestamp
+  optional string deleted_at = 11;
+  // Optional deletion user
+  optional string trade_code = 12;
+  // Optional revenue lane code
+  optional string revenue_lane_code = 13;
+}
+
+// Message representing VVD configuration
+message VvdConfiguation {
+  // Unique identifier for the configuration
+  string id = 1;
+  // VVD code
+  string vvd_code = 2;
+  // Trade code
+  string trade_code = 3;
+  // Revenue lane code
+  string revenue_lane_code = 4;
+  // Sales week
+  string sales_week = 5;
+  // Optional service lane details
+  optional chorus.spm.service_lane.v1.ServiceLane service_lane = 6;
+  // Optional deletion timestamp
+  optional string deleted_at = 7;
+}
+
+// Request message for querying a list of VVDs
+message VvdListQueryRequest {
+  // User information
+  chorus.spm.user.v1.UserInfo user = 1;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+  // Optional query parameters
+  optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Response message for a list of VVDs
+message VvdListResponse {
+  // List of VVDs
+  repeated Vvd items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Message representing VVD case summary
+message VvdCaseSummary {
+  // Unique identifier for the case summary
+  string id = 1;
+  // VVD code
+  string code = 2;
+  // Sales week
+  string sales_week = 3;
+  // Service lane details
+  chorus.spm.service_lane.v1.ServiceLane service_lane = 4;
+}
+
+// Message representing VVD by Service Lane Configuration (SLC)
+message VvdBySLC {
+  // Unique identifier for the VVD
+  string id = 1;
+  // VVD code
+  string code = 2;
+  //VVD TradeCode
+  string trade_code = 3;
+  //VVD revenueLaneCode
+  string revenue_lane_code = 4;
+}
+
+// Request message to get VVD by Service Lane Configuration
+message GetVvdListBySLCRequest {
+  // ID of the service lane configuration
+  string service_lane_configuration_id = 1;
+  // List of VVDs by SLC
+  repeated VvdBySLC items = 2;
+}
+
+// Response message for getting VVD by Service Lane Configuration
+message GetVvdListBySLCResponse {
+  // List of VVDs by SLC
+  repeated VvdBySLC items = 1;
+}
+
+// Request message to get VVD list by code
+message GetVvdListByCodeRequest {
+  // VVD codes
+  string vvd_codes = 1;
+}
+
+// Request message to get VVD by user ID
+message GetVvdListByUserIdRequest {
+  // User information
+  chorus.spm.user.v1.UserInfo user = 1;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+}
+
+// Response message for getting VVD by user ID
+message GetVvdListByUserIdResponse {
+  // List of VVD configurations
+  repeated VvdConfigResponse items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Request message to get VVD by user ID by FO
+message GetVvdListByUserIdFoRequest {
+  // User information
+  chorus.spm.user.v1.UserInfo user = 1;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+}
+
+// Response message for getting VVD by user ID by FO
+message GetVvdListByUserIdFoResponse {
+  // List of VVD configurations
+  repeated VvdConfigResponse items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Message representing VVD configuration response
+message VvdConfigResponse {
+  // Unique identifier for the configuration
+  string id = 1;
+  // VVD code
+  string vvd_code = 2;
+  // Trade code
+  string trade_code = 3;
+  // Revenue lane code
+  string revenue_lane_code = 4;
+  // Optional number of open cases
+  optional int64 open_case = 5;
+  // Optional sales week
+  optional string sales_week = 6;
+  // Service lane details
+  chorus.spm.service_lane.v1.ServiceLane service_lane = 7;
+  // Optional status
+  optional string status = 8;
+  // Optional Hide/Show Shortfall Case in VVD Untilization Screen
+  optional bool can_open_shortfall_case = 9;
+}
+
+// Request message to get VVD code
+message GetVvdByCodeRequest {
+  // VVD code
+  string code = 1;
+  // Trade code
+  string trade_code = 2;
+  // Revenue code
+  string revenue_lane_code = 3;
+  // Optional user information
+  optional chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Response message for getting VVD by code
+message GetVvdByCodeResponse {
+  // Unique identifier for the VVD
+  string id = 1;
+  // VVD code
+  string vvd_code = 2;
+  // Service lane details
+  chorus.spm.service_lane.v1.ServiceLane service_lane = 3;
+  // Optional status of the VVD
+  optional string status = 4;
+  // Optional number of open cases
+  optional int64 open_case = 5;
+}
+
+// Request message to get VVD code by FO
+message GetVvdByCodeFORequest {
+  // VVD code
+  string code = 1;
+  // Trade code
+  string trade_code = 2;
+  // Revenue code
+  string revenue_lane_code = 3;
+  // Optional user information
+  optional chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Response message for getting VVD by code by FO
+message GetVvdByCodeFOResponse {
+  // Unique identifier for the VVD
+  string id = 1;
+  // VVD code
+  string vvd_code = 2;
+  // Service lane details
+  chorus.spm.service_lane.v1.ServiceLane service_lane = 3;
+  // Optional status of the VVD
+  optional string status = 4;
+  // Optional number of open cases
+  optional int64 open_case = 5;
+}
+
+// Request message to get VVD codes with pagination and search
+message GetVvdCodesWithPaginationAndSearchRequest {
+  // Query parameters
+  optional string vvd_code = 1;
+  // Pagination request
+  chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+}
+
+// Response message for getting VVD codes with pagination and search
+message GetVvdCodesWithPaginationAndSearchResponse {
+  // List of VVD codes with pagination and search
+  repeated VvdCodesWithPaginationAndSearchResponse items = 1;
+  // Pagination response information
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+  // Total items
+  int32 total_items = 3;
+}
+
+// Message representing VVD codes with pagination and search response
+message VvdCodesWithPaginationAndSearchResponse {
+  // Unique identifier for the VVD
+  string id = 1;
+  // VVD code
+  string vvd_code = 2;
+}
+
+// The main message containing the filter object
+message GetVvdListWithFilterConditionRequest {
+  // object of the filter
+  repeated chorus.spm.base.v1.FilterItemEntry filter = 1;
+  // User information, of type UserInfo from the user package, with field number 1.
+  chorus.spm.user.v1.UserInfo user = 2;
+  // If assign vessel bound and service lane
+  bool is_assigned_service = 3;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 4;
+}
+
+// The main message containing the filter object
+message GetVvdListWithFilterConditionFoRequest {
+  // object of the filter
+  repeated chorus.spm.base.v1.FilterItemEntry filter = 1;
+  // User information, of type UserInfo from the user package, with field number 1.
+  chorus.spm.user.v1.UserInfo user = 2;
+  // If assign vessel bound and service lane
+  bool is_assigned_service = 3;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 4;
+}
+
+// Response message definition 
+message GetVvdListWithFilterConditionResponse {
+  // List of VVD configurations
+  repeated VvdConfigResponse items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Response message definition 
+message GetVvdListWithFilterConditionFoResponse {
+  // List of VVD configurations
+  repeated VvdConfigResponse items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Service definition for managing VVDs
+service VvdService {
+  // Get list of VVDs by Service Lane Configuration
+  rpc GetVvdListBySLC (GetVvdListBySLCRequest) returns (GetVvdListBySLCResponse) {}
+  // Get list of VVDs by user ID
+  rpc GetVvdListByUserId (GetVvdListByUserIdRequest) returns (GetVvdListByUserIdResponse) {}
+  // Get list of VVDs by user ID for FO
+  rpc GetVvdListByUserIdFo (GetVvdListByUserIdFoRequest) returns (GetVvdListByUserIdFoResponse) {}
+  // Get summary of a VVD
+  rpc GetVvdSummary (GetVvdSummaryRequest) returns (GetVvdSummaryResponse) {}
+  // Get VVD by code
+  rpc GetVvdByCode (GetVvdByCodeRequest) returns (GetVvdByCodeResponse) {}
+  // Get VVD by code by FO
+  rpc GetVvdByCodeFO (GetVvdByCodeFORequest) returns (GetVvdByCodeFOResponse) {}
+   // Get VVD codes with pagination and search
+  rpc GetVvdCodesWithPaginationAndSearch (GetVvdCodesWithPaginationAndSearchRequest) returns (GetVvdCodesWithPaginationAndSearchResponse) {}
+  // Get VVD with filter condition
+  rpc GetVvdListWithFilterCondition (GetVvdListWithFilterConditionRequest) returns (GetVvdListWithFilterConditionResponse) {}
+  // Get VVD with filter condition
+  rpc GetVvdListWithFilterConditionFo (GetVvdListWithFilterConditionFoRequest) returns (GetVvdListWithFilterConditionFoResponse) {}
+}

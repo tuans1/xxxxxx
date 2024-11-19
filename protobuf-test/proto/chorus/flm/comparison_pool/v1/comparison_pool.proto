@@ -1,0 +1,354 @@
+syntax = "proto3";
+
+package chorus.flm.comparison_pool.v1;
+
+// Service for Comparison Pool        
+service ComparisonPoolService {
+    // create a new tab
+    //
+    // Method: GET
+    //
+    // Request: 
+    // {
+    //     tab_name: "new_tab_name",
+    //     create_user_id: "test@one.com"
+    // }
+    //
+    // Response: chorus.flm.
+    //
+    // {
+    //     tab_id: "1",
+    //     "api_response": {
+    //           "is_error": false,
+    //           "error_message": ""
+    //      }
+    // }
+    rpc CreateComparisonPoolTab(CreateComparisonPoolTabRequest) returns (CreateComparisonPoolTabResponse);
+    
+    // update comparison pool tab
+    //
+    // Method: POST
+    //
+    // Request: 
+    // {
+    //     tab_id: "1",
+    //     tab_name: "updated_tab_name",
+    //     update_user_id: "test@one.com"
+    // }
+    //
+    // Response: 
+    // {
+    //     tab_id: "1",
+    //     "api_response": {
+    //           "is_error": false,
+    //           "error_message": ""
+    //      }
+    // }
+    rpc UpdateComparisonPoolTab(UpdateComparisonPoolTabRequest) returns (UpdateComparisonPoolTabResponse);
+    
+    // get a tab by id
+    //
+    // Method: GET
+    //
+    // Request: 
+    // {
+    //     tab_id: "1"
+    // }
+    //
+    // Response: 
+    // {
+    //     "comparison_data": {
+    //          "tc_comparison_id": "1",
+    //          "vessels": [vessel],
+    //          "properties": [property],
+    //          "vessel_property_values": [VesselPropertyValue],
+    //          "comparison_criteria": [ComparisonCriteria],
+    //          "comparison_criteria_values": [ComparisonCriteriaValue],
+    //          "formulas": [Formula],
+    //          "formula_values": [FormulaValue]
+    //      } 
+    //     "api_response": {
+    //           "is_error": false,
+    //           "error_message": ""
+    //      }
+    // }
+    rpc GetComparisonByTabId(GetComparisonByTabIdRequest) returns (GetComparisonByTabIdResponse);
+
+    // get all tabs
+    //
+    // Method: GET
+    //
+    // Request: {}
+    //
+    // Response: 
+    // {
+    //     "comparison_pool_tabs": [ComparisonPoolTab],
+    //     "api_response": {
+    //           "is_error": false,
+    //           "error_message": ""
+    //      }
+    // }
+    rpc GetAllComparisonPoolTabs(GetAllComparisonPoolTabsRequest) returns (GetAllComparisonPoolTabsResponse);
+    // delete tab by id
+    //
+    // Method: POST
+    //
+    // Request: {
+    //     tab_id: "1"
+    // }
+    //
+    // Response: 
+    // {
+    //     "api_response": {
+    //           "is_error": false,
+    //           "error_message": ""
+    //      }
+    // }
+    rpc DeleteComparisonPoolTab(DeleteComparisonPoolTabRequest) returns (DeleteComparisonPoolTabResponse);
+}
+
+//  create comparison pool tab request
+message CreateComparisonPoolTabRequest {
+    // name of comparison pool tab
+    string tab_name = 1;
+    //created user id
+    string create_user_id = 2;
+}
+
+// create comparison pool tab response
+message CreateComparisonPoolTabResponse {
+    // id of comparison pool tab
+    string tab_id = 1;
+    // api response
+    ApiResponse api_response  = 2;
+}
+
+// update comparison pool tab request
+message UpdateComparisonPoolTabRequest {
+    // id of comparison pool tab
+    string tab_id = 1;
+    // updated tab name
+    string tab_name = 2;
+    // updated user id
+    string update_user_id = 3;
+}
+
+// update comparison pool tab response
+message UpdateComparisonPoolTabResponse {
+    // id of comparison pool tab
+    string tab_id = 1;
+    // api response
+    ApiResponse api_response = 2;
+}
+
+// get comparison pool tab by id request
+message GetComparisonByTabIdRequest {
+    // id of comparison pool tab
+    string tab_id = 1;
+    // user id
+    string user_id = 2;
+}
+
+// get comparison pool tab by id response
+message GetComparisonByTabIdResponse {
+    // comparison data
+    ComparisonData comparison_data = 1;
+    // api response
+    ApiResponse api_response  = 2;
+}
+
+// get all comparison pool tabs request
+message GetAllComparisonPoolTabsRequest {
+    // user id
+    string user_id = 1;
+}
+
+//get all comparison pool tabs response
+message GetAllComparisonPoolTabsResponse {
+    // list of comparison pool tabs
+    repeated ComparisonPoolTab comparison_pool_tabs = 1;
+    // api response
+    ApiResponse api_response  = 2;
+}
+
+// Comparison pool tab
+message ComparisonPoolTab {
+    // tab id
+    string tab_id = 1;
+    // tab name
+    string tab_name = 2;
+    // comparison id
+    string comparison_id = 3;
+}
+
+// Comparison Data
+message ComparisonData {
+    // time charter comparison id
+    string tc_comparison_id = 1;
+    // list of vessel in comparison
+    repeated Vessel vessels = 2;
+    // list of property in comparison
+    repeated Property properties = 3;
+    // list of property value in comparison
+    repeated VesselPropertyValue vessel_property_values = 4;
+    // list of criteria 
+    repeated ComparisonCriteria comparison_criteria = 5;
+    // list of criteria value
+    repeated ComparisonCriteriaValue comparison_criteria_values = 6;
+    // list of formula
+    repeated Formula formulas = 7;
+    // list of formula value
+    repeated FormulaValue formula_values = 8;
+}
+
+// vessel add to comparison
+message Vessel {
+  // The id is the id of the vessel
+  string id = 1;
+  // The vessel_name is the name of the vessel
+  string vessel_name = 2;
+  // The vessel_code is the code of the vessel
+  optional string vessel_code = 3;
+  // The imo_number is the imo number of the vessel
+  optional string imo_number = 4;
+  // The loadable_teu is the teu of the vessel
+  int32 loadable_teu = 5;
+  // The owner is the owner of the vessel
+  optional string owner = 6;
+  // The year_built is the year build of the vessel
+  int32 year_built = 7;
+  // The dead_weight is the dead weight of the vessel
+  optional string dead_weight = 8;
+  // The loa is the length of overall of the vessel
+  optional string loa = 9;
+  // The design is to compare the vessel series
+  string design = 11;
+  // The reefer_plugs is the the number of Reefer Plug
+  int32 reefer_plugs = 12;
+  // The beam is the width of overall of the vessel
+  string beam = 13;
+  // The draft is the draft of the vessel
+  optional string draft = 14;
+  // The owner_indication is the proposal charter hire amount by owner
+  optional string owner_indication = 15;
+  // The delivery_location is the location of delivery of the vessel
+  string delivery_location = 16;
+  // The delivery_timing is the time of delivery of the vessel
+  string delivery_timing = 17;
+  // The channel is the channel of the vessel
+  optional string channel = 18;
+  // The flexible_trading is the flexible trading of the vessel
+  optional string flexible_trading = 19;
+  // The ex_charters is the ex-charterer of the vessel
+  optional string ex_charters = 20;
+  // The remark is the remark of the vessel
+  optional string remark = 21;
+  // The basic_teu_14_t is how many TEUs we can load on the vessel 
+  int32 basic_teu_xx_t = 22;
+  // The foc_14_knots is the fuel consumption per day of the vessel
+  string foc_xx_knots = 23;
+  // The period is the period of chartering
+  optional string period = 24; 
+  // Existing time charter rate: current charter rate of the vessel
+  optional string existing_tc_rate = 25;
+  // gear
+  optional string gear = 26;
+  // vessel status
+  string vessel_status = 27;
+  // phase status
+  PhaseStatus phase_status = 28;
+  //if vessel is added to TC from TC pool
+  optional bool is_added_to_tc = 29;
+}
+
+// Phase status
+message PhaseStatus {
+    //for_evaluation
+    bool for_evaluation = 1;
+    //for_fm_internal_approval
+    bool for_fm_internal_approval = 2;
+    //for_md_approval
+    bool for_md_approval = 3;
+}
+
+//property
+message Property {
+    //property id
+    string id = 1;
+    //property name
+    string name = 2;
+}
+
+//vessel formula response
+message VesselPropertyValue {   
+    //property id
+    string property_id = 1;
+    //property value
+    string value = 2;
+    //vessel id
+    string vessel_id = 3;
+}
+
+//comparison criteria
+message ComparisonCriteria {
+    //criteria id
+    string id = 1;
+    //header text
+    string header_text = 2;
+    //True: The Criteria will be displayed on the top on criteria
+    bool is_top = 3;
+}
+
+//comparison criteria value
+message ComparisonCriteriaValue{
+    //criteria id
+    string criteria_id = 1;
+    //vessel id
+    string vessel_id = 2;
+    //criteria value
+    string value = 3;
+} 
+
+//formula
+message Formula {
+    //formula id
+    string id = 1;
+    //formula expression
+    string expression = 2;
+    //formula name
+    string name = 3;
+    //Formula property
+    repeated string properties = 4;
+}
+
+//formula value
+message FormulaValue{
+    //formula id
+    string formula_id = 1;
+    //vessel id
+    string vessel_id = 2;
+    //calculated value return null if any errors happen
+    string value = 3;
+    //is value error
+    bool is_error = 4;
+}
+
+//api response
+message ApiResponse {
+    //true has error else ok
+    bool is_error = 1;
+    //error message
+    string error_message = 2;
+}
+
+// delete comparison pool tab request
+message DeleteComparisonPoolTabRequest {
+    // tab id
+    string tab_id = 1;
+}
+
+// delete comparison pool tab response
+message DeleteComparisonPoolTabResponse {
+    // api response
+    ApiResponse api_response = 1;
+}

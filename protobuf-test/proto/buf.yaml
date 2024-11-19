@@ -1,0 +1,18 @@
+version: v1
+name: buf.build/huy-bui-tpv/proto-buf
+deps:
+  - buf.build/protocolbuffers/wellknowntypes:v25.2
+breaking:
+  use:
+    - FILE
+    - WIRE_JSON
+  except:
+    - ENUM_NO_DELETE
+    - ENUM_VALUE_NO_DELETE
+    - FIELD_NO_DELETE
+    - RPC_NO_DELETE
+lint:
+  use:
+    - DEFAULT
+    - COMMENTS
+  rpc_allow_google_protobuf_empty_requests: true

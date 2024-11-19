@@ -1,0 +1,5 @@
+input:
+  README.md: ""
+  mom.md: ""
+output:
+  name: ../proto/chorus/mom/README.md

@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package chorus.mdm.detail_revenue_lane.v1;
+
+// The detail revenue lane information.
+message DetailRevenueLane {
+  // The revenue_lane_code is the revenue lane code of the detail revenue lane. rlane_cd in OPUS.
+  string revenue_lane_code = 1;
+  // The vessel_service_lane_direction_code is the vessel service lane direction code of the detail revenue lane. vsl_slan_dir_cd in OPUS.
+  string vessel_service_lane_direction_code = 2;
+  // The interport_ocean_code is the interport/ocean code of the detail revenue lane. ioc_cd in OPUS.
+  string interport_ocean_code = 3;
+  // The from_continent_code is the from continent code of the detail revenue lane. fm_conti_cd in OPUS.
+  string from_continent_code = 4;
+  // The to_continent_code is the to continent code of the detail revenue lane. to_conti_cd in OPUS.
+  string to_continent_code = 5;
+  // The trade_code is the trade code of the detail revenue lane. trd_cd in OPUS.
+  string trade_code = 6;
+  // The sub_trade_code is the sub trade code of the detail revenue lane. sub_trd_cd in OPUS.
+  string sub_trade_code = 7;
+}
+
+// The detail revenue lane multiple fields information.
+message DetailRevenueLaneMultipleFields {
+  // The revenue_lane_code is the revenue lane code of the detail revenue lane. rlane_cd in OPUS.
+  string revenue_lane_code = 1;
+  // The vessel_service_lane_direction_code is the vessel service lane direction code of the detail revenue lane. vsl_slan_dir_cd in OPUS.
+  string vessel_service_lane_direction_code = 2;
+  // The from_continent_code is the from continent code of the detail revenue lane. fm_conti_cd in OPUS.
+  string from_continent_code = 3;
+  // The to_continent_code is the to continent code of the detail revenue lane. to_conti_cd in OPUS.
+  string to_continent_code = 4;
+}
+
+// Request message for `DetailRevenueLaneInfoService.GetDetailRevenueLanesByMultipleFields`.
+message GetDetailRevenueLanesByMultipleFieldsRequest {
+  // The detail revenue lane multiple fields list
+  repeated DetailRevenueLaneMultipleFields detail_revenue_lane_multiple_fields_list = 1;
+}
+
+// Response message for `DetailRevenueLaneInfoService.GetDetailRevenueLanesByMultipleFields`.
+message GetDetailRevenueLanesByMultipleFieldsResponse {
+  // The detail revenue lane information.
+  DetailRevenueLane detail_revenue_lane = 1;
+}
+
+// Services for detail revenue lane.
+service DetailRevenueLaneInfoService {
+  // Get list of detail revenue lanes by detail revenue lane multiple fields.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "detail_revenue_lane_multiple_fields_list": [
+  //         {
+  //             "revenue_lane_code": "RBCCO"
+  //             "vessel_service_lane_direction_code": "E"
+  //             "from_continent_code": "A"
+  //             "to_continent_code": "E" 
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "detail_revenue_lane": {
+  //         "revenue_lane_code": "RBCCO"
+  //         "vessel_service_lane_direction_code": "E"
+  //         "interport_ocean_code": "I"
+  //         "from_continent_code": "A"
+  //         "to_continent_code": "E"
+  //         "trade_code": "EAT"
+  //         "sub_trade_code": "EA"
+  //     }
+  // }
+  // ...
+  rpc GetDetailRevenueLanesByMultipleFields(GetDetailRevenueLanesByMultipleFieldsRequest) returns (stream GetDetailRevenueLanesByMultipleFieldsResponse);
+}

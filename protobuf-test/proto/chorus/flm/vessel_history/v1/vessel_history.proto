@@ -1,0 +1,208 @@
+syntax = "proto3";
+
+package chorus.flm.vessel_history.v1;
+
+// Service for Vessel History
+service VesselHistoryService {
+  // Get All Vessel History Table Data
+  //
+  // Operation: GET
+  //
+  // Request:
+  // {
+  //    vessel_id = "string";
+  //    tbl_tp_opts: {
+  //      tbl_hist_chart_hire: {
+  //        has_data: true,
+  //        current_page: 1,
+  //        row_per_page: 10,
+  //        sort_type: "string"
+  //      },
+  //      tbl_hist_own = {
+  //        has_data: true,
+  //        current_page: 1,
+  //        row_per_page: 10,
+  //        sort_type: "string"
+  //      },
+  //      tbl_hist_vsl = {
+  //        has_data: true,
+  //        current_page: 1,
+  //        row_per_page: 10,
+  //        sort_type: "string"
+  //      };
+  //      tbl_hist_oth = {
+  //        has_data: true,
+  //        current_page: 1,
+  //        row_per_page: 10,
+  //        sort_type: "string"
+  //      };
+  //    };
+  // }
+  //
+  // Response:
+  // {
+  //    vessel_id = "string";
+  //    table_history_chartering_hire: {
+  //      vessel_id: "string",
+  //      owner_indication: 0.0,
+  //      period: "string",
+  //      create_date: "string",
+  //      create_user_id: "string"
+  //    },
+  //    table_history_owners: {
+  //      vessel_id: "string",
+  //      owner: "string",
+  //      create_date: "string",
+  //      create_user_id: "string"
+  //    },
+  //    table_history_vessels: {
+  //      vessel_id: "string",
+  //      vessel_name: "string",
+  //      owner: "string",
+  //      create_date: "string",
+  //      create_user_id: "string"
+  //    },
+  //    table_history_others: {
+  //      vessel_id: "string",
+  //      criteria_name: "string",
+  //      criteria_old_value: "string",
+  //      criteria_new_value: "string",
+  //      create_date: "string",
+  //    }
+  // }
+  rpc FindAllVesselHistory(FindAllVesselHistoryRequest) returns (FindAllVesselHistoryResponse);
+}
+
+// Request message for GetVesselHistory
+message FindAllVesselHistoryRequest {
+  // Vessel ID
+  string vessel_id = 2;
+  // Table History Type Options
+  TableHistoryTypeOptions tbl_tp_opts = 3;
+}
+
+// Response message for GetVesselHistory
+message TableHistoryTypeOptions {
+  // Table History Chartering Hire
+  TableHistoryOptionDetails tbl_hist_chart_hire = 1;
+  // Table History Owners
+  TableHistoryOptionDetails tbl_hist_own = 2;
+  // Table History Vessels
+  TableHistoryOptionDetails tbl_hist_vsl = 3;
+  // Table History Others
+  TableHistoryOptionDetails tbl_hist_oth = 4;
+}
+
+// Response message for GetVesselHistory
+message TableHistoryOptionDetails {
+  // Has Data
+  bool has_data = 1;
+  // Current Page
+  int32 current_page = 2;
+  // Row Per Page
+  int32 row_per_page = 3;
+  // Sort Type
+  optional string sort_type = 4;
+}
+
+// Response message for GetVesselHistory
+message FindAllVesselHistoryResponse {
+  // Vessel ID
+  string vessel_id = 1;
+  // Table History Chartering Hire
+  TableHistoryCharteringHireResponse table_history_chartering_hire = 2;
+  // Table History Owners
+  TableHistoryOwnersResponse table_history_owners = 3;
+  // Table History Vessels
+  TableHistoryVesselsResponse table_history_vessels = 4;
+  // Table History Others
+  TableHistoryOthersResponse table_history_others = 5;
+}
+
+// Response body for Table History Of Vessel
+message TableHistoryCharteringHireResponse {
+  // Total of records
+  int32 total = 1;
+  // Record of history for Owner indiciation
+  repeated TableHistoryCharteringHire data = 2;
+}
+
+// Response body for Owners table
+message TableHistoryOwnersResponse {
+  // Total of records
+  int32 total = 1;
+  // Record of history for Owner table
+  repeated TableHistoryOwners data = 2;
+}
+
+// Response body for Vessel name changes
+message TableHistoryVesselsResponse {
+  // Total of records
+  int32 total = 1;
+  // Record of history for Vessel name changes
+  repeated TableHistoryVessels data = 2;
+}
+
+// Response body for Other table
+message TableHistoryOthersResponse {
+  // Total of records
+  int32 total = 1;
+  // Record of history for Other table
+  repeated TableHistoryOthers data = 2;
+}
+
+// Table History Chartering Hire
+message TableHistoryCharteringHire {
+  // Vessel ID
+  string vessel_id = 2;  // Vessel ID
+  // Owners' indication
+  string owner_indication = 3;  // Owners' indication
+  // Period
+  string period = 4;  // Period
+  // Created time
+  string create_date = 5;  // Created time
+  // Created by
+  string create_user_id = 6;  // Created by
+}
+
+// Table History Owners
+message TableHistoryOwners {
+  // Vessel ID
+  string vessel_id = 2;  // Vessel ID
+  // Owner
+  string owner = 3;  // Owner 
+  // Created time
+  string create_date = 4;  // Created time
+  // Created by
+  string create_user_id = 5;  // Created by
+}
+
+// Table History Vessels
+message TableHistoryVessels {
+  // Vessel ID
+  string vessel_id = 2;  // Vessel ID
+  // Vessel Name
+  string vessel_name = 3;  // Vessel Name
+  // Owner
+  string owner = 4;  // Owner
+  // Created time
+  string create_date = 5;  // Created time
+  // Created by
+  string create_user_id = 6;  // Created by  
+}
+
+// Table History Others
+message TableHistoryOthers {
+  // Vessel ID
+  string vessel_id = 2;  // Vessel id
+  // Criteria Name
+  string criteria_name = 3;  // Criteria Name
+  // Criteria Old Value
+  string criteria_old_value = 4;  // Criteria Old Value
+  // Criteria New Value
+  string criteria_new_value = 5;  // Criteria New Value
+  // Created time
+  string create_date = 6;  // Created time
+  // Created by
+  string create_user_id = 7;  // Created by
+}

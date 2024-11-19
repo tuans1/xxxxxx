@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+// Define the package name
+package chorus.cod.base.v1;
+
+// Message to specify pagination request parameters.
+message PaginationRequest {
+  // Maximum number of items to return per page.
+  optional int32 limit = 1;
+
+  // Page number to retrieve.
+  optional int32 page = 2;
+}
+
+// Message to provide pagination response details.
+message PaginationResponse {
+  // Current page number.
+  int32 page = 1;         
+
+  // Maximum items per page.
+  int32 limit = 2;        
+
+  // Total number of pages.
+  int32 total_page = 3;    
+
+  // Total number of items.
+  int32 total  = 4;       
+}

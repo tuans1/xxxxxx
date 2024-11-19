@@ -1,0 +1,14 @@
+.devcontainer
+.github
+.husky
+.next
+env
+node_modules
+test
+.commitlintrc.json
+.eslintrc.js
+.gitattributes
+.gitignore
+.lintstagedrc.json
+.prettierrc
+README.md

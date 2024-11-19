@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package chorus.mdm.organization.v1;
+
+import "google/protobuf/empty.proto";
+
+// The country organization.
+message Organization {
+  // The office_code is the office code of the organization. ofc_cd in OPUS.
+  string office_code = 1;
+  // The location_code is the location code of the organization. loc_cd in OPUS.
+  string location_code = 2;
+  // The office_english_name is the office english name of the organization. ofc_eng_nm in OPUS.
+  string office_english_name = 3;
+  // The office_local_name is the office local name of the organization. ofc_locl_nm in OPUS.
+  string office_local_name = 4;
+  // The office_address is the office address of the organization. ofc_addr in OPUS.
+  string office_address = 5;
+}
+
+// The office code information.
+message OfficeCode {
+  // The code of the office.
+  string office_code = 1;
+}
+
+// Request message for `OrganizationInfoService.GetOrganizationsByCodes`.
+message GetOrganizationsByCodesRequest {
+  // The office code list.
+  repeated OfficeCode office_code_list = 1;
+}
+
+// Response message for `OrganizationInfoService.GetOrganizationsByCodes`.
+message GetOrganizationsByCodesResponse {
+  // The organization information.
+  Organization organization = 1;
+}
+
+// Response message for `OrganizationInfoService.GetOrganizations`.
+message GetOrganizationsResponse {
+  // The organization information.
+  Organization organization = 1;
+}
+
+// Request message for `OrganizationInfoService.SearchOrganizationsByOfficeEnglishName`.
+message SearchOrganizationsByOfficeEnglishNameRequest {
+  // The office english name of organization
+  string office_english_name = 1;
+}
+
+// Response message for `OrganizationInfoService.SearchOrganizationsByOfficeEnglishName`.
+message SearchOrganizationsByOfficeEnglishNameResponse {
+  // The Organization infomation
+  Organization organization = 1;
+}
+
+// Services for organization
+service OrganizationInfoService {
+  // Get all list of organizations.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "organization": {
+  //         "office_code": "RECBA",
+  //         "location_code": "BRREC",
+  //         "office_english_name": "WILSON SONS AGENCIA MARITIMA, RECIFE",
+  //         "office_local_name": "",
+  //         "office_address": "Rua Agenor Lopes, 25 sala 1002 - Ed. Emp. Itamarati"
+  //     }
+  // }
+  // ...
+  rpc GetOrganizations(google.protobuf.Empty) returns (stream GetOrganizationsResponse);
+
+  // Get list of organizations by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "office_code_list": [
+  //         {
+  //             "office_code": "RECBA"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "organization": {
+  //         "office_code": "RECBA",
+  //         "location_code": "BRREC",
+  //         "office_english_name": "WILSON SONS AGENCIA MARITIMA, RECIFE",
+  //         "office_local_name": "",
+  //         "office_address": "Rua Agenor Lopes, 25 sala 1002 - Ed. Emp. Itamarati"
+  //     }
+  // }
+  // ...
+  rpc GetOrganizationsByCodes(GetOrganizationsByCodesRequest) returns (stream GetOrganizationsByCodesResponse);
+
+  // Search organizations by office english name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //    "office_english_name" : "WILSON SONS AGENCIA MARITIMA, RECIFE"
+  // }
+  //
+  // Response:
+  // {
+  //     "organization": {
+  //         "office_code": "RECBA",
+  //         "location_code": "BRREC",
+  //         "office_english_name": "WILSON SONS AGENCIA MARITIMA, RECIFE",
+  //         "office_local_name": "",
+  //         "office_address": "Rua Agenor Lopes, 25 sala 1002 - Ed. Emp. Itamarati"
+  //     }
+  // }
+  // ...
+  rpc SearchOrganizationsByOfficeEnglishName(SearchOrganizationsByOfficeEnglishNameRequest) returns (stream SearchOrganizationsByOfficeEnglishNameResponse);
+}

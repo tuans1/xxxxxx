@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package chorus.mdm.customer_contact_point.v1;
+
+// The customer contact point information.
+message CustomerContactPoint {
+  // The customer_country_code is the country code of the customer. cust_cnt_cd in OPUS.
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the customer. cust_seq in OPUS.
+  int32 customer_sequence = 2;
+  // The customer_contact_point_sequence is the customer contact point sequence of the customer. cust_cntc_pnt_seq in OPUS.
+  int32 customer_contact_point_sequence = 3;
+  // The customer_email is the customer email of the customer. cust_eml in OPUS.
+  string customer_email = 4;
+  // The international_fax_number is the international fax number of the customer. intl_fax_no in OPUS.
+  string international_fax_number = 5;
+  // The phone_number is the phone number of the customer. phn_no in OPUS.
+  string phone_number = 6;
+  // The international_phone_number is the international phone number of the customer. intl_phn_no in OPUS.
+  string international_phone_number = 7;
+  // The fax_number is the fax number of the customer. fax_no in OPUS.
+  string fax_number = 8;
+}
+
+// The customer contact point information.
+message CustomerContactPointCodeAndSequence {
+  // The customer_country_code is the country code of the customer.
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the customer.
+  int32 customer_sequence = 2;
+}
+
+// Request message for `CustomerContactPointInfoService.GetCustomerContactPointsByCustomerCountryCodesAndSequences`.
+message GetCustomerContactPointsByCustomerCountryCodesAndSequencesRequest {
+  // The customer code list.
+  repeated CustomerContactPointCodeAndSequence customer_code_and_sequence_list = 1;
+}
+
+// Response message for `CustomerContactPointInfoService.GetCustomerContactPointsByCustomerCountryCodesAndSequences`.
+message GetCustomerContactPointsByCustomerCountryCodesAndSequencesResponse {
+  // The customer contact point information.
+  CustomerContactPoint customer_contact_point = 1;
+}
+
+// Request message for `CustomerContactPointInfoService.SearchCustomerContactPointsByCustomerEmail`.
+message SearchCustomerContactPointsByCustomerEmailRequest {
+  // The customer search code.
+  string customer_email = 1;
+}
+
+// Response message for `CustomerContactPointInfoService.SearchCustomerContactPointsByCustomerEmail`.
+message SearchCustomerContactPointsByCustomerEmailResponse {
+  // The customer contact point information.
+  CustomerContactPoint customer_contact_point = 1;
+}
+
+// Services for customer contact point.
+service CustomerContactPointInfoService {
+  // Get list of customer contact points by customer country codes and customer sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_code_and_sequence_list": [
+  //         {
+  //             "customer_country_code": "AU"
+  //             "customer_sequence": 101303
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "customer_contact_point": {
+  //         "customer_country_code": "AU",
+  //         "customer_sequence": 202258,
+  //         "customer_contact_point_sequence": 1,
+  //         "customer_email": "",
+  //         "international_phone_number": "61",
+  //         "phone_number": "3-99338488",
+  //         "international_fax_number": "61",
+  //         "fax_number": "3-99338499"
+  //     }
+  // }
+  // ...
+  rpc GetCustomerContactPointsByCustomerCountryCodesAndSequences(GetCustomerContactPointsByCustomerCountryCodesAndSequencesRequest) returns (stream GetCustomerContactPointsByCustomerCountryCodesAndSequencesResponse);
+
+  // Search list of customer contact points by customer email.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "customer_email": "lydie.caillaud"
+  // }
+  //
+  // Response:
+  // {
+  //     "customer_contact_point": {
+  //         "customer_country_code": "AU",
+  //         "customer_sequence": 202274,
+  //         "customer_contact_point_sequence": 1,
+  //         "customer_email": "lydie.caillaud@intramar.com.au",
+  //         "international_phone_number": "",
+  //         "phone_number": "",
+  //         "international_fax_number": "",
+  //         "fax_number": ""
+  //     }
+  // }
+  // ...
+  rpc SearchCustomerContactPointsByCustomerEmail(SearchCustomerContactPointsByCustomerEmailRequest) returns (stream SearchCustomerContactPointsByCustomerEmailResponse);
+}

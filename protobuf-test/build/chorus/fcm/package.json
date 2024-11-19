@@ -1,0 +1,40 @@
+{
+  "name": "@ocean-network-express/om-fcm-protobuf-migrated",
+  "version": "0.0.4",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "gen": "cd ../../../proto && buf generate --path chorus/fcm --output ../build/chorus/fcm --template chorus/fcm/buf.fcm.gen.yaml && cp -r chorus/fcm/* ../build/chorus/fcm/",
+    "tsc-build": "tsc",
+    "lint": "buf lint",
+    "build": "buf build",
+    "breaking": "buf breaking ./ --against 'https://github.com/ocean-network-express/om-protobuf.git#branch=main,ref=HEAD~1,subdir=proto/chorus/fcm'",
+    "merge-markdown": "merge-markdown -m ../../../docs/merge-fcm-markdown.config.yaml --nolinkcheck"
+  },
+  "exports": {
+    "./*": {
+      "import": "./dist/*",
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js"
+    }
+  },
+  "files": [
+    "*",
+    "!*.json",
+    "!*.yaml",
+    "!proto-gen"
+  ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*.d.ts"
+      ]
+    }
+  },
+  "dependencies": {
+    "@bufbuild/buf": "^1.26.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}

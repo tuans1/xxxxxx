@@ -1,0 +1,6 @@
+node_modules
+dist
+.npmrc
+proto-gen
+build/**/*.proto
+# build/**/*.md

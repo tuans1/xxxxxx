@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+import "chorus/spm/sale_main_office/v1/sale_main_office.proto";
+
+package chorus.spm.trunk_allocation_sales_main_office.v1;
+
+// Represents an item of trunk allocation for a sales main office (SMO)
+message TrunkAllocationSmoItem {
+  // Unique identifier for the trunk allocation SMO item
+  string id = 1;
+  // Forecasted TEU (Twenty-foot Equivalent Unit)
+  double forecast_teu = 2;
+  // Allocated TEU
+  double allocation_teu = 3;
+  // Optional VVD (Vessel Voyage Direction) code
+  optional string vvd_code = 4;
+  // Optional VVD (Vessel Voyage Direction) code
+  optional string vvd_id = 5;
+  // Optional sales main office details
+  optional string trade_code = 6;
+  // Optional VVD (Vessel Voyage Direction) code
+  optional string revenue_lane_code = 7;
+  // Optional sales main office details
+  optional chorus.spm.sale_main_office.v1.SalesMainOfficeOpt sales_main_office = 8;
+  // Optional total booking TEU
+  optional double all_bkg_teu = 9;
+  // Optional firm booking TEU
+  optional double firm_bkg_teu = 10;
+  // Optional waitlist booking TEU
+  optional double wait_bkg_teu = 11;
+}
+
+// Request message for retrieving a trunk allocation SMO item by sales main office code and optional VVD code
+message GetTrunkAllocationSMOItemRequest {
+  // Sales main office code
+  string sales_main_office_code = 1;
+  // Optional VVD code
+  optional string vvd_code = 2;
+   // Optional trade code
+  optional string trade_code = 3;
+    // Optional revenue lane code
+  optional string revenue_lane_code = 4;
+}
+
+// Request message for retrieving a list of trunk allocation SMO items by VVD id
+message GetTrunkAllocationSMOListItemRequest {
+  // Optional VVD code
+  optional string vvd_code = 2;
+   // Optional trade code
+  optional string trade_code = 3;
+    // Optional  revenue lane code
+  optional string revenue_lane_code = 4;
+}
+
+// Response message containing a list of trunk allocation SMO items
+message GetTrunkAllocationSMOListItemResponse {
+  // List of trunk allocation SMO items
+  repeated TrunkAllocationSmoItem items = 1;
+}
+
+// Response message containing a single trunk allocation SMO item
+message GetTrunkAllocationSMOItemResponse {
+  // Trunk allocation SMO item
+  TrunkAllocationSmoItem data = 1;
+}
+
+// Service for managing trunk allocation SMO items
+service TrunkAllocationSmoService {
+  // Retrieves a trunk allocation SMO item by sales main office code and optional VVD code
+  rpc GetTrunkAllocationSMOItem (GetTrunkAllocationSMOItemRequest) returns (GetTrunkAllocationSMOItemResponse) {}
+  // Retrieves a list of trunk allocation SMO items by VVD code
+  rpc GetTrunkAllocationSMOListItem (GetTrunkAllocationSMOListItemRequest) returns (GetTrunkAllocationSMOListItemResponse) {}
+}

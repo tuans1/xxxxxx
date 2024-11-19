@@ -1,0 +1,787 @@
+syntax = "proto3";
+
+package chorus.flm.vessel.v1;
+
+// Service for Vessel module
+service VesselService {
+
+  // Get all, search, filter vessels
+  //
+  // Operation: GET
+  //
+  // Request:
+  // {
+  //      "keyword": "string",
+  //      "filters" : {
+  //        "delivery_status": "delivered"
+  //        "teu": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "beam": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "draft": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "reefer_plugs" : {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "loa": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "foc_xx_knots": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "year_built": {
+  //            min: 2020, 
+  //            max: 2022
+  //        }
+  //      }
+  // }
+  //
+  // Response:
+  // {
+  //      "vessels": [
+  //           Vessel
+  //       ],
+  // }
+  rpc FindAllVessels(FindAllVesselsRequest) returns (FindAllVesselsResponse);
+  
+  // Get all, search, filter vessels (for comparison table)
+  //
+  // Operation: GET
+  //
+  // Request:
+  // {
+  //      "keyword": "string",
+  //      "filters" : {
+  //        "vessel_status": "IN_WATER"
+  //        "teu": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "beam": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "draft": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "reefer_plugs" : {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "loa": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "foc_xx_knots": {
+  //            min: 0, 
+  //            max: 10
+  //        },
+  //        "year_built": {
+  //            min: 2020, 
+  //            max: 2022
+  //        }
+  //      }
+  // }
+  //
+  // Response:
+  // {
+  //      "vessels": [
+  //           Vessel
+  //       ],
+  // }
+  rpc FindAllVesselsForComparison(FindAllVesselsForComparisonRequest) returns (FindAllVesselsForComparisonResponse);
+
+  // Create new vessels
+  //
+  // Operation: POST
+  //
+  // Request:
+  //   {
+  //     "basic_teu_xx_t": 123,
+  //     "beam": "12.12",
+  //     "channel": "nulla ullamco laborum Duis ad",
+  //     "create_program_id": "ut qui quis consequat",
+  //     "create_user_id": "nisi",
+  //     "dead_weight": "12.12",
+  //     "vessel_status": "IN_CONSTRUCTION",
+  //     "gear": "Gearless",
+  //     "delivery_location": "mollit",
+  //     "delivery_timing": "aute amet irure exercitation consequat",
+  //     "design": "eu cillum ex labore qui",
+  //     "draft": "12.12",
+  //     "ex_charters": "deserunt veniam officia",
+  //     "flexible_trading": "eiusmod",
+  //     "foc_xx_knots": "12.12",
+  //     "imo_number": "1534678",
+  //     "loa": "123.00",
+  //     "loadable_teu": 12345,
+  //     "owner": "est proident elit",
+  //     "owner_indication": "45.12",
+  //     "existing_tc_rate": "45.12",
+  //     "period": "ullamco",
+  //     "reefer_plugs": 12343,
+  //     "remark": "sunt",
+  //     "update_program_id": "eu dolore officia",
+  //     "update_user_id": "non culpa consectetur voluptate eu",
+  //     "vessel_code": "null",
+  //     "vessel_name": "test",
+  //     "year_built": 2024
+  // }
+  // 
+  // Response:
+  // {
+  //      "vessel": {
+  //          Vessel
+  //    }
+  // }
+  rpc CreateVessel(CreateVesselRequest) returns (CreateVesselResponse);
+  // Import new many vessel
+  //
+  // Operation: POST
+  //
+  // Request:
+  //   {
+  //      vessels: [
+  //         Vessel,
+  //         Vessel 
+  //      ] 
+  //   }
+  // 
+  // Response:
+  // {
+  //     ids: string[]
+  //     vessel_names: string[]
+  // }
+  rpc ImportManyVessel(ImportManyVesselRequest) returns (ImportManyVesselResponse);
+  // Create new vessels
+  //
+  // Operation: POST
+  //
+  // Request:
+  // {
+  //     "vessel_id": "string",
+  // }
+  // 
+  // Response:
+  // {
+  //     "vessel": {
+  //         Vessel
+  //    }
+  // }
+  rpc FindVesselById(FindVesselByIdRequest) returns (FindVesselByIdResponse);
+  // Method delete vessel by id
+  //
+  // Operation: DELETE
+  //
+  // Request:
+  // {
+  //   "vessel_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  // }
+  rpc DeleteVesselById(DeleteVesselByIdRequest) returns (DeleteVesselByIdResponse);
+  // The method for update vessel
+  //
+  // Operation: Post
+  //
+  // Request:
+  //   {
+  //     "id": "a75962a2-a82f-49b0-8424-c19d8854a428",
+  //     "imo_number": "1534678",
+  //     "basic_teu_xx_t": 123,
+  //     "beam": "12.12",
+  //     "channel": "nulla ullamco laborum Duis ad",
+  //     "create_program_id": "ut qui quis consequat",
+  //     "create_user_id": "nisi",
+  //     "dead_weight": "12.12",
+  //     "vessel_status": "IN_CONSTRUCTION",
+  //     "gear": "Gearless",
+  //     "delivery_location": "mollit",
+  //     "delivery_timing": "aute amet irure exercitation consequat",
+  //     "design": "eu cillum ex labore qui",
+  //     "draft": "12.12",
+  //     "ex_charters": "deserunt veniam officia",
+  //     "flexible_trading": "eiusmod",
+  //     "foc_xx_knots": "12.12",
+  //     "loa": "123.00",
+  //     "loadable_teu": 12345,
+  //     "owner": "est proident elit",
+  //     "owner_indication": "45.12",
+  //     ""existing_tc_rate": "45.12",
+  //     "period": "ullamco",
+  //     "reefer_plugs": 12343,
+  //     "remark": "sunt",
+  //     "update_program_id": "eu dolore officia",
+  //     "update_user_id": "non culpa consectetur voluptate eu",
+  //     "vessel_code": "null",
+  //     "vessel_name": "test",
+  //     "year_built": 2024
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true
+  // }
+  rpc UpdateVessel(UpdateVesselRequest) returns (UpdateVesselResponse);
+  
+  // The method for get vessel name
+  //
+  // Operation: Get
+  //
+  // Request:
+  //   {
+  // }
+  //
+  //Response:
+  // {
+  //   "vessel_name": 'abc"
+  // }
+  rpc FindVesselNameIsNotExisted(FindVesselNameIsNotExistedRequest) returns (FindVesselNameIsNotExistedResponse);
+
+  // The method for export vessel records
+  //
+  // Operation: Get
+  //
+  // Request:
+  //   {
+  //      userId: "string",
+  //      currentPage: "number",
+  //      rowsPerPage: "number"
+  //   }
+  //
+  // Response:
+  // {
+  //      "vessels": [
+  //           Vessel
+  //       ],
+  //      "totalItems": "number"
+  // }
+  rpc ExportVessels(ExportVesselsRequest) returns (ExportVesselsResponse);
+}
+
+
+// Exporting Vessel Records
+message ExportedVessel {
+  // The vessel_name is the name of the vessel
+  string vessel_name = 1;
+  // The imo_number is the imo number of the vessel
+  optional string imo_number = 2;
+  // The vessel_status is the vessel is in water or in construction
+  string vessel_status = 3;
+  // The design is to compare the vessel series
+  string design = 4;
+  // The year_built is the year build of the vessel
+  int32 year_built = 5;
+  // The loadable_teu is the teu of the vessel
+  int32 loadable_teu = 6;
+  // The basic_teu_14_t is how many TEUs we can load on the vessel 
+  int32 basic_teu_xx_t = 7;
+  // The dead_weight is the dead weight of the vessel
+  optional string dead_weight = 8;
+  // The reefer_plugs is the the number of Reefer Plug
+  int32 reefer_plugs = 9;
+  // The loa is the length of overall of the vessel
+  optional string loa = 10;
+  // The beam is the width of overall of the vessel
+  string beam = 11;
+  // The draft is the draft of the vessel
+  optional string draft = 12;
+  // The foc_14_knots is the fuel consumption per day of the vessel
+  string foc_xx_knots = 13;
+  // The delivery_location is the location of delivery of the vessel
+  string delivery_location = 14;
+  // The delivery_timing is the time of delivery of the vessel
+  string delivery_timing = 15;
+  // The owner_indication is the proposal charter hire amount by owner
+  optional string owner_indication = 16;
+  // The period is the period of chartering
+  optional string period = 17;
+  // The owner is the owner of the vessel
+  optional string owner = 18;
+  // The ex_charters is the ex-charterer of the vessel
+  optional string ex_charters = 19;
+  // Existing time charter rate: current charter rate of the vessel
+  optional string existing_tc_rate = 20;
+  // The channel is the channel of the vessel
+  optional string channel = 21;
+  // The flexible_trading is the flexible trading of the vessel
+  optional string flexible_trading = 22;
+  // The remark is the remark of the vessel
+  optional string remark = 23;
+  // The gear of vessel
+  optional string gear = 24;
+}
+
+// Vessel Comparison
+message VesselComparison {
+  // The id is the id of the vessel
+  string id = 1;
+  // The vessel_name is the name of the vessel
+  string vessel_name = 2;
+  // The vessel_code is the code of the vessel
+  optional string vessel_code = 3;
+  // The imo_number is the imo number of the vessel
+  optional string imo_number = 4;
+  // The loadable_teu is the teu of the vessel
+  int32 loadable_teu = 5;
+  // The owner is the owner of the vessel
+  optional string owner = 6;
+  // The year_built is the year build of the vessel
+  int32 year_built = 7;
+  // The dead_weight is the dead weight of the vessel
+  optional string dead_weight = 8;
+  // The loa is the length of overall of the vessel
+  optional string loa = 9;
+  // The design is to compare the vessel series
+  string design = 11;
+  // The reefer_plugs is the the number of Reefer Plug
+  int32 reefer_plugs = 12;
+  // The beam is the width of overall of the vessel
+  string beam = 13;
+  // The draft is the draft of the vessel
+  optional string draft = 14;
+  // The owner_indication is the proposal charter hire amount by owner
+  optional string owner_indication = 15;
+  // The vessel_status is the vessel is in water or in construction 
+  string vessel_status = 16;
+  // The delivery_location is the location of delivery of the vessel
+  string delivery_location = 17;
+  // The delivery_timing is the time of delivery of the vessel
+  string delivery_timing = 18;
+  // The channel is the channel of the vessel
+  optional string channel = 19;
+  // The flexible_trading is the flexible trading of the vessel
+  optional string flexible_trading = 20;
+  // The ex_charters is the ex-charterer of the vessel
+  optional string ex_charters = 21;
+  // The remark is the remark of the vessel
+  optional string remark = 22;
+  // The basic_teu_14_t is how many TEUs we can load on the vessel 
+  int32 basic_teu_xx_t = 23;
+  // The foc_14_knots is the fuel consumption per day of the vessel
+  string foc_xx_knots = 24;
+  // The period is the period of chartering
+  optional string period = 25;
+  // The create_user_id is the creator of the vessel
+  string create_user_id = 26;
+  // The create_program_id is the created program id
+  string create_program_id = 27;
+  // The create_date is the created date of the vessel
+  string create_date = 28;
+  // The update_user_id is the user that updated the vessel
+  string update_user_id = 29;
+  // The update_program_id is the updated program id
+  string update_program_id = 30;
+  // The update_date is the updated date of the vessel
+  string update_date = 31;
+  // The edw_update_date is the edw updated date
+  optional string edw_update_date = 32;
+  // Existing time charter rate: current charter rate of the vessel
+  optional string existing_tc_rate = 33;
+  // The gear of vessel
+  optional string gear = 34;
+  // Is in comparison table
+  bool is_in_compared = 35;
+  // Pool tab ID
+  optional string tab_id = 36;
+  // Pool tab name
+  optional string tab_name = 37;
+}
+
+// Vessel
+message Vessel {
+  // The id is the id of the vessel
+  string id = 1;
+  // The vessel_name is the name of the vessel
+  string vessel_name = 2;
+  // The vessel_code is the code of the vessel
+  optional string vessel_code = 3;
+  // The imo_number is the imo number of the vessel
+  optional string imo_number = 4;
+  // The loadable_teu is the teu of the vessel
+  int32 loadable_teu = 5;
+  // The owner is the owner of the vessel
+  optional string owner = 6;
+  // The year_built is the year build of the vessel
+  int32 year_built = 7;
+  // The dead_weight is the dead weight of the vessel
+  optional string dead_weight = 8;
+  // The loa is the length of overall of the vessel
+  optional string loa = 9;
+  // The design is to compare the vessel series
+  string design = 11;
+  // The reefer_plugs is the the number of Reefer Plug
+  int32 reefer_plugs = 12;
+  // The beam is the width of overall of the vessel
+  string beam = 13;
+  // The draft is the draft of the vessel
+  optional string draft = 14;
+  // The owner_indication is the proposal charter hire amount by owner
+  optional string owner_indication = 15;
+  // The vessel_status is the vessel is in water or in construction 
+  string vessel_status = 16;
+  // The delivery_location is the location of delivery of the vessel
+  string delivery_location = 17;
+  // The delivery_timing is the time of delivery of the vessel
+  string delivery_timing = 18;
+  // The channel is the channel of the vessel
+  optional string channel = 19;
+  // The flexible_trading is the flexible trading of the vessel
+  optional string flexible_trading = 20;
+  // The ex_charters is the ex-charterer of the vessel
+  optional string ex_charters = 21;
+  // The remark is the remark of the vessel
+  optional string remark = 22;
+  // The basic_teu_14_t is how many TEUs we can load on the vessel 
+  int32 basic_teu_xx_t = 23;
+  // The foc_14_knots is the fuel consumption per day of the vessel
+  string foc_xx_knots = 24;
+  // The period is the period of chartering
+  optional string period = 25;
+  // The create_user_id is the creator of the vessel
+  string create_user_id = 26;
+  // The create_program_id is the created program id
+  string create_program_id = 27;
+  // The create_date is the created date of the vessel
+  string create_date = 28;
+  // The update_user_id is the user that updated the vessel
+  string update_user_id = 29;
+  // The update_program_id is the updated program id
+  string update_program_id = 30;
+  // The update_date is the updated date of the vessel
+  string update_date = 31;
+  // The edw_update_date is the edw updated date
+  optional string edw_update_date = 32;
+  // Existing time charter rate: current charter rate of the vessel
+  optional string existing_tc_rate = 33;
+  // The gear of vessel
+  optional string gear = 34;
+}
+
+// Filter vessels request
+message FiltersRequest {
+  // Filter by vessel_status or not condition
+  optional string vessel_status = 1;
+  // Filter by teu condition
+  optional FilterCondition teu = 2;
+  // Filter by beam condition
+  optional FilterCondition beam = 3;
+  // Filter by draft condition
+  optional FilterCondition draft = 4;
+  // Filter by loa condition
+  optional FilterCondition loa = 5;
+  // Filter by reefer_plugs condition
+  optional FilterCondition reefer_plugs = 6;
+  // Filter by foc_14_knots condition
+  optional FilterCondition foc_xx_knots = 7;
+  // Filter by year built of the vessel
+  optional FilterCondition year_built = 8;
+  // Filter by tab ID from comparison pool
+  optional string tab_id = 9;
+}
+
+// Filter conditions
+message FilterCondition {
+  // Min value of condition
+  optional float min = 1;
+  // Max value of condition
+  optional float max = 2;
+}
+
+// Pagination info
+message Pagination {
+  // Current Page
+  int32 current_page = 1;
+  // Rows Per Page
+  int32 rows_per_page = 2;
+}
+
+// Find all vessel with multi pages
+message ExportVesselsRequest {
+  // User id
+  string user_id = 1;
+  // Current page
+  optional int32 current_page = 2;
+  // Rows per page
+  optional int32 rows_per_page = 3;
+  // List filter conditions
+  string filters = 4;
+}
+
+// Find all vessel with multi pages
+message ExportVesselsResponse {
+  // Vessels
+  repeated ExportedVessel vessels = 1;
+  // Total vessel item
+  int32 total_items = 2;
+}
+
+// Sort type by condition
+message SortTypeRequest {
+  // type of sorting
+  string type = 1; 
+}
+
+// Find all vessels request
+message FindAllVesselsRequest {
+  // Keyword: search by IMO, Vessel name, Delivery location, Delivery timing
+  optional string keyword = 1;
+  // List filter conditions
+  optional FiltersRequest filters = 2;
+  // Pagination info
+  Pagination pagination = 3;
+}
+
+// Find all vessels request
+message FindAllVesselsForComparisonRequest {
+  // Keyword: search by IMO, Vessel name, Delivery location, Delivery timing
+  optional string keyword = 1;
+  // List filter conditions
+  optional FiltersRequest filters = 2;
+  // Sort type condition
+  optional SortTypeRequest sort_by = 3;
+  // Pagination info
+  Pagination pagination = 4;
+  // Charter Request Comparison Id
+  string comparison_id = 5;
+}
+
+// Find all vessels response
+message FindAllVesselsForComparisonResponse {
+  // Vessels
+  repeated VesselComparison vessels = 1;
+  // Total vessel item
+  int32 total_items = 2;
+}
+
+// Find all vessels response
+message FindAllVesselsResponse {
+  // Vessels
+  repeated Vessel vessels = 1;
+  // Total vessel item
+  string total_items = 2;
+}
+
+// Create vessel request
+message CreateVesselRequest{
+  // The id is the id of the vessel
+  string id = 1;
+  // The vessel_name is the name of the vessel
+  string vessel_name = 2;
+  // The vessel_code is the code of the vessel
+  string vessel_code = 3;
+  // The imo_number is the imo number of the vessel
+  string imo_number = 4;
+  // The loadable_teu is the teu of the vessel
+  int32 loadable_teu = 5;
+  // The owner is the owner of the vessel
+  string owner = 6;
+  // The year_built is the year build of the vessel
+  int32 year_built = 7;
+  // The dead_weight is the dead weight of the vessel
+  string dead_weight = 8;
+  // The loa is the length of overall of the vessel
+  string loa = 9;
+  // The design is to compare the vessel series
+  string design = 11;
+  // The reefer_plugs is the the number of Reefer Plug
+  int32 reefer_plugs = 12;
+  // The beam is the width of overall of the vessel
+  string beam = 13;
+  // The draft is the draft of the vessel
+  string draft = 14;
+  // The owner_indication is the proposal charter hire amount by owner
+  string owner_indication = 15;
+  // The vessel status is the vessel is in water or in construction
+  string vessel_status = 16;
+  // The delivery_location is the location of delivery of the vessel
+  string delivery_location = 17;
+  // The delivery_timing is the time of delivery of the vessel
+  string delivery_timing = 18;
+  // The channel is the channel of the vessel
+  string channel = 19;
+  // The flexible_trading is the flexible trading of the vessel
+  string flexible_trading = 20;
+  // The ex_charters is the ex-charterer of the vessel
+  string ex_charters = 21;
+  // The remark is the remark of the vessel
+  string remark = 22;
+  // The basic_teu_14_t is how many TEUs we can load on the vessel 
+  int32 basic_teu_xx_t = 23;
+  // The foc_14_knots is the fuel consumption per day of the vessel
+  string foc_xx_knots = 24;
+  // The period is the period of chartering
+  string period = 25;
+  // The create_user_id is the creator of the vessel
+  string create_user_id = 26;
+  // The create_program_id is the created program id
+  string create_program_id = 27;
+  // The create_date is the created date of the vessel
+  string create_date = 28;
+  // The update_user_id is the user that updated the vessel
+  string update_user_id = 29;
+  // The update_program_id is the updated program id
+  string update_program_id = 30;
+  // The update_date is the updated date of the vessel
+  string update_date = 31;
+  // The edw_update_date is the edw updated date
+  string edw_update_date = 32;
+  // Existing time charter rate: current charter rate of the vessel
+  optional string existing_tc_rate = 33;
+  // The gear of Vessel
+  optional string gear = 34;
+}
+
+// Import many vessels
+message ImportManyVesselRequest {
+  // List of vessels for importing
+  repeated CreateVesselRequest vessels = 1;
+}
+
+// Import many vessels
+message ImportManyVesselResponse {
+  // The id is the id of the vessel
+  repeated string ids = 1;
+  // The vessel_name is the name of the vessel
+  repeated string vessel_names = 2;
+}
+
+// Create vessel response
+message CreateVesselResponse {
+  // The id is the id of the vessel
+  string id = 1;
+  // The vessel_name is the name of the vessel
+  string vessel_name = 2;
+}
+
+// Find one vessel request
+message FindVesselByIdRequest {
+  // Id of the vessel
+  string vessel_id = 1;
+}
+
+// Find all vessels response
+message FindVesselByIdResponse {
+  // Vessels
+  Vessel vessel = 1;
+}
+
+// The message request for delete vessel
+message DeleteVesselByIdRequest {
+  // vessel id
+  string vessel_id = 1;
+
+  // Notification Recipients
+  repeated string notification_recipients = 2;
+}
+
+// The message response for delete vessel
+message DeleteVesselByIdResponse {
+  // Result of update
+  bool success = 1;
+}
+
+// Update vessel request
+message UpdateVesselRequest {
+  // The id is the id of the vessel
+  optional string id = 1;
+  // The vessel_name is the name of the vessel
+  optional string vessel_name = 2;
+  // The vessel_code is the code of the vessel
+  optional string vessel_code = 3;
+  // The imo_number is the imo number of the vessel
+  optional string imo_number = 4;
+  // The loadable_teu is the teu of the vessel
+  optional int32 loadable_teu = 5;
+  // The owner is the owner of the vessel
+  optional string owner = 6;
+  // The year_built is the year build of the vessel
+  optional int32 year_built = 7;
+  // The dead_weight is the dead weight of the vessel
+  optional string dead_weight = 8;
+  // The loa is the length of overall of the vessel
+  optional string loa = 9;
+  // The design is to compare the vessel series
+  optional string design = 11;
+  // The reefer_plugs is the the number of Reefer Plug
+  optional int32 reefer_plugs = 12;
+  // The beam is the width of overall of the vessel
+  optional string beam = 13;
+  // The draft is the draft of the vessel
+  optional string draft = 14;
+  // The owner_indication is the proposal charter hire amount by owner
+  optional string owner_indication = 15;
+  // The vessel status is the vessel is in water or in construction
+  optional string vessel_status = 16;
+  // The delivery_location is the location of delivery of the vessel
+  optional string delivery_location = 17;
+  // The delivery_timing is the time of delivery of the vessel
+  optional string delivery_timing = 18;
+  // The channel is the channel of the vessel
+  optional string channel = 19;
+  // The flexible_trading is the flexible trading of the vessel
+  optional string flexible_trading = 20;
+  // The ex_charters is the ex-charterer of the vessel
+  optional string ex_charters = 21;
+  // The remark is the remark of the vessel
+  optional string remark = 22;
+  // The basic_teu_14_t is how many TEUs we can load on the vessel 
+  optional int32 basic_teu_xx_t = 23;
+  // The foc_14_knots is the fuel consumption per day of the vessel
+  optional string foc_xx_knots = 24;
+  // The period is the period of chartering
+  optional string period = 25;
+  // The create_user_id is the creator of the vessel
+  optional string create_user_id = 26;
+  // The create_program_id is the created program id
+  optional string create_program_id = 27;
+  // The create_date is the created date of the vessel
+  optional string create_date = 28;
+  // The update_user_id is the user that updated the vessel
+  optional string update_user_id = 29;
+  // The update_program_id is the updated program id
+  optional string update_program_id = 30;
+  // The update_date is the updated date of the vessel
+  optional string update_date = 31;
+  // The edw_update_date is the edw updated date
+  optional string edw_update_date = 32;
+  // The edw_update_date is the edw updated date
+  optional string deleted_at = 33;
+  // Existing time charter rate: current charter rate of the vessel
+  optional string existing_tc_rate = 34;
+  // The gear of vessel
+  optional string gear = 35;
+}
+
+//The message that contains the update vessel response
+message UpdateVesselResponse {
+  // Result of update
+  bool success = 1;
+  // vessel name
+  string vessel_name = 2;
+  // imo number
+  string imo_number = 3;
+}
+
+// Message to represent an empty request.
+message FindVesselNameIsNotExistedRequest{
+}
+
+//The message that contains the vessel's name
+message FindVesselNameIsNotExistedResponse {
+  // vessel name
+  string vessel_name = 1;
+}

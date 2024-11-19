@@ -1,0 +1,230 @@
+syntax = "proto3";
+
+package chorus.mdm.yard.v1;
+
+import "chorus/mdm/base/v1/base.proto";
+
+// The yard information.
+message Yard {
+  // The yard_code is the code of the yard. yd_cd in OPUS.
+  string yard_code = 1;
+  // The yard_name is the name of the yard. yd_nm in OPUS.
+  string yard_name = 2;
+  // The location_code is the location code of the yard. loc_cd in OPUS.
+  string location_code = 3;
+  // The yard_address is the address of the yard. yd_addr in OPUS.
+  string yard_address = 4;
+  // The phone_number is the phone number of the yard. phn_no in OPUS.
+  string phone_number = 5;
+  // The fax_number is the fax number of the yard. fax_no in OPUS.
+  string fax_number = 6;
+  // The yard_customs_number is the customs number of the yard. yd_cstms_no in OPUS.
+  string yard_customs_number = 7;
+  // The yard_email is the email of the yard. yd_eml in OPUS.
+  string yard_email = 8;
+  // The yard_facility_type_marine_terminal_flag is the facility type marine terminal flag of the yard. yd_fcty_tp_mrn_tml_flg in OPUS.
+  string yard_facility_type_marine_terminal_flag = 9;
+  // The yard_facility_type_cy_flag is the facility type cy flag of the yard. yd_fcty_tp_cy_flg in OPUS.
+  string yard_facility_type_cy_flag = 10;
+  // The yard_facility_type_cfs_flag is the facility type cfs flag of the yard. yd_fcty_tp_cfs_flg in OPUS.
+  string yard_facility_type_cfs_flag = 11;
+  // The yard_facility_type_rail_ramp_flag is the facility type rail ramp flag of the yard. yd_fcty_tp_rail_rmp_flg in OPUS.
+  string yard_facility_type_rail_ramp_flag = 12;
+  // The yard_facility_type_barge_ramp_flag is the facility type barge ramp flag of the yard. yd_fcty_tp_brg_rmp_flg in OPUS.
+  string yard_facility_type_barge_ramp_flag = 13;
+  // The yard_facility_type_pseudo_yard_flag is the facility type pseudo yard flag of the yard. yd_fcty_tp_psdo_yd_flg in OPUS.
+  string yard_facility_type_pseudo_yard_flag = 14;
+}
+
+// The yard code information.
+message YardCode {
+  // The code of the yard.
+  string yard_code = 1;
+}
+
+// Request message for `YardInfoService.GetYardsByCodes`.
+message GetYardsByCodesRequest {
+  // The yard code list
+  repeated YardCode yard_code_list = 1;
+}
+
+// Response message for `YardInfoService.GetYardsByCodes`.
+message GetYardsByCodesResponse {
+  // The yard information.
+  Yard yard = 1;
+}
+
+// Request message for `YardInfoService.SearchYardsByName`.
+message SearchYardsByNameRequest {
+  // The name of the yard.
+  string yard_name = 1;
+}
+
+// Response message for `YardInfoService.SearchYardsByName`.
+message SearchYardsByNameResponse {
+  // The yard information.
+  Yard yard = 1;
+}
+
+// Request message for `YardInfoService.SearchYardByMultipleFields`.
+message SearchYardByMultipleFieldsRequest {
+  // The code of the yard.
+  optional string yard_code = 1;
+  // The name of the yard.
+  optional string yard_name = 2;
+  // The location code of yard.
+  optional string location_code = 3;
+  // The office code of yard.
+  optional string office_code = 4;
+  // The pagination.
+  chorus.mdm.base.v1.Pagination pagination = 5;
+  // The order by list.
+  repeated chorus.mdm.base.v1.OrderBy order_by = 6;
+  // The list of location code.
+  repeated string location_codes = 7;
+  // The facility type marine terminal flag.
+  optional string yard_facility_type_marine_terminal_flag = 8;
+}
+
+//Wrap Yard entity from search multiple
+message YardSearchPopup {
+  //The sequence of yard.
+  int32 sequence = 1;
+  // The yard_code is the code of the yard. yd_cd in OPUS.
+  string yard_code = 2;
+  // The yard_name is the name of the yard. yd_nm in OPUS.
+  string yard_name = 3;
+  // The ofc_cd is the office code of the yard. ofc_cd in OPUS.
+  string office_code = 4;
+  // The loc_cd is the location code of the yard. loc_cd in OPUS.
+  string loc_cd = 5;
+  // The yd_fcty_tp_mrn_tml_flg is the facility type marine terminal flag of the yard. yd_fcty_tp_mrn_tml_flg in OPUS.
+  string yd_fcty_tp_mrn_tml_flg = 6;
+  // The yd_fcty_tp_cy_flg is the facility type cy flag of the yard. yd_fcty_tp_cy_flg in OPUS.
+  string yd_fcty_tp_cy_flg = 7;
+  // The yd_fcty_tp_cfs_flg is the facility type cfs flag of the yard. yd_fcty_tp_cfs_flg in OPUS.
+  string yd_fcty_tp_cfs_flg = 8;
+  // The yd_fcty_tp_rail_rmp_flg is the facility type rail ramp flag of the yard. yd_fcty_tp_rail_rmp_flg in OPUS.
+  string yd_fcty_tp_rail_rmp_flg = 9;
+  // The yd_fcty_tp_psdo_yd_flg is the facility type pseudo yard flag of the yard. yd_fcty_tp_psdo_yd_flg in OPUS.
+  string yd_fcty_tp_psdo_yd_flg = 10;
+  // The yd_cstms_no is the customs number of the yard. yd_cstms_no in OPUS.
+  string yd_cstms_no = 11;
+  // The yd_bic_fcty_cd is the BIC facility code of the yard. yd_bic_fcty_cd in OPUS.
+  string yd_bic_fcty_cd = 12;
+  // The yd_smdg_tml_cd is the SMDG terminal code of the yard. yd_smdg_tml_cd in OPUS.
+  string yd_smdg_tml_cd = 13;
+}
+
+// Response message for `YardInfoService.SearchYardByMultipleFields`.
+message SearchYardByMultipleFieldsResponse {
+  // Response model for `YardInfoService.SearchYardByMultipleFields`.
+  YardSearchPopup yard = 1;
+}
+
+// Services for yard
+service YardInfoService {
+  // Get list of yards by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "yard_code_list": [
+  //         {
+  //             "yard_code": "USSAT31"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "yard": {
+  //         "yard_code": "USSAT31",
+  //         "yard_name": "WWINNERS (DEPOT) - SAN ANTONIO",
+  //         "location_code": "USSAT",
+  //         "yard_address": "3611 SPEEDWAY RUN,,  VON ORMY, TX",
+  //         "phone_number": "210-227-3901",
+  //         "fax_number": "1",
+  //         "yard_customs_number": "V307",
+  //         "yard_email": "DISPATCH.SAN.ANTONIO@WWROWLAND.COM",
+  //         "yard_facility_type_marine_terminal_flag": "N",
+  //         "yard_facility_type_cy_flag": "Y",
+  //         "yard_facility_type_cfs_flag": "N",
+  //         "yard_facility_type_rail_ramp_flag": "N",
+  //         "yard_facility_type_barge_ramp_flag": "N",
+  //         "yard_facility_type_pseudo_yard_flag": "N"
+  //     }
+  // }
+  rpc GetYardsByCodes(GetYardsByCodesRequest) returns (stream GetYardsByCodesResponse);
+
+  // Search list of yards by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "yard_name": "WWINNERS"
+  // }
+  //
+  // Response:
+  // {
+  //     "yard": {
+  //         "yard_code": "USSAT31",
+  //         "yard_name": "WWINNERS (DEPOT) - SAN ANTONIO",
+  //         "location_code": "USSAT",
+  //         "yard_address": "3611 SPEEDWAY RUN,,  VON ORMY, TX",
+  //         "phone_number": "210-227-3901",
+  //         "fax_number": "1",
+  //         "yard_customs_number": "V307",
+  //         "yard_email": "DISPATCH.SAN.ANTONIO@WWROWLAND.COM",
+  //         "yard_facility_type_marine_terminal_flag": "N",
+  //         "yard_facility_type_cy_flag": "Y",
+  //         "yard_facility_type_cfs_flag": "N",
+  //         "yard_facility_type_rail_ramp_flag": "N",
+  //         "yard_facility_type_barge_ramp_flag": "N",
+  //         "yard_facility_type_pseudo_yard_flag": "N"
+  //     }
+  // }
+  // ...
+  rpc SearchYardsByName(SearchYardsByNameRequest) returns (stream SearchYardsByNameResponse);
+  
+  // Search list of yard by multiple fields.
+  //
+  // Operation: LIKE & MATCH
+  //
+  // Request:
+  // {      
+  //  "yard_code": "AE",
+  //  "yard_name": "RE-USE YARD",
+  //  "location_code": "AEAUH",
+  //  "office_code": "AUHBA",
+  //  "location_codes": ["AEAUH"],
+  //  "yard_facility_type_marine_terminal_flag": "N",
+  //  "pagination": {
+  //      "limit": 50,
+  //      "offset": 0,
+  //    },
+  // }
+  //
+  // Response:
+  // {
+  //     "yard": {
+  //          "sequence": 1,
+  //          "yard_code": "AEAUH90",
+  //          "yard_name": "RE-USE YARD RE-USE YARD",
+  //          "office_code": "AUHBA",
+  //          "loc_cd":"AEAUH",
+  //          "yd_fcty_tp_mrn_tml_flg": "N",
+  //          "yd_fcty_tp_cy_flg": "N",
+  //          "yd_fcty_tp_cfs_flg": "N",
+  //          "yd_fcty_tp_rail_rmp_flg": "N",
+  //          "yd_fcty_tp_psdo_yd_flg": "Y",
+  //          "yd_cstms_no": null,
+  //          "yd_bic_fcty_cd": null,
+  //          "yd_smdg_tml_cd": null
+  //     }
+  // }
+  // ...
+  rpc SearchYardByMultipleFields(SearchYardByMultipleFieldsRequest) returns (stream SearchYardByMultipleFieldsResponse);
+}

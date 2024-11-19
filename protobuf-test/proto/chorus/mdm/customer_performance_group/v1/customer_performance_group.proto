@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package chorus.mdm.customer_performance_group.v1;
+
+// The Customer performance group information.
+message CustomerPerformanceGroup {
+  // The customer group id is the customer group id of the customer performance group. cust_grp_id in OPUS.
+  string customer_group_id = 1;
+  // The customer group name is the customer group name of the customer performance group. cust_grp_nm in OPUS.
+  string customer_group_name = 2;
+  // The office code is the office code of the customer performance group. ofc_cd in OPUS.
+  string office_code = 3;
+  // The sales_representative_code is the sales representative code of the customer performance group. srep_cd in OPUS.
+  string sales_representative_code = 4;
+}
+
+// The customer group id information.
+message CustomerGroupId {
+  // The customer group id of customer performance group
+  string customer_group_id = 1;
+}
+
+// Request message for `CustomerPerformanceGroupInfoService.GetCustomerPerformanceGroupsByCustomerGroupIds`.
+message GetCustomerPerformanceGroupsByCustomerGroupIdsRequest {
+  // The customer group code list.
+  repeated CustomerGroupId customer_group_id_list = 1;
+}
+
+// Response message for `CustomerPerformanceGroupInfoService.GetCustomerPerformanceGroupsByCustomerGroupIds`.
+message GetCustomerPerformanceGroupsByCustomerGroupIdsResponse {
+  // The customer performance group information.
+  CustomerPerformanceGroup customer_performance_group = 1;
+}
+
+// Request message for `CustomerPerformanceGroupInfoService.SearchCustomerPerformanceGroupsByCustomerGroupName`.
+message SearchCustomerPerformanceGroupsByCustomerGroupNameRequest {
+  // The customer group name.
+  string customer_group_name = 1;
+}
+
+// Response message for `CustomerPerformanceGroupInfoService.SearchCustomerPerformanceGroupsByCustomerGroupName`.
+message SearchCustomerPerformanceGroupsByCustomerGroupNameResponse {
+  // The customer performance group information.
+  CustomerPerformanceGroup customer_performance_group = 1;
+}
+
+//Services for customer performance group.
+service CustomerPerformanceGroupInfoService {
+  // Get list of customer performance groups by customer group id list.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_group_id_list": [
+  //         {
+  //             "customer_group_id": "G-US125401"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "customer_performance_group": {
+  //         "customer_group_id": "G-US125401",
+  //         "customer_group_name": "TLR TOTAL LOGISTICS RESOURCE",
+  //         "office_code": "SEABB",
+  //         "sales_representative_code": "US083"
+  //     }
+  // }
+  // ...
+  rpc GetCustomerPerformanceGroupsByCustomerGroupIds(GetCustomerPerformanceGroupsByCustomerGroupIdsRequest) returns (stream GetCustomerPerformanceGroupsByCustomerGroupIdsResponse);
+
+  // Search list of customer performance groups by customer group name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "customer_group_name": "TOTAL"
+  // }
+  //
+  // Response:
+  // {
+  //     "customer_performance_group": {
+  //         "customer_group_id": "G-US125401",
+  //         "customer_group_name": "TLR TOTAL LOGISTICS RESOURCE",
+  //         "office_code": "SEABB",
+  //         "sales_representative_code": "US083"
+  //     }
+  // }
+  // ...
+  rpc SearchCustomerPerformanceGroupsByCustomerGroupName(SearchCustomerPerformanceGroupsByCustomerGroupNameRequest) returns (stream SearchCustomerPerformanceGroupsByCustomerGroupNameResponse);
+}

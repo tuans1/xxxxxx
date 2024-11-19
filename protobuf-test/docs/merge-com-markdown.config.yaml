@@ -1,0 +1,5 @@
+input:
+  README.md: ""
+  com.md: ""
+output:
+  name: ../proto/chorus/com/README.md

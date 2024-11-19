@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package chorus.mdm.credit_customer_relation.v1;
+
+// The credit customer relation information
+message CreditCustomerRelation {
+  // The customer_country_code is the customer country code of the credit customer relation. cust_cnt_cd in OPUS
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the credit customer relation. cust_seq in OPUS
+  int32 customer_sequence = 2;
+  // The customer_agreement_number is the customer agreement number of the credit customer relation. cust_agmt_no in OPUS
+  string customer_agreement_number = 3;
+  // The customer_relation_sequence is the customer relation sequence of the credit customer relation. cust_rlt_seq in OPUS
+  int32 customer_relation_sequence = 4;
+  // The child_customer_country_code is the child customer country code of the credit customer relation. chd_cust_cnt_cd in OPUS
+  string child_customer_country_code = 5;
+  // The child_customer_sequence is the child customer sequence of the credit customer relation. chd_cust_seq in OPUS
+  int32 child_customer_sequence = 6;
+}
+
+// The customer country code and sequence.
+message CustomerCountryCodeAndSequence {
+  // The customer country code of the credit customer relation.
+  string customer_country_code = 1;
+  // The customer sequence of the credit customer relation.
+  int32 customer_sequence = 2;
+}
+
+// Request message for `CreditCustomerRelationInfoService.GetCreditCustomerRelationsByCustomerCountryCodesAndSequencesRequest`.
+message GetCreditCustomerRelationsByCustomerCountryCodesAndSequencesRequest {
+// The customer country code and sequence list.
+  repeated CustomerCountryCodeAndSequence customer_country_code_and_sequence_list = 1;
+}
+
+// Response message for `CreditCustomerRelationInfoService.GetCreditCustomerRelationsByCustomerCountryCodesAndSequencesResponse`.
+message GetCreditCustomerRelationsByCustomerCountryCodesAndSequencesResponse {
+  // The credit customer relation information.
+  CreditCustomerRelation credit_customer_relation = 1;
+}
+
+// Services for credit customer relation.
+service CreditCustomerRelationInfoService {
+  // Get list of credit customer relation by customer country codes and customer sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_country_code_and_sequence_list": [
+  //         {
+  //             "customer_country_code": "BE"
+  //             "customer_sequence": "100849"
+  //         }
+  //     ],
+  // }
+  //
+  // Response:
+  // {
+  //     "credit_customer_relation": {
+  //         "customer_country_code": "BE",
+  //         "customer_sequence": "100849",
+  //         "customer_agreement_number": "BE/BE100849",
+  //         "customer_relation_sequence": "199",
+  //         "child_customer_country_code": "BE",
+  //         "child_customer_sequence": "100002",
+  //     }
+  // }
+  // ...
+  rpc GetCreditCustomerRelationsByCustomerCountryCodesAndSequences(GetCreditCustomerRelationsByCustomerCountryCodesAndSequencesRequest) returns (stream GetCreditCustomerRelationsByCustomerCountryCodesAndSequencesResponse);
+}

@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Run buf lint 
+# buf lint proto > buf_lint_output.json
+# lc=$(cat buf_lint_output.json | wc -l)
+# if [ "$lc" -gt 0 ]; then
+#   echo "Lint warnings found. Treating them as errors."
+#   rm buf_lint_output.json
+#   exit 1
+# fi
+
+# rm buf_lint_output.json
+
+# Run buf build
+buf build proto
+
+# Compile markdown
+protoc --experimental_allow_proto3_optional --plugin=protoc-gen-doc=../../home/node/go/bin/protoc-gen-doc --doc_out=./docs --doc_opt=markdown,mdm.md --proto_path=proto proto/chorus/mdm/*/*/*.proto
+sed -i ':a;N;$!ba;s@\n\nOperation: @<br /><br />Operation: @g' ./docs/mdm.md
+sed -i ':a;N;$!ba;s@\n\nRequest: @<br /><br />Request: @g' ./docs/mdm.md
+sed -i ':a;N;$!ba;s@\n\nResponse: @<br /><br />Response: @g' ./docs/mdm.md
+
+protoc --experimental_allow_proto3_optional --plugin=protoc-gen-doc=../../home/node/go/bin/protoc-gen-doc --doc_out=./docs --doc_opt=markdown,com.md --proto_path=proto proto/chorus/com/*/*/*.proto
+sed -i ':a;N;$!ba;s@\n\nOperation: @<br /><br />Operation: @g' ./docs/com.md
+sed -i ':a;N;$!ba;s@\n\nRequest: @<br /><br />Request: @g' ./docs/com.md
+sed -i ':a;N;$!ba;s@\n\nResponse: @<br /><br />Response: @g' ./docs/com.md
+
+protoc --experimental_allow_proto3_optional --plugin=protoc-gen-doc=../../home/node/go/bin/protoc-gen-doc --doc_out=./docs --doc_opt=markdown,spm.md --proto_path=proto/chorus/spm proto/chorus/spm/*/*/*.proto
+sed -i ':a;N;$!ba;s@\n\nOperation: @<br /><br />Operation: @g' ./docs/spm.md
+sed -i ':a;N;$!ba;s@\n\nRequest: @<br /><br />Request: @g' ./docs/spm.md
+sed -i ':a;N;$!ba;s@\n\nResponse: @<br /><br />Response: @g' ./docs/spm.md
+
+protoc --experimental_allow_proto3_optional --plugin=protoc-gen-doc=../../home/node/go/bin/protoc-gen-doc --doc_out=./docs --doc_opt=markdown,flm.md --proto_path=proto/chorus/flm proto/chorus/flm/*/*/*.proto
+sed -i ':a;N;$!ba;s@\n\nOperation: @<br /><br />Operation: @g' ./docs/flm.md
+sed -i ':a;N;$!ba;s@\n\nRequest: @<br /><br />Request: @g' ./docs/flm.md
+sed -i ':a;N;$!ba;s@\n\nResponse: @<br /><br />Response: @g' ./docs/flm.md
+
+protoc --experimental_allow_proto3_optional --plugin=protoc-gen-doc=../../home/node/go/bin/protoc-gen-doc --doc_out=./docs --doc_opt=markdown,mom.md --proto_path=proto/chorus/mom proto/chorus/mom/*/*/*.proto
+sed -i ':a;N;$!ba;s@\n\nOperation: @<br /><br />Operation: @g' ./docs/mom.md
+sed -i ':a;N;$!ba;s@\n\nRequest: @<br /><br />Request: @g' ./docs/mom.md
+sed -i ':a;N;$!ba;s@\n\nResponse: @<br /><br />Response: @g' ./docs/mom.md
+
+protoc --experimental_allow_proto3_optional --plugin=protoc-gen-doc=../../home/node/go/bin/protoc-gen-doc --doc_out=./docs --doc_opt=markdown,fcm.md --proto_path=proto proto/chorus/fcm/*/*/*/*.proto
+sed -i ':a;N;$!ba;s@\n\nOperation: @<br /><br />Operation: @g' ./docs/fcm.md
+sed -i ':a;N;$!ba;s@\n\nRequest: @<br /><br />Request: @g' ./docs/fcm.md
+sed -i ':a;N;$!ba;s@\n\nResponse: @<br /><br />Response: @g' ./docs/fcm.md
+
+npm run merge-markdown --silent --workspaces
+# Stage generated markdown file
+git add docs
+git add proto/chorus

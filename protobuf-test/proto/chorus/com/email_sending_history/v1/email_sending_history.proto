@@ -1,0 +1,253 @@
+syntax = "proto3";
+
+package chorus.com.email_sending_history.v1;
+
+// The email sending history service definition.
+message EmailSending {
+    // The ID of the email sending history.
+    string id = 1;    
+    // The product code of the email sending history.
+    string product_code= 2;
+    // The subject of the email sending history.
+    string subject = 3;
+    // The message of the email sending history.
+    string message = 4;
+    // The recipients of the email sending history.
+    string recipients = 5;
+    // The status of the email sending history.
+    string status = 6;
+    // The created_at of the email sending history.
+    string created_date = 7;
+    // The files of the email sending history.
+    repeated string files = 8;
+    // The template id of the email sending history.
+    string template_id = 9;
+    // The BCC of the email sending history.
+    string bcc = 10;
+    // The CC of the email sending history.
+    string cc = 11;
+}
+
+// The request message containing the query for search email sending history.
+message Query {
+    // The product_code to search email sending history.
+    string product_code = 1;
+    // The subject to search email sending history.
+    string subject = 2;
+    // The message to search email sending history.
+    string message = 3;
+    // The recipients to search email sending history.
+    string recipients = 4;
+    // The status to search email sending history.
+    string status = 5;
+    // The  from created date to search email sending history.
+    string from_date = 6;
+    // The  to created date to search email sending history.
+    string to_date = 7;
+    // The BCC to search email sending history.
+    string bcc = 8;
+    // The CC to search email sending history.
+    string cc = 9;
+}
+
+// Pagination for the search result.
+message Pagingation {
+    // limit of the search result.
+    int32 limit = 1;
+    // next_cursor of the search result.
+    string next_cursor = 2;
+}
+
+// The request message containing the query for search email sending.
+message SearchEmailSendingRequest {
+    // The query for search email sending.
+    Query query = 1;
+    // The pagingation for the search result.
+    Pagingation pagingation = 2;
+}
+
+// The response message containing the email sending history.
+message SearchEmailSendingResponse {
+    // The email sending.
+    EmailSending data = 1;
+}
+
+// The request message containing the email sending history.
+message EmailSendingHistory {
+    // The ID of the email sending history.
+    string id = 1;
+    // The status of the email sending history.
+    string status = 2;
+    // The created date of the email sending history.
+    string created_date = 3;
+    // The error message of the email sending history.
+    string error_message = 4;
+    // The message id of the email sending history.
+    string message_id = 5;
+    // The updated date of the email sending history.
+    string updated_date = 6;
+}
+
+// The request message get recipients status by history id.
+message GetRecipientsStatusByHistoryIdRequest {
+    // The ID of the email sending history.
+    string notification_history_id = 1;
+    // The pagingation for the get result.
+    Pagingation pagingation = 2;
+}
+
+// The message contain status the recipients.
+message Recipients {
+    // The id of recipients.
+    string id = 1;
+    // The email of recipients.
+    string email = 2;
+    // The status of recipients.
+    string status = 3;
+    // The description of recipients.
+    string description = 4; 
+    // The created date of recipients.
+    string created_date = 5;
+    // The updated date of recipients.
+    string updated_date = 6;
+}
+
+// The response message containing the status of the recipients.
+message GetRecipientsStatusByHistoryIdResponse {
+    // The email sending history.
+    Recipients data = 1;
+}
+
+// The request message containing the query for search email sending history.
+message GetEmailHistorySendingByIdRequest {
+    // The ID of the email sending history.
+    string id = 1;
+}
+
+// The response message containing the email sending history.
+message GetEmailHistorySendingByIdResponse {
+    // The email sending history.
+    EmailSendingHistory data = 1;
+}
+
+// The request message get email sending detail.
+message GetEmailSendingDetailRequest {
+    //Notification message ID
+    string notification_message_id = 1;
+}
+
+// The response message get email sending detail.
+message GetEmailSendingDetailResponse {
+    // The email sending.
+    EmailSending data = 1;
+}
+
+//service definition
+service EmailSendingHistoryService {
+    // Search email sending history.
+    //
+    // Operation: MATCH
+    //
+    //Request:
+    // {
+    //     "query": {
+    //         "product_code": "product_code",
+    //         "subject": "subject",
+    //         "message": "message",
+    //         "recipients": "recipients",
+    //         "status": "status",
+    //         "from_date": "from_date",
+    //         "to_date": "to_date",
+    //         "bcc": "bcc",
+    //         "cc": "cc",
+    //
+    //     },
+    //     "pagingation": {
+    //         "limit": 10,
+    //         "next_cursor": "next_cursor"
+    //     }
+    // }
+    //
+    //Response:
+    // {
+    //     "data": {
+    //         "id": "id",
+    //         "product_code": "product_code",
+    //         "subject": "subject",
+    //         "message": "message",
+    //         "recipients": "recipients",
+    //         "status": "status",
+    //         "created_at": "created_at",
+    //         "template_id": "template_id",
+    //     }
+    // }
+    rpc SearchEmailSending(SearchEmailSendingRequest) returns ( stream SearchEmailSendingResponse);
+    // Get email sending history by ID.
+    //
+    // Operation: GET
+    //
+    //Request:
+    // {
+    //     "id": "id"
+    // }
+    //
+    //Response:
+    // {
+    //     "data": {
+    //         "id": "id",
+    //         "status": "status",
+    //         "created_at": "created_at",
+    //         "error_message": "error_message",
+    //     }
+    // }
+    rpc GetEmailHistorySendingById(GetEmailHistorySendingByIdRequest) returns ( stream GetEmailHistorySendingByIdResponse);
+    // Get recipients status by history id.
+    //
+    // Operation: GET
+    //
+    //Request:
+    // {
+    //     "notification_history_id": "notification_history_id",
+    //     "pagingation": {
+    //         "limit": 10,
+    //         "next_cursor": "next_cursor"
+    //     }
+    // }
+    //
+    //Response:
+    // {
+    //     "data": {
+    //         "id": 
+    //         "email": "email",
+    //         "status": "status",
+    //         "description": "description",
+    //         "message_id": "",
+    //         "updated_date": "",
+    //     }
+    // }
+    rpc GetRecipientsStatusByHistoryId(GetRecipientsStatusByHistoryIdRequest) returns ( stream GetRecipientsStatusByHistoryIdResponse);
+    // Get email sending detail by notification message id.
+    //
+    // Operation: MATCH
+    //
+    //Request:
+    // {
+    //   "notification_message_id": "string"
+    // }
+    //
+    //Response:
+    // {
+    //   "data": {
+    //     "id": "id",
+    //     "product_code": "product_code",
+    //     "subject": "subject",
+    //     "message": "message",
+    //     "recipients": "recipients",
+    //     "status": "status",
+    //     "files": ["file1","file2"],
+    //     "created_at": "created_at",
+    //     "template_id": "template_id",
+    //   }
+    // }
+    rpc GetEmailSendingDetail(GetEmailSendingDetailRequest) returns (GetEmailSendingDetailResponse);
+}

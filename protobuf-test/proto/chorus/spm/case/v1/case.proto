@@ -1,0 +1,2080 @@
+syntax = "proto3";
+
+import "chorus/spm/base/v1/base.proto";
+import "chorus/spm/user/v1/user.proto";
+import "chorus/spm/vvd/v1/vvd.proto";
+import "chorus/spm/shortfall_case/v1/shortfall_case.proto";
+import "chorus/spm/sale_main_office/v1/sale_main_office.proto";
+import "chorus/spm/extra_demand_case/v1/extra_demand_case.proto";
+
+package chorus.spm.case.v1;
+
+// Case message
+message Case {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case (e.g., open, closed)
+  string status = 3;
+
+  // Type of case (e.g., shortfall, dispute)
+  string type = 4;
+
+  // RF plug unit details
+  string rf_plug_unit = 5;
+
+  // D7 unit details
+  string d7_unit = 6;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 7;
+
+  // Due date for case resolution
+  string due_date = 8;
+
+  // Timestamp of the last update
+  string updated_at = 9;
+
+  // User who last updated the case
+  chorus.spm.user.v1.UserResponse updated_by = 10;
+
+  // Timestamp of when the case was created
+  string created_at = 11;
+
+  // User who created the case
+  chorus.spm.user.v1.UserResponse created_by = 12;
+
+  // Sales main office related to the case
+  chorus.spm.sale_main_office.v1.SaleMainOffice sale_main_office = 13;
+
+  // Optional shortfall case details
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 14;
+
+  // Optional extra demand case details
+  optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 15;
+
+  // List of loading ports
+  repeated CaseLoadingPort loading_ports = 16;
+}
+
+// Total Cases Request
+message GetTotalCasesRequest {
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 1;
+
+  // Pagination information for the request (e.g., page number, page size)
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+
+  // Optional query parameters for filtering the cases
+  repeated chorus.spm.base.v1.FilterItemEntry filter = 3;
+}
+
+// Total Cases Response
+message GetTotalCasesResponse {
+  // List of cases returned in the response
+  repeated Case items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.PaginationResponse pagination = 2; 
+}
+
+// Total Cases Request by FO
+message GetTotalCasesFoRequest {
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 1;
+
+  // Pagination information for the request (e.g., page number, page size)
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+
+  // Optional query parameters for filtering the cases
+  repeated chorus.spm.base.v1.FilterItemEntry filter = 3;
+}
+
+// Total Cases Response by FO
+message GetTotalCasesFoResponse {
+  // List of cases returned in the response
+  repeated Case items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.PaginationResponse pagination = 2; 
+}
+
+// List Of Field Data In Total Cases Request
+message GetListOfFieldDataInTotalCasesRequest {
+  // The sort data
+  chorus.spm.base.v1.Sort sort = 1;
+
+  // Cursor pagination request
+  chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+  
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+
+  // Filter by value LIKE
+  optional string value_like = 4;
+}
+
+// List Of Field Data In Total Cases Rsponse
+message GetListOfFieldDataInTotalCasesResponse {
+  // List of Total cases returned in the response
+  repeated string items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+
+  // Total items
+  int32 total_items = 3;
+}
+
+// List Of Field Data In Total Cases Request by FO
+message GetListOfFieldDataInTotalCasesFoRequest {
+  // The sort data
+  chorus.spm.base.v1.Sort sort = 1;
+
+  // Cursor pagination request
+  chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+  
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+
+  // Filter by value LIKE
+  optional string value_like = 4;
+}
+
+// List Of Field Data In Total Cases Rsponse by FO
+message GetListOfFieldDataInTotalCasesFoResponse {
+  // List of Total cases returned in the response
+  repeated string items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+
+  // Total items
+  int32 total_items = 3;
+}
+
+// Cases Of Vvd Response
+message GetCasesOfVvdResponse {
+  // List of cases associated with a specific VVD
+  repeated Case items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.PaginationResponse pagination = 2; 
+}
+
+// Cases Of Vvd Response by FO
+message GetCasesOfVvdFoResponse {
+  // List of cases associated with a specific VVD
+  repeated Case items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.PaginationResponse pagination = 2; 
+}
+
+// Outstanding Cases Request
+message GetOutstandingCasesRequest {
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 1;
+
+  // Pagination information for the request (e.g., page number, page size)
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+
+  // Optional query parameters for filtering the outstanding cases
+  repeated chorus.spm.base.v1.FilterItemEntry filter = 3;
+}
+
+// Outstanding Cases Response
+message GetOutstandingCasesResponse {
+  // List of outstanding cases returned in the response
+  repeated Case items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.PaginationResponse pagination = 2; 
+}
+
+// Outstanding Cases Request by FO
+message GetOutstandingCasesFoRequest {
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 1;
+
+  // Pagination information for the request (e.g., page number, page size)
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+
+  // Optional query parameters for filtering the outstanding cases
+  repeated chorus.spm.base.v1.FilterItemEntry filter = 3;
+}
+
+// Outstanding Cases Response by FO
+message GetOutstandingCasesFoResponse {
+  // List of outstanding cases returned in the response
+  repeated Case items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.PaginationResponse pagination = 2; 
+}
+
+
+// List Of Field Data In Outstanding Cases Request
+message GetListOfFieldDataInOutstandingCasesRequest {
+  // The sort data
+  chorus.spm.base.v1.Sort sort = 1;
+
+  // Cursor pagination request
+  chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+  
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+
+  // Filter by value LIKE
+  optional string value_like = 4;
+}
+
+// List Of Field Data In Outstanding Cases Response
+message GetListOfFieldDataInOutstandingCasesResponse {
+  // List of outstanding cases returned in the response
+  repeated string items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+
+  // Total items
+  int32 total_items = 3;
+}
+
+// List Of Field Data In Outstanding Cases Request by FO
+message GetListOfFieldDataInOutstandingCasesFoRequest {
+  // The sort data
+  chorus.spm.base.v1.Sort sort = 1;
+
+  // Cursor pagination request
+  chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+  
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+
+  // Filter by value LIKE
+  optional string value_like = 4;
+}
+
+// List Of Field Data In Outstanding Cases Response by FO
+message GetListOfFieldDataInOutstandingCasesFoResponse {
+  // List of outstanding cases returned in the response
+  repeated string items = 1;
+
+  // Pagination information for the response
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+
+  // Total items
+  int32 total_items = 3;
+}
+
+
+// Get Cases By Vvd Id Request
+message GetCasesOfVvdRequest {
+  // VVD id to filter cases
+  string vvd_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+
+  // Pagination information for the request (e.g., page number, page size)
+  chorus.spm.base.v1.PaginationRequest pagination = 3;
+
+  // Optional query parameters for filtering cases
+  optional chorus.spm.base.v1.Query query = 4;
+
+  // Type of case (e.g., shortfall, extra demand)
+  string type = 5;
+}
+
+// Get Cases By Vvd Id Request by FO
+message GetCasesOfVvdFoRequest {
+  // VVD id to filter cases
+  string vvd_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+
+  // Pagination information for the request (e.g., page number, page size)
+  chorus.spm.base.v1.PaginationRequest pagination = 3;
+
+  // Optional query parameters for filtering cases
+  optional chorus.spm.base.v1.Query query = 4;
+
+  // Type of case (e.g., shortfall, extra demand)
+  string type = 5;
+}
+
+
+// Get Visibility Open Case Request
+message GetVisibilityOpenCaseButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Get Visibility Open Case Request for FO
+message GetVisibilityOpenCaseButtonFoRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Get Visibility Accept Reject Case Request
+message GetVisibilityAcceptRejectButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Ge tVisibilityRecall Case Request
+message GetVisibilityRecallButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // SMO ID for which visibility is checked
+  string smo_id = 3;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Ge tVisibilityRecall Case Request
+message GetVisibilityRecallButtonFoRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // SMO ID for which visibility is checked
+  string smo_id = 3;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Get Visibility Resubmit Case Request
+message GetVisibilityResubmitButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // SMO ID for which visibility is checked
+  string smo_id = 3;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Get Visibility Resubmit Case Request
+message GetVisibilityResubmitButtonFoRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // SMO ID for which visibility is checked
+  string smo_id = 3;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Get Visibility Edit Case Request
+message GetVisibilityEditButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Optional SMO ID for which visibility is checked
+  optional string smo_id = 3;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Get Visibility Edit Case Request by FO
+message GetVisibilityEditButtonFoRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Optional SMO ID for which visibility is checked
+  optional string smo_id = 3;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Get Visibility Cancel Case Request
+message GetVisibilityCancelButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Get Visibility Cancel Case Request by FO
+message GetVisibilityCancelButtonFoRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+// Get Visibility Confirmed Case Request
+message GetVisibilityConfirmedCaseButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Get Visibility Confirmed Case Request by FO
+message GetVisibilityConfirmedCaseButtonFoRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Get Visibility Confirm Case Cancellation Request
+message GetVisibilityConfirmCancellationButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Get Visibility Pending Case Request
+message GetVisibilityPendingButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Get Visibility Reopen Case Request
+message GetVisibilityReopenCaseButtonRequest {
+  // SLC ID for which visibility is checked
+  string slc_id = 1;
+
+  // Case ID for which visibility is checked
+  string case_id = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Get Case Summary Request
+message GetCaseSummaryRequest {
+  // Code of the case for which summary is requested
+  string code = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Get Case Summary Request for FO
+message GetCaseSummaryFoRequest {
+  // Code of the case for which summary is requested
+  string code = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Get Loading Port Request
+message CaseLoadingPort {
+  // Port name
+  string code = 1;
+
+  // Port bound
+  string bound = 2;
+}
+
+// Open Case Request
+message OpenCaseRequest {
+  // VVD code associated with the case
+  string vvd_id = 1;
+
+  // Type of the case
+  string case_type = 2;
+
+  // Type of cargo associated with the case
+  string cargo_type = 3;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 4;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 5;
+
+  // Returnable TEU (Twenty-foot Equivalent Unit) for the case
+  double returnable_teu = 6;
+
+  // Returnable weight (in metric tons) for the case
+  double returnable_wgt = 7;
+
+  // ID of the requester sale office for the case
+  string requester_sale_office_id = 8;
+
+  // Due date for case resolution
+  string due_date = 9;
+
+  // IDs of request reasons associated with the case
+  repeated string request_reason_ids = 10;
+
+  // Other reason for the case (optional)
+  optional string request_other_reason = 11;
+
+  // Additional comment for the case (optional)
+  optional string additional_comment = 12;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 13;
+
+  // Optional returnable out-of-gauge (OOG) for the case
+  optional double returnable_oog = 14;
+
+  // Optional returnable void for the case
+  optional double returnable_void = 15;
+
+  // Optional number of reefer plug units for the case
+  optional int32 request_reefer_plug_unit = 16;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 17;
+}
+
+// Open Case Request
+message OpenCaseFORequest {
+  // VVD code associated with the case
+  string vvd_id = 1;
+
+  // Type of the case
+  string case_type = 2;
+
+  // Type of cargo associated with the case
+  string cargo_type = 3;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 4;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 5;
+
+  // Returnable TEU (Twenty-foot Equivalent Unit) for the case
+  double returnable_teu = 6;
+
+  // Returnable weight (in metric tons) for the case
+  double returnable_wgt = 7;
+
+  // ID of the requester sale office for the case
+  string requester_sale_office_id = 8;
+
+  // Due date for case resolution
+  string due_date = 9;
+
+  // IDs of request reasons associated with the case
+  repeated string request_reason_ids = 10;
+
+  // Other reason for the case (optional)
+  optional string request_other_reason = 11;
+
+  // Additional comment for the case (optional)
+  optional string additional_comment = 12;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 13;
+
+  // Optional returnable out-of-gauge (OOG) for the case
+  optional double returnable_oog = 14;
+
+  // Optional returnable void for the case
+  optional double returnable_void = 15;
+
+  // Optional number of reefer plug units for the case
+  optional int32 request_reefer_plug_unit = 16;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 17;
+}
+
+// Open Extra Demand Case Request
+message OpenExtraDemandCaseRequest {
+  // VVD code associated with the case
+  string vvd_id = 1;
+
+  // Type of the case
+  string case_type = 2;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 3;
+
+  // requested TEU (Twenty-foot Equivalent Unit) for the case
+  double requested_teu = 4;
+
+  // requested weight (in metric tons) for the case
+  double requested_wgt = 5;
+
+  // ID of the requester sale office for the case
+  string requester_sale_office_id = 6;
+
+  // Due date for case resolution
+  string due_date = 7;
+
+  // IDs of request reasons associated with the case
+  repeated string request_reason_ids = 8;
+
+  // Other reason for the case (optional)
+  optional string request_other_reason = 9;
+
+  // Additional comment for the case (optional)
+  optional string additional_comment = 10;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 11;
+
+  // Optional requested out-of-gauge (OOG) for the case
+  optional double requested_oog = 12;
+
+  // Optional requested void for the case
+  optional double requested_void = 13;
+
+  // Optional number of reefer plug units for the case
+  optional int32 request_reefer_plug_unit = 14;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 15;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 16;
+}
+
+// Open Extra Demand Case Request
+message OpenExtraDemandCaseFORequest {
+  // VVD code associated with the case
+  string vvd_id = 1;
+
+  // Type of the case
+  string case_type = 2;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 3;
+
+  // requested TEU (Twenty-foot Equivalent Unit) for the case
+  double requested_teu = 4;
+
+  // requested weight (in metric tons) for the case
+  double requested_wgt = 5;
+
+  // ID of the requester sale office for the case
+  string requester_sale_office_id = 6;
+
+  // Due date for case resolution
+  string due_date = 7;
+
+  // IDs of request reasons associated with the case
+  repeated string request_reason_ids = 8;
+
+  // Other reason for the case (optional)
+  optional string request_other_reason = 9;
+
+  // Additional comment for the case (optional)
+  optional string additional_comment = 10;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 11;
+
+  // Optional requested out-of-gauge (OOG) for the case
+  optional double requested_oog = 12;
+
+  // Optional requested void for the case
+  optional double requested_void = 13;
+
+  // Optional number of reefer plug units for the case
+  optional int32 request_reefer_plug_unit = 14;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 15;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 16;
+}
+
+// Open Case Response
+message OpenCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // Type of the case
+  string type = 4;
+
+  // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.shortfall_case.v1.OpenShortfallCaseResponse shortfall_case = 5;
+
+   // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCaseResponse extra_demand_case = 6;
+}
+
+// Open Case Response FO
+message OpenCaseFOResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // Type of the case
+  string type = 4;
+
+  // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.shortfall_case.v1.OpenShortfallCaseResponse shortfall_case = 5;
+
+   // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCaseResponse extra_demand_case = 6;
+}
+
+// Open Extra Demand Case Response
+message OpenExtraDemandCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // Type of the case
+  string type = 4;
+
+  // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.shortfall_case.v1.OpenShortfallCaseResponse shortfall_case = 5;
+
+   // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCaseResponse extra_demand_case = 6;
+}
+
+// Open Extra Demand Case Response FO
+message OpenExtraDemandCaseFOResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // Type of the case
+  string type = 4;
+
+  // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.shortfall_case.v1.OpenShortfallCaseResponse shortfall_case = 5;
+
+   // Response containing details about any shortfall case associated with the opened case
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCaseResponse extra_demand_case = 6;
+}
+
+// Open Case Summary Response
+message GetCaseSummaryResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+
+  // List of loading ports
+  repeated CaseLoadingPort loading_ports = 11;
+
+  // Discharge port code
+  string discharge_port_code = 12;
+
+  // Discharge port bound
+  string discharge_port_bound = 13;
+}
+
+// Open Case Summary Response for FO
+message GetCaseSummaryFoResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+
+  // List of loading ports
+  repeated CaseLoadingPort loading_ports = 11;
+
+  // Discharge port code
+  string discharge_port_code = 12;
+
+  // Discharge port bound
+  string discharge_port_bound = 13;
+}
+
+// Re Open Case Summary Response
+message ReopenCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Accept Case Summary Response
+message AcceptCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Reject Case Summary Response
+message RejectCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Confirm Case Summary Response
+message ConfirmCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Confirm Case Summary Response
+message ConfirmCaseFoResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Recall Case Summary Response
+message RecallCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Recall Case Summary Response
+message RecallCaseFoResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Edit Case Summary Response
+message EditCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 11;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 12;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 13;
+}
+
+// Edit Case Summary Response
+message EditCaseFoResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 11;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 12;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 13;
+}
+
+// Re Submit Case Summary Response
+message ReSubmitCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Re Submit Case Summary Response for FO
+message ReSubmitCaseFoResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Cancel Case Summary Response
+message CancelCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Cancel Case Summary Response by FO
+message CancelCaseFoResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Approve Case Cancellation Summary Response
+message ApproveCaseCancellationResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Reject Case Cancellation Summary Response
+message RejectCaseCancellationResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Pending Case Summary Response
+message PendingCaseResponse {
+  // Unique identifier for the case
+  string id = 1;
+
+  // Code representing the case
+  string code = 2;
+
+  // Current status of the case
+  string status = 3;
+
+  // case type
+  string type = 4;
+
+  // Full name of the user who created the case
+  chorus.spm.user.v1.UserFullName created_by = 5;
+
+  // VVD configuration associated with the case
+  chorus.spm.vvd.v1.VvdConfiguation vvd = 6;
+
+  // Optional details about any shortfall case associated with the summary
+  optional chorus.spm.shortfall_case.v1.ShortfallCase shortfall_case = 7;
+
+   // Optional details about any shortfall case associated with the summary
+   optional chorus.spm.extra_demand_case.v1.ExtraDemandCase extra_demand_case = 8;
+
+  // Optional sum of acceptable TEU (Twenty-foot Equivalent Unit) for the case
+  optional double sum_acceptable_teu = 9;
+
+  // Optional sum of acceptable weight (in metric tons) for the case
+  optional double sum_acceptable_wgt = 10;
+}
+
+// Get Count Of Shortfall Cases By Vvd Response
+message GetCountOfShortfallCaseByVvdResponse {
+    // Optional count of shortfall cases associated with the specified VVD
+    optional int32 shortfall_cases = 1;
+}
+
+// Get Count Of Shortfall Cases By Vvd Request
+message GetCountOfShortfallCaseByVvdRequest {
+    // Information about the user making the request
+    chorus.spm.user.v1.UserInfo user = 1;
+
+    // VVD code for which shortfall cases are counted
+    string vvd_id = 2;
+
+    // Optional query parameters for filtering cases
+    optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Get Count Of Shortfall Cases By Vvd Response by FO
+message GetCountOfShortfallCaseByVvdFoResponse {
+    // Optional count of shortfall cases associated with the specified VVD
+    optional int32 shortfall_cases = 1;
+}
+
+// Get Count Of Shortfall Cases By Vvd Request by FO
+message GetCountOfShortfallCaseByVvdFoRequest {
+    // Information about the user making the request
+    chorus.spm.user.v1.UserInfo user = 1;
+
+    // VVD code for which shortfall cases are counted
+    string vvd_id = 2;
+
+    // Optional query parameters for filtering cases
+    optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Get Count Of Extra Demand Cases By Vvd Request
+message GetCountOfExtraDemandCaseByVvdRequest {
+    // Information about the user making the request
+    chorus.spm.user.v1.UserInfo user = 1;
+
+    // VVD code for which extra demand cases are counted
+    string vvd_id = 2;
+
+    // Optional query parameters for filtering cases
+    optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Get Count Of Extra Demand Cases By Vvd Response
+message GetCountOfExtraDemandCaseByVvdResponse {
+    // Optional count of extra demand cases associated with the specified VVD
+    optional int32 extra_demand_cases = 1;
+}
+
+// Get Count Of Extra Demand Cases By Vvd Request by FO
+message GetCountOfExtraDemandCaseByVvdFoRequest {
+    // Information about the user making the request
+    chorus.spm.user.v1.UserInfo user = 1;
+
+    // VVD code for which extra demand cases are counted
+    string vvd_id = 2;
+
+    // Optional query parameters for filtering cases
+    optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Get Count Of Extra Demand Cases By Vvd Response by FO
+message GetCountOfExtraDemandCaseByVvdFoResponse {
+    // Optional count of extra demand cases associated with the specified VVD
+    optional int32 extra_demand_cases = 1;
+}
+
+// Accept Case Request
+message AcceptCaseRequest {
+    // ID of the case to accept
+    string case_id = 1;
+
+    // Optional acceptable TEU (Twenty-foot Equivalent Unit) for the case
+    optional double acceptable_teu = 2;
+
+    // Optional acceptable weight (in metric tons) for the case
+    optional double acceptable_wgt = 3;
+
+    // Additional comment for accepting the case
+    string additional_comment = 4;
+
+    // Information about the user making the request
+    chorus.spm.user.v1.UserInfo user = 5;
+}
+
+// Reject Case Request
+message RejectCaseRequest {
+  // ID of the case to reject
+  string case_id = 1;
+
+  // Reason for rejecting the case
+  string reject_reason = 2;
+
+  // Optional additional comment for rejecting the case
+  optional string additional_comment = 3;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Confirm Case Request
+message ConfirmCaseRequest {
+  // ID of the case to confirm
+  string case_id = 1;
+
+  // Additional comment for confirming the case
+  string additional_comment = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Confirm Case Request
+message ConfirmCaseFoRequest {
+  // ID of the case to confirm
+  string case_id = 1;
+
+  // Additional comment for confirming the case
+  string additional_comment = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Recall Case Request
+message RecallCaseRequest {
+  // ID of the case to recall
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Recall Case Request
+message RecallCaseFoRequest {
+  // ID of the case to recall
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Edit Case Request
+message EditCaseRequest {
+  // ID of the case to edit
+  string case_id = 1;
+
+  // Type of cargo for the case
+  string cargo_type = 2;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 3;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 4;
+
+  // Returnable TEU (Twenty-foot Equivalent Unit) for the case
+  double returnable_teu = 5;
+
+  // Returnable weight (in metric tons) for the case
+  double returnable_wgt = 6;
+
+  // Optional returnable out-of-gauge (OOG) for the case
+  optional double returnable_oog = 7;
+
+  // Optional returnable void for the case
+  optional double returnable_void = 8;
+
+  // Optional number of reefer plug units for the case
+  optional int32 request_reefer_plug_unit = 9;
+
+  // ID of the requester sale office for the case
+  string requester_sale_office_id = 10;
+
+  // Due date for case resolution
+  string due_date = 11;
+
+  // IDs of request reasons associated with the case
+  repeated string request_reason_ids = 12;
+
+  // Optional other reason for the case
+  optional string request_other_reason = 13;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 14;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 15;
+}
+
+// Edit Case Request
+message EditCaseFoRequest {
+  // ID of the case to edit
+  string case_id = 1;
+
+  // Type of cargo for the case
+  string cargo_type = 2;
+
+  // Loading ports for the case
+  repeated CaseLoadingPort loading_ports = 3;
+
+  // Code of the discharge port for the case (optional)
+  optional string discharge_port_code = 4;
+
+  // Returnable TEU (Twenty-foot Equivalent Unit) for the case
+  double returnable_teu = 5;
+
+  // Returnable weight (in metric tons) for the case
+  double returnable_wgt = 6;
+
+  // Optional returnable out-of-gauge (OOG) for the case
+  optional double returnable_oog = 7;
+
+  // Optional returnable void for the case
+  optional double returnable_void = 8;
+
+  // Optional number of reefer plug units for the case
+  optional int32 request_reefer_plug_unit = 9;
+
+  // ID of the requester sale office for the case
+  string requester_sale_office_id = 10;
+
+  // Due date for case resolution
+  string due_date = 11;
+
+  // IDs of request reasons associated with the case
+  repeated string request_reason_ids = 12;
+
+  // Optional other reason for the case
+  optional string request_other_reason = 13;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 14;
+
+  // Bound of the discharge port for the case (optional)
+  optional string discharge_port_bound = 15;
+}
+
+// ReSubmit Case Request
+message ReSubmitCaseRequest {
+  // ID of the case to resubmit
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+// ReSubmit Case Request
+message ReSubmitCaseFoRequest {
+  // ID of the case to resubmit
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Cancel Case Request
+message CancelCaseRequest {
+  // ID of the case to cancel
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+
+  // Reason for canceling the case
+  string cancel_reason = 3;
+}
+
+// Cancel Case Request by FO
+message CancelCaseFoRequest {
+  // ID of the case to cancel
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+
+  // Reason for canceling the case
+  string cancel_reason = 3;
+}
+
+// Approve Case Cancellation Request
+message ApproveCaseCancellationRequest {
+  // ID of the case to approve cancellation
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Reject Case Cancellation Request
+message RejectCaseCancellationRequest {
+  // ID of the case to reject cancellation
+  string case_id = 1;
+
+  // Reason for rejecting cancellation
+  string reject_reason = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Pending Case Request
+message PendingCaseRequest {
+  // ID of the case to set as pending
+  string case_id = 1;
+
+  // Reason for setting the case as pending
+  string pending_reason = 2;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Re Open Case Request
+message ReopenCaseRequest {
+  // ID of the case on which action is requested
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Get Visibility Edit Task Button In Case Request
+message GetVisibilityEditTaskButtonInCaseRequest {
+  // ID of the case on which action is requested
+  string case_id = 1;
+
+  // Information about the user making the request
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Message for deleting a case by VVD code
+message DeleteCaseByVvdRequest {
+  // The VVD id associated with the case to be deleted
+  string vvd_id = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityOpenCaseButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// GetVisibilityOpenCaseButtonResponse for FO
+message GetVisibilityOpenCaseButtonFoResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityAcceptRejectButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityConfirmedCaseButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end by FO
+message GetVisibilityConfirmedCaseButtonFoResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityRecallButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityRecallButtonFoResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityEditButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityEditButtonFoResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityResubmitButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end by FO
+message GetVisibilityResubmitButtonFoResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityCancelButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end by FO
+message GetVisibilityCancelButtonFoResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityConfirmCancellationButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityPendingButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityReopenCaseButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityEditTaskButtonInCaseResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message DeleteCaseByVvdResponse {
+  // Text message
+  string message = 1;
+  // Message count
+  optional int32 count = 2;
+}
+
+// Message to define Case Service
+service CaseService {
+  // Retrieves total cases based on the provided request parameters.
+  rpc GetTotalCases (GetTotalCasesRequest) returns (GetTotalCasesResponse) {}
+
+  // Retrieves total cases based on the provided request parameters by FO.
+  rpc GetTotalCasesFo (GetTotalCasesFoRequest) returns (GetTotalCasesFoResponse) {}
+
+  // Retrieves outstanding cases based on the provided request parameters.
+  rpc GetOutstandingCases (GetOutstandingCasesRequest) returns (GetOutstandingCasesResponse) {}
+
+  // Retrieves outstanding cases based on the provided request parameters by FO.
+  rpc GetOutstandingCasesFo (GetOutstandingCasesFoRequest) returns (GetOutstandingCasesFoResponse) {}
+  
+  // Retrieves outstanding cases based on the provided request parameters with cursor pagination.
+  rpc GetListOfFieldDataInOutstandingCases (GetListOfFieldDataInOutstandingCasesRequest) returns (GetListOfFieldDataInOutstandingCasesResponse) {}
+  
+  // Retrieves outstanding cases based on the provided request parameters with cursor pagination by FO.
+  rpc GetListOfFieldDataInOutstandingCasesFo (GetListOfFieldDataInOutstandingCasesFoRequest) returns (GetListOfFieldDataInOutstandingCasesFoResponse) {}
+
+  // Retrieves total cases based on the provided request parameters with cursor pagination.
+  rpc GetListOfFieldDataInTotalCases (GetListOfFieldDataInTotalCasesRequest) returns (GetListOfFieldDataInTotalCasesResponse) {}
+
+  // Retrieves total cases based on the provided request parameters with cursor pagination by FO.
+  rpc GetListOfFieldDataInTotalCasesFo (GetListOfFieldDataInTotalCasesFoRequest) returns (GetListOfFieldDataInTotalCasesFoResponse) {}
+
+  // Retrieves cases of a specific VVD (Vessel Voyage Discharge) based on the provided request parameters.
+  rpc GetCasesOfVvd (GetCasesOfVvdRequest) returns (GetCasesOfVvdResponse) {}
+ 
+  // Retrieves cases of a specific VVD (Vessel Voyage Discharge) based on the provided request parameters by FO.
+  rpc GetCasesOfVvdFo (GetCasesOfVvdFoRequest) returns (GetCasesOfVvdFoResponse) {}
+
+  // Retrieves summary of a case based on the provided request parameters.
+  rpc GetCaseSummary (GetCaseSummaryRequest) returns (GetCaseSummaryResponse) {}
+
+  // Retrieves summary of a case based on the provided request parameters.
+  rpc GetCaseSummaryFo (GetCaseSummaryFoRequest) returns (GetCaseSummaryFoResponse) {}
+
+  // Retrieves the count of shortfall cases associated with a specific VVD.
+  rpc GetCountOfShortfallCaseByVvd (GetCountOfShortfallCaseByVvdRequest) returns (GetCountOfShortfallCaseByVvdResponse) {}
+
+   // Retrieves the count of shortfall cases associated with a specific VVD by FO.
+  rpc GetCountOfShortfallCaseByVvdFo (GetCountOfShortfallCaseByVvdFoRequest) returns (GetCountOfShortfallCaseByVvdFoResponse) {}
+
+  // Retrieves the visibility of the open case button based on the provided request parameters.
+  rpc GetVisibilityOpenCaseButton (GetVisibilityOpenCaseButtonRequest) returns (GetVisibilityOpenCaseButtonResponse) {}
+
+  // Retrieves the visibility of the open case button based on the provided request parameters.
+  rpc GetVisibilityOpenCaseButtonFo (GetVisibilityOpenCaseButtonFoRequest) returns (GetVisibilityOpenCaseButtonFoResponse) {}
+
+  // Retrieves the visibility of the accept/reject case button based on the provided request parameters.
+  rpc GetVisibilityAcceptRejectButton (GetVisibilityAcceptRejectButtonRequest) returns (GetVisibilityAcceptRejectButtonResponse) {}
+
+  // Retrieves the visibility of the confirmed case button based on the provided request parameters.
+  rpc GetVisibilityConfirmedCaseButton (GetVisibilityConfirmedCaseButtonRequest) returns (GetVisibilityConfirmedCaseButtonResponse) {}
+
+  // Retrieves the visibility of the confirmed case button based on the provided request parameters by FO.
+  rpc GetVisibilityConfirmedCaseButtonFo (GetVisibilityConfirmedCaseButtonFoRequest) returns (GetVisibilityConfirmedCaseButtonFoResponse) {}
+
+  // Retrieves the visibility of the recall case button based on the provided request parameters.
+  rpc GetVisibilityRecallButton (GetVisibilityRecallButtonRequest) returns (GetVisibilityRecallButtonResponse) {}
+
+  // Retrieves the visibility of the recall case button based on the provided request parameters.
+  rpc GetVisibilityRecallButtonFo (GetVisibilityRecallButtonFoRequest) returns (GetVisibilityRecallButtonFoResponse) {}
+
+  // Retrieves the visibility of the edit case button based on the provided request parameters.
+  rpc GetVisibilityEditButton (GetVisibilityEditButtonRequest) returns (GetVisibilityEditButtonResponse) {}
+
+  // Retrieves the visibility of the edit case button based on the provided request parameters by FO.
+  rpc GetVisibilityEditButtonFo (GetVisibilityEditButtonFoRequest) returns (GetVisibilityEditButtonFoResponse) {}
+
+  // Retrieves the visibility of the resubmit case button based on the provided request parameters.
+  rpc GetVisibilityResubmitButton (GetVisibilityResubmitButtonRequest) returns (GetVisibilityResubmitButtonResponse) {}
+
+  // Retrieves the visibility of the resubmit case button based on the provided request parameters by FO.
+  rpc GetVisibilityResubmitButtonFo (GetVisibilityResubmitButtonFoRequest) returns (GetVisibilityResubmitButtonFoResponse) {}
+
+  // Retrieves the visibility of the cancel case button based on the provided request parameters.
+  rpc GetVisibilityCancelButton (GetVisibilityCancelButtonRequest) returns (GetVisibilityCancelButtonResponse) {}
+
+  // Retrieves the visibility of the cancel case button based on the provided request parameters by FO.
+  rpc GetVisibilityCancelButtonFo (GetVisibilityCancelButtonFoRequest) returns (GetVisibilityCancelButtonFoResponse) {}
+
+  // Retrieves the visibility of the confirm case cancellation button based on the provided request parameters.
+  rpc GetVisibilityConfirmCancellationButton (GetVisibilityConfirmCancellationButtonRequest) returns (GetVisibilityConfirmCancellationButtonResponse) {}
+
+  // Retrieves the visibility of the pending case button based on the provided request parameters.
+  rpc GetVisibilityPendingButton (GetVisibilityPendingButtonRequest) returns (GetVisibilityPendingButtonResponse) {}
+
+  // Retrieves the visibility of the reopen case button based on the provided request parameters.
+  rpc GetVisibilityReopenCaseButton (GetVisibilityReopenCaseButtonRequest) returns (GetVisibilityReopenCaseButtonResponse) {}
+
+  // Opens a new case with the provided details.
+  rpc OpenCase (OpenCaseRequest) returns (OpenCaseResponse) {}
+
+  // Opens a new case with the provided details.
+  rpc OpenCaseFO (OpenCaseFORequest) returns (OpenCaseFOResponse) {}
+
+  // Accepts a case with the provided details.
+  rpc AcceptCase (AcceptCaseRequest) returns (AcceptCaseResponse) {}
+
+  // Rejects a case with the provided details.
+  rpc RejectCase (RejectCaseRequest) returns (RejectCaseResponse) {}
+
+  // Confirms a case with the provided details.
+  rpc ConfirmCase (ConfirmCaseRequest) returns (ConfirmCaseResponse) {}
+
+  // Confirms a case with the provided details.
+  rpc ConfirmCaseFo (ConfirmCaseFoRequest) returns (ConfirmCaseFoResponse) {}
+
+  // Recalls a case with the provided details.
+  rpc RecallCase (RecallCaseRequest) returns (RecallCaseResponse) {}
+  
+  // Recalls a case with the provided details for FO
+  rpc RecallCaseFo (RecallCaseFoRequest) returns (RecallCaseFoResponse) {}
+
+  // Edits a case with the provided details.
+  rpc EditCase (EditCaseRequest) returns (EditCaseResponse) {}
+ 
+  // Edits a case with the provided details for FO
+  rpc EditCaseFo (EditCaseFoRequest) returns (EditCaseFoResponse) {}
+
+  // Resubmits a case with the provided details.
+  rpc ReSubmitCase (ReSubmitCaseRequest) returns (ReSubmitCaseResponse) {}
+
+  // Resubmits a case with the provided details.
+  rpc ReSubmitCaseFo (ReSubmitCaseFoRequest) returns (ReSubmitCaseFoResponse) {}
+
+  // Cancels a case with the provided details.
+  rpc CancelCase (CancelCaseRequest) returns (CancelCaseResponse) {}
+
+    // Cancels a case with the provided details by FO.
+  rpc CancelCaseFo (CancelCaseFoRequest) returns (CancelCaseFoResponse) {}
+
+  // Approves cancellation of a case with the provided details.
+  rpc ApproveCaseCancellation (ApproveCaseCancellationRequest) returns (ApproveCaseCancellationResponse) {}
+
+  // Rejects cancellation of a case with the provided details.
+  rpc RejectCaseCancellation (RejectCaseCancellationRequest) returns (RejectCaseCancellationResponse) {}
+
+  // Sets a case as pending with the provided details.
+  rpc PendingCase (PendingCaseRequest) returns (PendingCaseResponse) {}
+
+  // Reopens a case with the provided details.
+  rpc ReopenCase (ReopenCaseRequest) returns (ReopenCaseResponse) {}
+
+  // Retrieves the visibility of the edit task button in a case based on the provided request parameters.
+  rpc GetVisibilityEditTaskButtonInCase (GetVisibilityEditTaskButtonInCaseRequest) returns (GetVisibilityEditTaskButtonInCaseResponse) {}
+
+  // Unary RPC for deleting a case by VVD code
+  rpc DeleteCaseByVvd(DeleteCaseByVvdRequest) returns (DeleteCaseByVvdResponse);
+
+  // Opens a new extra demand case with the provided details.
+  rpc OpenExtraDemandCase (OpenExtraDemandCaseRequest) returns (OpenExtraDemandCaseResponse) {}
+
+  // Opens a new extra demand case with the provided details FO.
+  rpc OpenExtraDemandCaseFO (OpenExtraDemandCaseFORequest) returns (OpenExtraDemandCaseFOResponse) {}
+
+  // Retrieves the count of shortfall cases associated with a specific VVD.
+  rpc GetCountOfExtraDemandCaseByVvd (GetCountOfExtraDemandCaseByVvdRequest) returns (GetCountOfExtraDemandCaseByVvdResponse) {}
+
+  // Retrieves the count of shortfall cases associated with a specific VVD by FO.
+  rpc GetCountOfExtraDemandCaseByVvdFo (GetCountOfExtraDemandCaseByVvdFoRequest) returns (GetCountOfExtraDemandCaseByVvdFoResponse) {}
+}

@@ -1,0 +1,863 @@
+syntax = "proto3";  // Specify the syntax version as proto3
+
+// Import statements for dependencies
+// Import base-related definitions
+import "chorus/spm/base/v1/base.proto";
+// Import user-related definitions
+import "chorus/spm/user/v1/user.proto";
+// Import VVD (Voyage/Vessel Details) definitions
+import "chorus/spm/vvd/v1/vvd.proto";
+// Import case-related definitions
+import "chorus/spm/case/v1/case.proto";
+// Import SaleMainOffice definitions
+import "chorus/spm/sale_main_office/v1/sale_main_office.proto";
+// Import ServiceLane definitions
+import "chorus/spm/service_lane/v1/service_lane.proto";
+
+package chorus.spm.task.v1;  // Define the package name
+
+// Message representing a task
+message Task {
+  // Unique identifier for the task
+    string id = 1;
+    // Code for the task
+    string code = 2;
+    // VVD (Voyage/Vessel Details) associated with the task
+    optional chorus.spm.vvd.v1.Vvd vvd_id = 3;
+    // Status of the task
+    string status = 4;
+    // Requester's sales office
+    chorus.spm.sale_main_office.v1.SaleMainOffice requester_smo = 5;
+    // Case associated with the task
+    chorus.spm.case.v1.Case case = 7;
+    // User who requested the task
+    chorus.spm.user.v1.UserResponse requester = 8;
+    // Supporter's sales office
+    chorus.spm.sale_main_office.v1.SaleMainOffice supporter_smo = 9;
+    // Service lane details
+    chorus.spm.service_lane.v1.ServiceLane service_lane = 10;
+    // Optional response text
+    optional string response = 11;
+    // Optional returnable TEU (Twenty-foot Equivalent Unit) - type shortfall
+    optional double returnable_teu = 12;
+    // Optional returnable weight - type shortfall
+    optional double returnable_wgt = 13;
+    // Optional requested TEU (Twenty-foot Equivalent Unit) - type extra demand
+    optional double requested_teu = 14;
+    // Optional requested weight - type extra demand
+    optional double requested_wgt = 15;
+    // Optional last user who responded
+    optional chorus.spm.user.v1.UserResponse last_response_by = 16;
+    // Optional timestamp of the last response
+    optional string last_response_at = 17;
+    // Optional user who created the task
+    optional chorus.spm.user.v1.UserResponse created_by = 18;
+    // Optional timestamp when the task was created
+    optional string created_at = 19;
+    // Optional user who last updated the task
+    optional chorus.spm.user.v1.UserResponse updated_by = 20;
+    // Optional timestamp when the task was last updated
+    optional string updated_at = 21;
+    // Additional comments
+    string additional_comment = 22;
+    // Lock return space
+    optional bool lock_return_space = 23;
+}
+
+// Response message containing a list of tasks and pagination information
+message GetTotalTasksResponse {
+  // List of tasks
+  repeated Task items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Response message containing a list of tasks and pagination information
+message GetOutstandingTasksResponse {
+  // List of tasks
+  repeated Task items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Request message to get tasks
+message GetTasksRequest {
+  // User information
+    chorus.spm.user.v1.UserInfo user = 1;
+    // Pagination request
+    chorus.spm.base.v1.PaginationRequest pagination = 2;
+    // Optional query parameters
+    optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Request message to get outstanding tasks
+message GetOutstandingTasksRequest {
+  // User information
+    chorus.spm.user.v1.UserInfo user = 1;
+    // Pagination request
+    chorus.spm.base.v1.PaginationRequest pagination = 2;
+    // Optional query parameters
+    optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Request message to get total tasks
+message GetTotalTasksRequest {
+  // User information
+    chorus.spm.user.v1.UserInfo user = 1;
+    // Pagination request
+    chorus.spm.base.v1.PaginationRequest pagination = 2;
+    // Optional query parameters
+    optional chorus.spm.base.v1.Query query = 3;
+}
+
+// Request message to get tasks by case
+message GetTasksByCaseRequest {
+  // ID of the case
+  string case_id = 1;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+  // Optional query parameters
+  optional chorus.spm.base.v1.Query query = 3;
+   // User information
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Request message to create a new  task
+message CreateTasksRequest {
+  // ID of the case
+  string case_id = 1;
+  // ID of the supporter sales office
+  string supporter_smo_id = 2;
+  // ID of the service lane configuration
+  string service_lane_configuration_id = 3;
+  // Returnable TEU
+  optional double returnable_teu = 4;
+  // Returnable weight
+  optional double returnable_wgt = 5;
+  // Requested TEU
+  optional double requested_teu = 6;
+  // Requested weight
+  optional double requested_wgt = 7;
+  // User who is requesting
+  chorus.spm.user.v1.UserInfo requester = 8;
+  // Additional comments
+  string additional_comment = 9;
+  // Optional Trade code
+  optional string trade_code  = 10;
+  // Optional Revenue Lane code
+  optional string revenue_lane_code  = 11;
+  // Optional VVD id
+  optional string vvd_id = 12;
+  // Optional VVD code
+  optional string vvd_code = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Message to check if a task exists
+message TaskChecking {
+  // ID of the case
+  string case_id = 1;
+  // ID of the supporter sales office
+  string supporter_smo_id = 2;
+  // ID of the service lane configuration
+  string service_lane_configuration_id = 3;
+  // Returnable TEU
+  optional double returnable_teu = 4;
+  // Returnable weight
+  optional double returnable_wgt = 5;
+  // Requested TEU
+  optional double requested_teu = 6;
+  // Requested weight
+  optional double requested_wgt = 7;
+  // Additional comments
+  string additional_comment = 8;
+  // Optional VVD Configuration Id
+  optional string vvd_configuration_id = 9;
+}
+
+// Message to indicate an existing task
+message TaskExist {
+  // ID of the case
+  string case_id = 1;
+  // VVD code
+  string vvd_code = 2;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 3;
+  // ID of the service lane configuration
+  string service_lane_configuration_id = 4;
+  // Optional VVD Configuration Id
+  optional string vvd_configuration_id = 5;
+}
+
+// Request message to check the list of tasks
+message CheckTaskListExistRequest {
+  // List of tasks to check
+  repeated TaskChecking items = 1;
+}
+
+// Response message for the task list check
+message CheckTaskListExistResponse {
+  // List of existing tasks
+  repeated TaskExist items = 1;
+}
+
+// Response message for a single task operation
+message TaskResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Response message for a single task operation
+message CreateTasksResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Request message to get the number of tasks by case
+message GetNumberOfTasksByCaseRequest {
+  // ID of the case
+  string case_id = 1;
+}
+
+// Response message containing the number of tasks by case
+message GetNumberOfTasksByCaseResponse {
+  // Number of tasks
+  optional int32 tasks = 1;
+}
+
+// Request message to get a task summary
+message GetTaskSummaryRequest {
+  // Code for the task
+  string code = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Request message to get a task summary by FO
+message GetTaskSummaryFoRequest {
+  // Code for the task
+  string code = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Message representing a task summary
+message TaskSummary {
+  // Unique identifier for the task
+    string id = 1;
+    // Code for the task
+    string code = 2;
+    // Optional VVD (Voyage/Vessel Details) associated with the task
+    optional chorus.spm.vvd.v1.Vvd vvd_id = 3;
+    // Status of the task
+    string status = 4;
+    // Case associated with the task
+    chorus.spm.case.v1.Case case = 5;
+    // Supporter's sales office
+    chorus.spm.sale_main_office.v1.SaleMainOffice supporter_smo = 6;
+    // Optional returnable TEU
+    optional double returnable_teu = 7;
+    // Optional returnable weight
+    optional double returnable_wgt = 8;
+    // Requested TEU
+    optional double requested_teu = 9;
+    // Requested weight
+    optional double requested_wgt = 10;
+    // Optional last user who responded
+    optional chorus.spm.user.v1.UserResponse last_response_by = 11;
+    // Optional timestamp of the last response
+    optional string last_response_at = 12;
+    // Optional load TEU
+    optional double load_teu = 13;
+    // Optional load weight
+    optional double load_wgt = 14;
+    // Optional fulfillment status
+    optional string fullfilment_status = 15;
+    // Service lane details
+    chorus.spm.service_lane.v1.ServiceLane service_lane = 16;
+    // Optional user who created the task
+    optional chorus.spm.user.v1.UserResponse created_by = 17;
+    // Optional timestamp when the task was created
+    optional string created_at = 18;
+    // Optional user who last updated the task
+    optional chorus.spm.user.v1.UserResponse updated_by = 19;
+    // Optional timestamp when the task was last updated
+    optional string updated_at = 20;
+    // Optional lock return space - type extra demand
+    optional bool lock_return_space = 21;
+}
+
+// Message representing a task summary
+message GetTaskSummaryResponse {
+  // Unique identifier for the task
+    string id = 1;
+    // Code for the task
+    string code = 2;
+    // Optional VVD (Voyage/Vessel Details) associated with the task
+    optional chorus.spm.vvd.v1.Vvd vvd_id = 3;
+    // Status of the task
+    string status = 4;
+    // Case associated with the task
+    chorus.spm.case.v1.Case case = 5;
+    // Supporter's sales office
+    chorus.spm.sale_main_office.v1.SaleMainOffice supporter_smo = 6;
+    // Optional returnable TEU
+    optional double returnable_teu = 7;
+    // Optional returnable weight
+    optional double returnable_wgt = 8;
+    // Requested TEU
+    optional double requested_teu = 9;
+    // Requested weight
+    optional double requested_wgt = 10;
+    // Optional last user who responded
+    optional chorus.spm.user.v1.UserResponse last_response_by = 11;
+    // Optional timestamp of the last response
+    optional string last_response_at = 12;
+    // Optional load TEU
+    optional double load_teu = 13;
+    // Optional load weight
+    optional double load_wgt = 14;
+    // Optional fulfillment status
+    optional string fullfilment_status = 15;
+    // Service lane details
+    chorus.spm.service_lane.v1.ServiceLane service_lane = 16;
+    // Optional user who created the task
+    optional chorus.spm.user.v1.UserResponse created_by = 17;
+    // Optional timestamp when the task was created
+    optional string created_at = 18;
+    // Optional user who last updated the task
+    optional chorus.spm.user.v1.UserResponse updated_by = 19;
+    // Optional timestamp when the task was last updated
+    optional string updated_at = 20;
+    // Optional lock return space - type extra demand
+    optional bool lock_return_space = 21;
+}
+
+// Message representing a task summary
+message GetTaskSummaryFoResponse {
+  // Unique identifier for the task
+    string id = 1;
+    // Code for the task
+    string code = 2;
+    // Optional VVD (Voyage/Vessel Details) associated with the task
+    optional chorus.spm.vvd.v1.Vvd vvd_id = 3;
+    // Status of the task
+    string status = 4;
+    // Case associated with the task
+    chorus.spm.case.v1.Case case = 5;
+    // Supporter's sales office
+    chorus.spm.sale_main_office.v1.SaleMainOffice supporter_smo = 6;
+    // Optional returnable TEU
+    optional double returnable_teu = 7;
+    // Optional returnable weight
+    optional double returnable_wgt = 8;
+    // Requested TEU
+    optional double requested_teu = 9;
+    // Requested weight
+    optional double requested_wgt = 10;
+    // Optional last user who responded
+    optional chorus.spm.user.v1.UserResponse last_response_by = 11;
+    // Optional timestamp of the last response
+    optional string last_response_at = 12;
+    // Optional load TEU
+    optional double load_teu = 13;
+    // Optional load weight
+    optional double load_wgt = 14;
+    // Optional fulfillment status
+    optional string fullfilment_status = 15;
+    // Service lane details
+    chorus.spm.service_lane.v1.ServiceLane service_lane = 16;
+    // Optional user who created the task
+    optional chorus.spm.user.v1.UserResponse created_by = 17;
+    // Optional timestamp when the task was created
+    optional string created_at = 18;
+    // Optional user who last updated the task
+    optional chorus.spm.user.v1.UserResponse updated_by = 19;
+    // Optional timestamp when the task was last updated
+    optional string updated_at = 20;
+    // Optional lock return space - type extra demand
+    optional bool lock_return_space = 21;
+}
+
+// Response message containing a list of task summaries and pagination information
+message GetTasksByCaseResponse {
+  // List of task summaries
+  repeated TaskSummary items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Request message to get visibility for creating a task button
+message GetVisibilityCreateTaskButtonRequest {
+  // ID of the case
+  string case_id = 1;
+  // ID of the service lane configuration
+  string slc_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Request message to get visibility for applying a task button
+message GetVisibilityApplyTaskButtonRequest {
+  // ID of the case
+  string case_id = 1;
+  // ID of the service lane configuration
+  string slc_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Request message to get visibility for responding to a task button
+message GetVisibilityRespondButtonRequest {
+  // ID of the task
+  string task_id = 1;
+  // ID of the service lane configuration
+  string slc_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // ID of the sales office
+  string smo_id = 4;
+}
+
+// Request message to respond to a task
+message RespondTaskRequest {
+  // ID of the task
+  string task_id = 1;
+  // Additional comments
+  string additional_comment = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // Requested TEU (Twenty-foot Equivalent Unit) for the task
+  optional double requested_teu = 4;
+  // Requested Tonnage for the task
+  optional double requested_tonnage = 5;
+  // Returnable TEU (Twenty-foot Equivalent Unit) for the task
+  optional double returnable_teu = 6;
+  // Returnable Tonnage for the task
+  optional double returnable_tonnage = 7;
+}
+
+// Response message for a single task operation
+message RespondTaskResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Response message for a single task operation
+message ConfirmTaskResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Response message for a single task operation
+message ReopenTaskResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Response message for a single task operation
+message EditTaskResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Response message for a single task operation
+message ApplyTaskResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Response message for a single task operation
+message RefuseApplyTaskResponse {
+  // Unique identifier for the task
+  string id = 1;
+  // Code for the task
+  string code = 2;
+  // Status of the task
+  string status = 3;
+  // ID of the case
+  string case_id = 4;
+  // ID of the supporter sales office
+  string supporter_sales_office_id = 5;
+  // VVD code
+  optional string vvd_code = 6;
+  // Optional returnable TEU
+  optional double returnable_teu = 7;
+  // Optional returnable weight
+  optional double returnable_wgt = 8;
+  // Requested TEU
+  optional double requested_teu = 9;
+  // Requested weight
+  optional double requested_wgt = 10;
+  // Optional last user who responded
+  optional string last_response_by = 11;
+  // Optional timestamp of the last response
+  optional string last_response_at = 12;
+  // Optional service lane configuration ID
+  optional string service_lane_configuration_id = 13;
+  // Optional lock return space - type extra demand
+  optional bool lock_return_space = 14;
+}
+
+// Request message to get visibility for confirming a task button
+message GetVisibilityConfirmButtonRequest {
+  // ID of the task
+  string task_id = 1;
+  // ID of the service lane configuration
+  string slc_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // Optional ID of the sales office
+  optional string smo_id = 4;
+}
+
+// Request message to get visibility for reopening a task button
+message GetVisibilityReopenButtonRequest {
+  // ID of the task
+  string task_id = 1;
+  // ID of the service lane configuration
+  string slc_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // Optional ID of the sales office
+  optional string smo_id = 4;
+}
+
+// Request message to get visibility for reopening a task button by FO
+message GetVisibilityReopenButtonFoRequest {
+  // ID of the task
+  string task_id = 1;
+  // ID of the service lane configuration
+  string slc_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // Optional ID of the sales office
+  optional string smo_id = 4;
+}
+
+// Request message to confirm a task
+message ConfirmTaskRequest {
+  // ID of the task
+  string task_id = 1;
+  // Additional comments
+  string additional_comment = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Request message to reopen a task
+message ReopenTaskRequest {
+  // ID of the task
+  string task_id = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Request message to apply a task
+message ApplyTaskRequest {
+  // ID of the task
+  string task_id = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Request message to refuse applying a task
+message RefuseApplyTaskRequest {
+  // ID of the task
+  string task_id = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Request message to edit a task
+message EditTaskRequest {
+  // ID of the task
+  string task_id = 1;
+  // Returnable TEU
+  optional double returnable_teu = 2;
+  // Returnable weight
+  optional double returnable_wgt = 3;
+  // Requested TEU
+  optional double requested_teu = 4;
+  // Requested weight
+  optional double requested_wgt = 5;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 6;
+}
+
+// Message for deleting tasks by VVD code
+message DeleteTasksByVvdRequest {
+  // The VVD code associated with the tasks to be deleted
+  string vvd_id = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityCreateTaskButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+// Message to define visible resource from front-end
+message GetVisibilityRespondButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+// Message to define visible resource from front-end
+message GetVisibilityConfirmButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+// Message to define visible resource from front-end
+message GetVisibilityReopenButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end by FO
+message GetVisibilityReopenButtonFoResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Message to define visible resource from front-end
+message GetVisibilityApplyTaskButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+
+// Message to define notification
+message DeleteTasksByVvdResponse {
+  // Text message
+  string message = 1;
+  // Message count
+  optional int32 count = 2;
+}
+
+// Service definition for managing tasks
+service TaskService {
+  // Get outstanding tasks
+  rpc GetOutstandingTasks (GetOutstandingTasksRequest) returns (GetOutstandingTasksResponse) {}
+  // Get total tasks
+  rpc GetTotalTasks (GetTotalTasksRequest) returns (GetTotalTasksResponse) {}
+  // Get tasks by case
+  rpc GetTasksByCase (GetTasksByCaseRequest) returns (GetTasksByCaseResponse) {}
+  // Check if tasks exist
+  rpc CheckTaskListExist (CheckTaskListExistRequest) returns (CheckTaskListExistResponse) {}
+  // Create new tasks
+  rpc CreateTasks (CreateTasksRequest) returns (CreateTasksResponse) {}
+  // Get number of tasks by case
+  rpc GetNumberOfTasksByCase (GetNumberOfTasksByCaseRequest) returns (GetNumberOfTasksByCaseResponse) {}
+  // Get task summary
+  rpc GetTaskSummary (GetTaskSummaryRequest) returns (GetTaskSummaryResponse) {}
+  // Get task summary by FO
+  rpc GetTaskSummaryFo (GetTaskSummaryFoRequest) returns (GetTaskSummaryFoResponse) {}
+  // Get visibility for creating a task button
+  rpc GetVisibilityCreateTaskButton (GetVisibilityCreateTaskButtonRequest) returns (GetVisibilityCreateTaskButtonResponse) {}
+  // Get visibility for responding to a task button
+  rpc GetVisibilityRespondButton (GetVisibilityRespondButtonRequest) returns (GetVisibilityRespondButtonResponse) {}
+  // Get visibility for confirming a task button
+  rpc GetVisibilityConfirmButton (GetVisibilityConfirmButtonRequest) returns (GetVisibilityConfirmButtonResponse) {}
+  // Get visibility for reopening a task button
+  rpc GetVisibilityReopenButton (GetVisibilityReopenButtonRequest) returns (GetVisibilityReopenButtonResponse) {}
+  // Get visibility for reopening a task button by FO
+  rpc GetVisibilityReopenButtonFo (GetVisibilityReopenButtonFoRequest) returns (GetVisibilityReopenButtonFoResponse) {}
+  // Respond to a task
+  rpc RespondTask (RespondTaskRequest) returns (RespondTaskResponse) {}
+  // Confirm a task
+  rpc ConfirmTask (ConfirmTaskRequest) returns (ConfirmTaskResponse) {}
+  // Reopen a task
+  rpc ReopenTask (ReopenTaskRequest) returns (ReopenTaskResponse) {}
+  // Edit a task
+  rpc EditTask (EditTaskRequest) returns (EditTaskResponse) {}
+  // Get visibility for applying a task button
+  rpc GetVisibilityApplyTaskButton (GetVisibilityApplyTaskButtonRequest) returns (GetVisibilityApplyTaskButtonResponse) {}
+  // Apply a task
+  rpc ApplyTask (ApplyTaskRequest) returns (ApplyTaskResponse) {}
+  // Refuse to apply a task
+  rpc RefuseApplyTask (RefuseApplyTaskRequest) returns (RefuseApplyTaskResponse) {}
+  // Unary RPC for deleting tasks by VVD code
+  rpc DeleteTasksByVvd (DeleteTasksByVvdRequest) returns (DeleteTasksByVvdResponse);
+}

@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+import "chorus/spm/base/v1/base.proto";
+import "chorus/spm/group/v1/group.proto";
+
+package chorus.spm.service_lane.v1;
+
+// Represents a service lane with its attributes
+message ServiceLane {
+    // Unique identifier for the service lane
+    string id = 1;
+    // Code representing the service lane
+    string service_lane_code = 2;
+    // Vessel bound information
+    string vessel_bound = 3;
+    // Display name of the service lane
+    string service_lane_display_name = 4;
+    // Indicates if the service lane is dominant
+    string dominant = 5;
+    // Optional SPC group associated with the service lane
+    optional chorus.spm.group.v1.Group spc_group = 6;
+    // Optional FO group associated with the service lane
+    optional chorus.spm.group.v1.Group fo_group = 7;
+}
+
+// Request message for retrieving service lanes by case ID
+message GetServiceLanesByCaseRequest {
+    // ID of the case for which service lanes are requested
+    string case_id = 1;
+    // Optional query parameters
+    optional chorus.spm.base.v1.Query query = 2;
+}
+
+// Response message containing a list of service lanes
+message GetServiceLanesByCaseResponse {
+    // List of service lanes
+    repeated ServiceLane items = 1;
+}
+
+// Request message for getting service lanes with pagination and search functionality
+message GetServiceLanesWithPaginationAndSearchRequest {
+  // Optional search serviceLaneLike parameters
+  optional string service_lane_like = 1;
+  // Pagination cursor parameters
+  chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+}
+
+// Response message for the service lanes with pagination and search results
+message GetServiceLanesWithPaginationAndSearchResponse {
+  // List of service lanes matching the search and pagination criteria
+  repeated ServiceLanesWithPaginationAndSearchResponse items = 1;
+  // Pagination response information
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+  // Total items
+  int32 total_items = 3;
+}
+
+// Individual service lane response message
+message ServiceLanesWithPaginationAndSearchResponse {
+  // Unique identifier for the service lane
+  string id = 1;
+  // Service lane display name
+  string service_lane_display_name = 2;
+}
+
+// Request message for getting trade codes with pagination and search functionality
+message GetTradeCodesWithPaginationAndSearchRequest {
+  // Optional search TradeCodesLike parameters
+  optional string trade_code_like = 1;
+  // Pagination cursor parameters
+  chorus.spm.base.v1.CursorPaginationRequest pagination = 2;
+}
+
+// Response message for the trade codes with pagination and search results
+message GetTradeCodesWithPaginationAndSearchResponse {
+  // List of trade codes matching the search and pagination criteria
+  repeated string trade_code = 1;
+  // Pagination response information
+  chorus.spm.base.v1.CursorPaginationResponse pagination = 2;
+  // Total items
+  int32 total_items = 3;
+}
+
+// Service for managing service lanes
+service ServiceLaneService {
+    // Retrieves service lanes associated with a specific case ID
+    rpc GetServiceLanesByCase (GetServiceLanesByCaseRequest) returns (GetServiceLanesByCaseResponse) {}
+    // RPC method to get service lanes based on pagination and search criteria
+    rpc GetServiceLanesWithPaginationAndSearch (GetServiceLanesWithPaginationAndSearchRequest) returns (GetServiceLanesWithPaginationAndSearchResponse) {}
+    // RPC method to get trade codes based on pagination and search criteria
+    rpc GetTradeCodesWithPaginationAndSearch (GetTradeCodesWithPaginationAndSearchRequest) returns (GetTradeCodesWithPaginationAndSearchResponse) {}
+}

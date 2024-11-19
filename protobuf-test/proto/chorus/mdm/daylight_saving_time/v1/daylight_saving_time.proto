@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package chorus.mdm.daylight_saving_time.v1;
+
+// The daylight saving time information.
+message DaylightSavingTime {
+  // The daylight_saving_time_id is the id of the daylight saving time. dst_id in OPUS.
+  string daylight_saving_time_id = 1;
+  // The daylight_saving_time_country_code is the country code of the daylight saving time. dst_cnt_cd in OPUS.
+  string daylight_saving_time_country_code = 2;
+  // The daylight_saving_time_not_apply_state_code is the not apply state code of the daylight saving time. dst_not_aply_ste_cd in OPUS.
+  string daylight_saving_time_not_apply_state_code = 3;
+  // The daylight_saving_time_year is the year of the daylight saving time. dst_yr in OPUS.
+  string daylight_saving_time_year = 4;
+  // The daylight_saving_time_minutes is the minutes of the daylight saving time. dst_mnts in OPUS.
+  string daylight_saving_time_minutes = 5;
+  // The start_daylight_saving_time_date is the start date of the daylight saving time. st_dst_dt in OPUS.
+  string start_daylight_saving_time_date = 6;
+  // The end_daylight_saving_time_date is the end date of the daylight saving time. end_dst_dt in OPUS.
+  string end_daylight_saving_time_date = 7;
+  // The start_daylight_saving_time_hour_minute is the start hour minute of the daylight saving time. st_dst_hrmnt in OPUS.
+  string start_daylight_saving_time_hour_minute = 8;
+  // The end_daylight_saving_time_hour_minute is the end hour minute of the daylight saving time. end_dst_hrmnt in OPUS.
+  string end_daylight_saving_time_hour_minute = 9;
+}
+
+// The daylight saving time country code information.
+message DaylightSavingTimeCountryCode {
+  // The country code of the daylight saving time.
+  string daylight_saving_time_contry_code = 1;
+  // The year of the daylight saving time.
+  optional string daylight_saving_time_year = 2;
+}
+
+// Request message for `DaylightSavingTimeInfoService.GetDaylightSavingTimesByCodes`.
+message GetDaylightSavingTimesByCodesRequest {
+  // The daylight saving time country code list.
+  repeated DaylightSavingTimeCountryCode daylight_saving_time_contry_code_list = 1;
+}
+
+// Response message for `DaylightSavingTimeInfoService.GetDaylightSavingTimesByCodes`.
+message GetDaylightSavingTimesByCodesResponse {
+  // The daylight saving time information.
+  DaylightSavingTime daylight_saving_time = 1;
+}
+
+// Request message for `DaylightSavingTimeInfoService.GetDaylightSavingTimesByInfo`.
+message GetDaylightSavingTimesByInfoRequest {
+  // The country code of the daylight saving time.
+  string daylight_saving_time_country_code = 1;
+  // The not apply state code of the daylight saving time.
+  string daylight_saving_time_not_apply_state_code = 2;
+  // The start date of the daylight saving time.
+  string start_daylight_saving_time_date = 3;
+  // The end date of the daylight saving time.
+  string end_daylight_saving_time_date = 4;
+  // The start hour minute of the daylight saving time.
+  string start_daylight_saving_time_hour_minute = 5;
+  // The end hour minute of the daylight saving time.
+  string end_daylight_saving_time_hour_minute = 6;
+}
+
+// Response message for `DaylightSavingTimeInfoService.GetDaylightSavingTimesByInfo`.
+message GetDaylightSavingTimesByInfoResponse {
+  // The daylight saving time information.
+  DaylightSavingTime daylight_saving_time = 1;
+}
+
+// Services for daylight saving time.
+service DaylightSavingTimeInfoService {
+  // Get list of daylight saving times by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "daylight_saving_time_contry_code_list": [
+  //         {
+  //             "daylight_saving_time_year": "2019",
+  //             "daylight_saving_time_contry_code": "BG"
+  //         },
+  //         {
+  //             "daylight_saving_time_contry_code": "CZ"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "daylight_saving_time": {
+  //         "daylight_saving_time_id": "19BG01",
+  //         "daylight_saving_time_country_code": "BG",
+  //         "daylight_saving_time_not_apply_state_code": "",
+  //         "daylight_saving_time_year": "2019",
+  //         "daylight_saving_time_minutes": "60",
+  //         "start_daylight_saving_time_date": "20190331",
+  //         "end_daylight_saving_time_date": "20191027",
+  //         "start_daylight_saving_time_hour_minute": "0100",
+  //         "end_daylight_saving_time_hour_minute": "0200"
+  //     }
+  // }
+  // ...
+  rpc GetDaylightSavingTimesByCodes(GetDaylightSavingTimesByCodesRequest) returns (stream GetDaylightSavingTimesByCodesResponse);
+
+  // Get list of daylight saving times by info.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "daylight_saving_time_country_code": "BG",
+  //     "daylight_saving_time_not_apply_state_code": "",
+  //     "end_daylight_saving_time_date": "20191027",
+  //     "end_daylight_saving_time_hour_minute": "0100",
+  //     "start_daylight_saving_time_date": "20190331",
+  //     "start_daylight_saving_time_hour_minute": "0200"
+  // }
+  //
+  // Response:
+  // {
+  //     "daylight_saving_time": {
+  //         "daylight_saving_time_id": "19BG01",
+  //         "daylight_saving_time_country_code": "BG",
+  //         "daylight_saving_time_not_apply_state_code": "",
+  //         "daylight_saving_time_year": "2019",
+  //         "daylight_saving_time_minutes": "60",
+  //         "start_daylight_saving_time_date": "20190331",
+  //         "end_daylight_saving_time_date": "20191027",
+  //         "start_daylight_saving_time_hour_minute": "0100",
+  //         "end_daylight_saving_time_hour_minute": "0200"
+  //     }
+  // }
+  // ...
+  rpc GetDaylightSavingTimesByInfo(GetDaylightSavingTimesByInfoRequest) returns (stream GetDaylightSavingTimesByInfoResponse);
+}

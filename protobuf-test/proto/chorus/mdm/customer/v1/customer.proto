@@ -1,0 +1,219 @@
+syntax = "proto3";
+
+package chorus.mdm.customer.v1;
+
+import "chorus/mdm/base/v1/base.proto";
+
+// The customer information.
+message Customer {
+  // The customer_country_code is the country code of Customer. cust_cnt_cd in OPUS
+  string customer_country_code = 1;
+  // The customer_sequence is the sequence of Customer. cust_seq in OPUS
+  int32 customer_sequence = 2;
+  // The customer_legal_english_name is the legal English name of Customer. cust_lgl_eng_nm in OPUS
+  string customer_legal_english_name = 3;
+  // The office_code is the office code of Customer. ofc_cd in OPUS
+  string office_code = 4;
+  // The location_code of Customer. loc_cd in OPUS
+  string location_code = 5;
+  // The container_customer_type_code is the container customer type code of Customer. cntr_cust_tp_cd in OPUS
+  string container_customer_type_code = 6;
+}
+
+// The customer search information.
+message CustomerSearchPopup {
+  // The customer_country_code is customer country code of the customer. cust_cnt_cd in OPUS.
+  string customer_country_code = 1;
+  // The customer_sequence is the sequence of the customer .cust_seq in OPUS.
+  int32 customer_sequence = 2;
+  // The modified_customer_code2 is the modified customer code 2 of the customer. modi_cust_cd2 in OPUS.
+  string modified_customer_code2 = 3;
+  // The customer_local_language_name is the customer_local_language_name of the customer. cust_locl_lang_nm in OPUS.
+  string customer_local_language_name = 4;
+  // The sales_delete_effective_date is the sales delete effective date of the customer. sls_delt_eff_dt in OPUS.
+  string sales_delete_effective_date = 5;
+  // The office_code is the office code of the customer. ofc_cd in OPUS.
+  string office_code = 6;
+  // The customer_register_number is the customer register number of the customer. cust_rgst_no in OPUS.
+  string customer_register_number = 7;
+  // The location_code is the location code of the customer. loc_cd in OPUS.
+  string location_code = 8;
+  // The container_customer_type_code is the container customer type code of the customer. cntr_cust_tp_cd in OPUS.
+  string container_customer_type_code = 9;
+  // The customer_group_id is the customer group id of the customer. cust_grp_id in OPUS.
+  string customer_group_id = 10;
+  // The vendor_sequence is the vendor sequence of the customer. vndr_seq in OPUS.
+  int32 vendor_sequence = 11;
+  // The customer_legal_english_name is the legal English name of Customer. cust_lgl_eng_nm in OPUS
+  string customer_legal_english_name = 12;
+}
+
+// The customer code information.
+message CountryCodeAndSequence {
+  // The customer country code
+  string customer_country_code = 1;
+  // The customer sequence
+  int32 customer_sequence = 2;
+}
+
+// The customer country code and customer sequence information.
+message CustomerCountryCodeAndCustomerSequenceData {
+  // The customer code list
+  repeated CountryCodeAndSequence customer_country_code_and_customer_sequence_list = 1;
+}
+
+// Request message for `CustomerInfoService.GetCustomersByCountryCodesAndSequencesRequest`.
+message GetCustomersByCountryCodesAndSequencesRequest {
+  // The customer code list
+  repeated CountryCodeAndSequence country_code_and_sequence_list = 1;
+}
+
+// Response message for `CustomerInfoService.GetCustomersByCountryCodesAndSequencesResponse`.
+message GetCustomersByCountryCodesAndSequencesResponse {
+  // The customer information
+  Customer customer = 1;
+}
+
+// Request message for `CustomerInfoService.SearchCustomersByLegalEnglishNameRequest`.
+message SearchCustomersByLegalEnglishNameRequest {
+  // The customer legal English name information
+  string search_string = 1;
+}
+
+// Response message for `CustomerInfoService.SearchCustomersByLegalEnglishNameResponse`.
+message SearchCustomersByLegalEnglishNameResponse {
+  // The customer information
+  Customer customer = 1;
+}
+
+// Request message for `CustomerInfoService.SearchCustomersByMultipleFields`.
+message SearchCustomersByMultipleFieldsRequest {
+  reserved "sales_delete_effective_date";
+  reserved 7;
+
+  // The customer_code is customer code of the customer. Concatenate cust_cnt_cd and cust_seq in OPUS.
+  optional string customer_code = 1;
+  // The customer_name is either cust_lgl_eng_nm or cust_locl_lang_nm in OPUS.
+  optional string customer_name = 2;
+  // The office_code is the office code of the customer. ofc_cd in OPUS.
+  optional string office_code = 3;
+  // The location_code is the location code of the customer. loc_cd in OPUS.
+  optional string location_code = 4;
+  // The customer_register_number is the customer register number of the customer. cust_rgst_no in OPUS.
+  optional string customer_register_number = 5;
+  // The named_customer_flag is the named customer flag of the customer. nmd_cust_flg in OPUS.
+  string named_customer_flag = 6;
+  // The pagination info.
+  chorus.mdm.base.v1.Pagination pagination = 8;
+  // The order by list
+  repeated chorus.mdm.base.v1.OrderBy order_by = 9;
+  // The status of sales effective date.
+  bool is_sales_deleted = 10;
+  // The check logic for customer_name should apply for only cust_lgl_eng_nm if
+  // true, both cust_lgl_eng_nm or cust_locl_lang_nm if false.
+  optional bool check_for_customer_legal_english_name_only = 11;
+   // customer country code and customer sequence data.
+  optional CustomerCountryCodeAndCustomerSequenceData customer_country_code_and_customer_sequence_data = 12;
+}
+
+// Response message for `CustomerInfoService.SearchCustomersByMultipleFields`.
+message SearchCustomersByMultipleFieldsResponse {
+  // The customer information.
+  CustomerSearchPopup customer = 1;
+}
+
+// The service that implements the CustomerInfoService definition.
+service CustomerInfoService {
+  // Get list of customers by country codes and sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  //  {
+  //    "country_code_and_sequence_list": [
+  //      {
+  //        "customer_country_code": "JP",
+  //        "customer_sequence": "210679"
+  //      }
+  //      {
+  //        "customer_country_code": "JPP",
+  //        "customer_sequence": ""
+  //      }
+  //    ]
+  //  }
+  //
+  // Response:
+  //  {
+  //    "customer": {
+  //      "customer_country_code": "JP",
+  //      "customer_sequence": "210679",
+  //      "customer_legal_english_name": "YAMATO TRADING CORP.,",
+  //      "office_code": "TYOBB",
+  //      "location_code": "JPKSB",
+  //      "container_customer_type_code": "N"
+  //    }
+  //  }
+  // ...
+  rpc GetCustomersByCountryCodesAndSequences(GetCustomersByCountryCodesAndSequencesRequest) returns (stream GetCustomersByCountryCodesAndSequencesResponse);
+
+  // Search list of customers by legal English name
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  //  {
+  //    "search_string": "YAMATO"
+  //  }
+  //
+  // Response:
+  //  {
+  //    "customer": {
+  //      "customer_country_code": "JP",
+  //      "customer_sequence": "210679",
+  //      "customer_legal_english_name": "YAMATO TRADING CORP.,",
+  //      "office_code": "TYOBB",
+  //      "location_code": "JPKSB",
+  //      "container_customer_type_code": "N"
+  //    }
+  //  }
+  // ...
+  rpc SearchCustomersByLegalEnglishName(SearchCustomersByLegalEnglishNameRequest) returns (stream SearchCustomersByLegalEnglishNameResponse);
+
+  // Search list of customers by by multiple fields
+  //
+  // Operation: LIKE & MATCH
+  //
+  // Request:
+  //  {
+  //     "customer_code" : "JP210679",
+  //     "customer_name" : "YAMATO TRADING CORP",
+  //     "office_code" : "TYOBB",
+  //     "location_code" : "AR",
+  //     "customer_register_number" : "DE304310599",
+  //     "named_customer_flag" : "N",
+  //     "is_sales_deleted" : true,
+  //     "pagination" : {
+  //         offset : 0,
+  //         limit : 10,
+  //     },
+  //  }
+  //
+  // Response:
+  //  {
+  //    "customer": {
+  //      "customer_country_code": "JP",
+  //      "customer_sequence": 210679,
+  //      "modified_customer_code2": "YAMATO TRADING CORP.,",
+  //      "customer_local_language_name": "TYOBB",
+  //      "office_code": "JPKSB",
+  //      "customer_register_number": "DE304310599",
+  //      "location_code": "JPKSB",
+  //      "container_customer_type_code": "B",
+  //      "customer_group_id": "G-DE105150",
+  //      "vendor_sequence": 100411,
+  //      "customer_legal_english_name": 'YAMATO TRADING CORP.,',
+  //    }
+  //  }
+  // ...
+  rpc SearchCustomersByMultipleFields(SearchCustomersByMultipleFieldsRequest) returns (stream SearchCustomersByMultipleFieldsResponse);
+}

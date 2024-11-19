@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package chorus.mdm.credit_customer_term.v1;
+
+// The customer country code and sequence information.
+message CustomerCountryCodeAndSequence {
+  // The customer_country_code is the country code of the customer.
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the customer.
+  int32 customer_sequence = 2;
+}
+
+// The credit customer term information.
+message CreditCustomerTerm {
+  // The customer_country_code is the country code of the credit customer term. cust_cnt_cd in OPUS.
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the credit customer term. cust_seq in OPUS.
+  int32 customer_sequence = 2;
+  // The customer_agreement_number is the customer agreement number sequence of the credit customer term. cust_agmt_no in OPUS.
+  string customer_agreement_number = 3;
+  // The credit_currency_code is the credit currency code of the credit customer term. cr_curr_cd in OPUS.
+  string credit_currency_code = 4;
+  // The credit_amount is the credit amount of the customer. cr_amt in OPUS.
+  int32 credit_amount = 5;
+}
+
+// Request message for `CreditCustomerTermInfoService.GetCreditCustomerTermsByCustomerCountryCodesAndSequences`.
+message GetCreditCustomerTermsByCustomerCountryCodesAndSequencesRequest {
+  // The customer country code and sequence list.
+  repeated CustomerCountryCodeAndSequence customer_country_code_and_sequence_list = 1;
+}
+
+// Response message for `CreditCustomerTermInfoService.GetCreditCustomerTermsByCustomerCountryCodesAndSequences`.
+message GetCreditCustomerTermsByCustomerCountryCodesAndSequencesResponse {
+  // The credit customer terms information.
+  CreditCustomerTerm credit_customer_term = 1;
+}
+
+// Services for credit terms of credit customers.
+service CreditCustomerTermInfoService {
+  // Get list of credit customer terms by customer country codes and customer sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_country_code_and_sequence_list": [
+  //         {
+  //             "customer_country_code": "BE"
+  //             "customer_sequence": 100504
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "credit_customer_term": {
+  //         "customer_country_code": "BE",
+  //         "customer_sequence": 100504,
+  //         "customer_agreement_number": "BE/BE100504",
+  //         "credit_currency_code": "USD",
+  //         "credit_amount": 150
+  //     }
+  // }
+  // ...
+  rpc GetCreditCustomerTermsByCustomerCountryCodesAndSequences(GetCreditCustomerTermsByCustomerCountryCodesAndSequencesRequest) returns (stream GetCreditCustomerTermsByCustomerCountryCodesAndSequencesResponse);
+}

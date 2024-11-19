@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package chorus.com.base.v1;
+
+// Pagination
+message Pagination {
+    // The page number
+    int32 page_number = 1;
+    // The page size
+    int32 page_size = 2;
+} 
+// Order Direction
+enum SortBy {
+    // unspecified
+    SORT_BY_UNSPECIFIED = 0;
+    // Ascending
+    SORT_BY_ASC = 1;
+    // Descending
+    SORT_BY_DESC = 2;
+}
+
+// OderBy Field
+message OrderBy {
+    // The field name
+    string field_name = 1;
+    // The order direction
+    SortBy sort_by = 2;
+}

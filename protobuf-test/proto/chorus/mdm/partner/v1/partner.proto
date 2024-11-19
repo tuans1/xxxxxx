@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package chorus.mdm.partner.v1;
+
+// The vendor contact point information.
+message VendorContactPoint {
+  // The vendor_sequence is the vendor sequence of the vendor. vndr_seq in OPUS.
+  int32 vendor_sequence = 1;
+  // The vendor_contact_point_sequence is the vendor contact point sequence of the vendor. vndr_cntc_pnt_seq in OPUS.
+  int32 vendor_contact_point_sequence = 2;
+  // The primary_check_flag is the primary check flag of the vendor. prmry_ckh_flg in OPUS.
+  string primary_check_flag = 3;
+  // The international_phone_number is the international phone number of the vendor. intl_phn_no in OPUS.
+  string international_phone_number = 4;
+  // The phone_number is the phone number of the vendor. phn_no in OPUS.
+  string phone_number = 5;
+  // The international_fax_number is the international fax number of the vendor. intl_fax_no in OPUS.
+  string international_fax_number = 6;
+  // The fax_number is the fax number of the vendor. fax_no in OPUS.
+  string fax_number = 7;
+  // The vendor_email is the vendor email of the vendor. vndr_eml in OPUS.
+  string vendor_email = 8;
+}
+
+// The vendor code information.
+message VendorCode {
+  // The vendor sequence of the vendor code.
+  int32 vendor_sequence = 1;
+}
+
+// (Deprecated)
+// Request message for `VendorContactPointInfoService.GetVendorContactPointsByVendorSequences`.
+message GetVendorContactPointsByVendorSequencesRequest {
+  option deprecated = true;
+  // The vendor code list.
+  repeated VendorCode vendor_code_list = 1;
+}
+
+// (Deprecated)
+// Response message for `VendorContactPointInfoService.GetVendorContactPointsByVendorSequences`.
+message GetVendorContactPointsByVendorSequencesResponse {
+  option deprecated = true;
+  // The vendor contact point information.
+  VendorContactPoint vendor_contact_point = 1;
+}
+
+// Services for vendor contact point.
+service VendorContactPointInfoService {
+  // (Deprecated)
+  // Get list of vendor contact points by vendor sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vendor_code_list": [
+  //         {
+  //             "vendor_sequence": 101303
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "vendor_contact_point": {
+  //         "vendor_sequence": 101303,
+  //         "vendor_contact_point_sequence": 1
+  //         "primary_check_flag": "Y"
+  //         "international_phone_number": "82"
+  //         "phone_number": "51-4690475"
+  //         "international_fax_number": "PREPAYMENTS-EXPENSE FOR CANAL TRANSIT FOR ACCRUAL"
+  //         "fax_number": "51-4698030"
+  //         "vendor_email": ""
+  //     }
+  // }
+  // ...
+  rpc GetVendorContactPointsByVendorSequences(GetVendorContactPointsByVendorSequencesRequest) returns (stream GetVendorContactPointsByVendorSequencesResponse) {
+    option deprecated = true;
+  };
+}

@@ -1,0 +1,136 @@
+syntax = "proto3"; // Specify the syntax version of Protocol Buffers used
+
+// Import the necessary proto files
+import "chorus/spm/user/v1/user.proto";
+
+ // Define the package name
+package chorus.spm.comment.v1;
+
+// Message define create comment request
+message CreateCommentRequest {
+  // The content of the comment
+  optional string content = 1;
+  // The action related to the comment
+  optional string action = 2;
+  // which object type
+  string object_type = 3;
+  // The ID of the object the comment is associated with 
+  string object_id = 4;
+  //user info whom create comment
+  chorus.spm.user.v1.UserInfo user = 5;
+  // object status
+  optional string object_status = 6;
+}
+
+// Create Comment By User Request
+message CreateCommentByUserRequest {
+  // The content of the comment
+  string content = 1;
+  // which object type
+  string object_type = 2;
+  // The ID of the object the comment is associated with 
+  string object_id = 3;
+  //user info whom create comment
+  chorus.spm.user.v1.UserInfo user = 4;
+}
+
+// Message define get comment request
+message GetCommentRequest {
+  // The ID of the object the comment is associated with 
+  string object_id = 1;
+  // which object type
+  string object_type = 2;
+  //user info whom get comment
+  chorus.spm.user.v1.UserInfo user = 3;
+  // optional which action
+  optional string action = 4;
+}
+
+// Message define get comment response
+message GetCommentResponse {
+  //uniq id
+  string id = 1;
+  // The content of the comment
+  string content = 2;
+  // The action related to the comment
+  string action = 3;
+  //object type comment
+  string object_type = 4;
+  // The ID of the object the comment is associated with 
+  string object_id = 5;
+  // When comment created
+  string created_at = 6;
+  // Who created comment
+  chorus.spm.user.v1.UserResponse created_by = 7;
+  // object status
+  optional string object_status = 8;
+}
+
+// Message define create comment response
+message CreateCommentResponse {
+  // comment id
+  string id = 1;
+  // The content of the comment
+  string content = 2;
+  // The action related to the comment
+  string action = 3;
+  // The type of the object the comment is associated with
+  string object_type = 4;
+  // The ID of the object the comment is associated with
+  string object_id = 5;
+  // When comment created
+  string created_at = 6;
+  // Who created comment
+  string created_by = 7;
+  // optional object status
+  optional string object_status = 8;
+}
+
+// Message define create comment by user response
+message CreateCommentByUserResponse {
+  // comment id
+  string id = 1;
+  // The content of the comment
+  string content = 2;
+  // The action related to the comment
+  string action = 3;
+  // The type of the object the comment is associated with
+  string object_type = 4;
+  // The ID of the object the comment is associated with
+  string object_id = 5;
+  // When comment created
+  string created_at = 6;
+  // Who created comment
+  string created_by = 7;
+  // optional object status
+  optional string object_status = 8;
+}
+
+// Message define get list comment by subject id
+message GetCommentsByObjectIdRequest {
+  // The ID of the object the comment is associated with 
+  string object_id = 1;
+  // which object type
+  string object_type = 2;
+  //user info whom get comment
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Messge define list comment by subject id
+message GetCommentsByObjectIdResponse {
+  // List of comment configurations
+  repeated GetCommentResponse items = 1;
+}
+
+
+// Services for comment
+service CommentService {
+    // Create Comment
+    rpc CreateComment (CreateCommentRequest) returns (CreateCommentResponse) {}
+    // Get Comment
+    rpc GetComment(GetCommentRequest) returns (GetCommentResponse) {}
+    // Get List Comment
+    rpc GetCommentsByObjectId(GetCommentsByObjectIdRequest) returns (GetCommentsByObjectIdResponse) {}
+    // Create Comment By User
+    rpc CreateCommentByUser(CreateCommentByUserRequest) returns (CreateCommentByUserResponse) {}
+}

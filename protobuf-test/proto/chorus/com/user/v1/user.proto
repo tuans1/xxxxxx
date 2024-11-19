@@ -1,0 +1,441 @@
+syntax = "proto3";
+
+package chorus.com.user.v1;
+
+// The user service definition.
+service UsersService {
+  // The method for search user list by name or role id
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //   "query": {
+  //     "keyword": "string",
+  //     "role_id": "string"
+  //   },
+  //   "pagination": {
+  //     "page_size": 0,
+  //     "page_number": 0
+  //   }
+  // }
+  //
+  // Response:
+  // {
+  //   "data": {
+  //     "user_id": "string",
+  //     "email": "string",
+  //     "full_name": "string",
+  //     "roles": "string",
+  //     "is_active": true,
+  //     "activation_date": "string",
+  //     "expiry_date": "string",
+  //     "account_type": "string",
+  //     "company_name": "string",
+  //     "department_manager": "string",
+  //     "department": "string",
+  //     "division": "string",
+  //     "system_admmin": "string",
+  //     "rhq": "string",
+  //     "country": "string",
+  //     "city": "string",
+  //     "accessible_office": "string",
+  //     "last_updated_user": "string",
+  //     "last_updated_on": "string"
+  //   },
+  //   "total": 0
+  // }
+  rpc SearchUserListByNameOrRoleId(SearchUserListByNameOrRoleIdRequest) returns (stream SearchUserListByNameOrRoleIdResponse) {}
+  // Get user detail by ID
+  //
+  // Request:
+  // {
+  //   "id": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "user_id": "string",
+  //   "email": "string",
+  //   "first_name": "string",
+  //   "last_name": "string",
+  //   "roles": [
+  //     {
+  //       "role_id": "string",
+  //       "role_name": "string"
+  //     }
+  //   ],
+  //   "user_attributes": [
+  //     {
+  //       "user_attribute_id": "string",
+  //       "value": "string"
+  //     }
+  //   ]
+  // }
+  rpc GetUserDetailById(GetUserDetailByIdRequest) returns (GetUserDetailByIdResponse) {}
+
+  // Get user detail by Email
+  //
+  // Request:
+  // {
+  //   "email": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "user_id": "string",
+  //   "email": "string",
+  //   "first_name": "string",
+  //   "last_name": "string",
+  // }
+  rpc GetUserDetailByEmail(GetUserDetailByEmailRequest) returns (GetUserDetailByEmailResponse) {}
+
+  // Create user
+  //
+  // Request:
+  // {
+  //   "email": "string",
+  //   "first_name": "string",
+  //   "last_name": "string",
+  //   "role_ids": [
+  //     "string"
+  //   ],
+  //   "user_attributes": [
+  //     {
+  //       "user_attribute_id": "string",
+  //       "value": "string"
+  //     }
+  //   ]
+  // }
+  //
+  // Response:
+  // {
+  //   "user_id": "string",
+  //   "email": "string",
+  //   "first_name": "string",
+  //   "last_name": "string"
+  // }
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  // Update user by ID
+  //
+  // Request:
+  // {
+  //   "user_id": "string",
+  //   "payload": {
+  //     "email": "string",
+  //     "first_name": "string",
+  //     "last_name": "string",
+  //     "role_ids": [
+  //       "string"
+  //     ],
+  //     "user_attributes": [
+  //       {
+  //         "user_attribute_id": "string",
+  //         "value": "string"
+  //       }
+  //     ]
+  //   }
+  // }
+  //
+  // Response:
+  // {
+  //   "success": true
+  // }
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+  // Update flg is_active by userId
+  //
+  // Request:
+  // {
+  //   "id": "string",
+  //   "is_active": true
+  // }
+  //
+  // Response:
+  // {
+  //   "success": true
+  // }
+  rpc SetFlgIsActiveUser(SetFlgIsActiveUserRequest) returns (SetFlgIsActiveUserResponse) {}
+  //Delete user by ID
+  //
+  // Request:
+  // {
+  //   "id": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "success": true
+  // }
+  rpc DeleteUserById(DeleteUserByIdRequest) returns (DeleteUserByIdResponse) {}
+  // Get default role by name
+  //
+  // Request:
+  // {
+  //   "role_name": "string",
+  //   "product_code": "string"
+  // }
+  //
+  // Response:
+  // {
+  //   "role_name": "string",
+  //   "product_code": "string",
+  //   "role_id": "string"
+  // }
+  rpc GetRoleDefaultByName(GetRoleDefaultByNameRequest) returns (GetRoleDefaultByNameResponse) {}
+}
+
+// The user request by ID message definition.
+message DeleteUserByIdRequest {
+  // The user ID.
+  string id = 1;
+}
+
+// The user request for update flg is_active request
+message SetFlgIsActiveUserRequest {
+  // The user ID.
+  string id = 1;
+  // The flg is_active
+  bool is_active = 2;
+}
+
+// The user request by ID message definition.
+message GetUserDetailByIdRequest {
+  // The user ID.
+  string id = 1;
+}
+
+// The user request by email message definition.
+message GetUserDetailByEmailRequest {
+  // The user email.
+  string email = 1;
+}
+
+// The user response message definition.
+message RoleOfUserResponse {
+  // The role ID.
+  string role_id = 1;
+  // The role name.
+  string role_name = 2;
+  // The product code
+  string product_code = 3;
+}
+
+// The user attribute mapping response message definition.
+message UserAttributeMappingResponse {
+  // The mapping ID.
+  string mapping_id = 1;
+  // The user attribute ID.
+  string user_attribute_id = 2;
+  // The user attribute value.
+  string value = 3;
+}
+
+// The user detail response message definition.
+message GetUserDetailByIdResponse {
+  // The user ID.
+  string user_id = 1;
+  // The user email.
+  string email = 2;
+  // The user first name.
+  string first_name = 3;
+  // The user last name.
+  string last_name = 4;
+  // The user roles.
+  repeated RoleOfUserResponse roles = 5;
+  // The user attributes.
+  repeated UserAttributeMappingResponse user_attributes = 6;
+  // the active
+  bool is_active = 7;
+}
+
+// The user detail response message definition.
+message GetUserDetailByEmailResponse {
+  // The user ID.
+  string user_id = 1;
+  // The user email.
+  string email = 2;
+  // The user first name.
+  string first_name = 3;
+  // The user last name.
+  string last_name = 4;
+}
+
+// The user request for creating
+message CreateUserAttributeMappingRequest {
+  // The user attribute ID.
+  string user_attribute_id = 1;
+  // The user attribute value.
+  string value = 2;
+}
+
+// The user request for creating
+message UserAttributeMappingRequest {
+  // The mapping ID.
+  optional string mapping_id = 1;
+  // The user attribute ID.
+  string user_attribute_id = 2;
+  // The user attribute ampping value.
+  string value = 3;
+}
+
+// The user request for creating
+message CreateUserRequest {
+  // The user email.
+  string email = 1;
+  // The user first name.
+  string first_name = 2;
+  // The user last name.
+  string last_name = 3;
+  // The user roles.
+  repeated string role_ids = 4;
+  // The user attributes.
+  repeated UserAttributeMappingRequest user_attributes = 5;
+  // The active user.
+  bool is_active = 6;
+}
+
+// The user response for creating
+message CreateUserResponse {
+  // The user ID.
+  string user_id = 1;
+  // The user email.
+  string email = 2;
+  // The user first name.
+  string first_name = 3;
+  // The user last name.
+  string last_name = 4;
+}
+
+// The user request for updating
+message UpdateUserDataRequest {
+  // The user email.
+  string email = 1;
+  // The user first name.
+  string first_name = 2;
+  // The user last name.
+  string last_name = 3;
+  // The user roles.
+  repeated string role_ids = 4;
+  // The user attributes.
+  repeated UserAttributeMappingRequest user_attributes = 5;
+  // The active user.
+  bool is_active = 6;
+}
+
+// The user request for updating
+message UpdateUserRequest {
+  // The user ID.
+  string user_id = 1;
+  // The user payload.
+  UpdateUserDataRequest payload = 2;
+}
+
+// The user Filter for Search
+message UserFilter {
+  // The user keyword.
+  optional string keyword = 1;
+  // The user role ID.
+  optional string role_id = 2;
+}
+
+// The user pagination for Search
+message UserPagination {
+  // The user page size.
+  int32 page_size = 1;
+  // The user page number.
+  int32 page_number = 2;
+}
+
+// The user request for search
+message SearchUserListByNameOrRoleIdRequest {
+  // The user filter.
+  optional UserFilter query = 1;
+  // The user pagination.
+  optional UserPagination pagination = 2;
+}
+
+// The user response for search
+message GetUserItemResponse {
+  // The user ID.
+  string user_id = 1;
+  // The user email.
+  string email = 2;
+  // The user full name.
+  string full_name = 3;
+  // The user roles.
+  string roles = 4;
+  // The flg is_active
+  bool is_active = 5;
+  // the activatin date
+  optional string activation_date = 6;
+  // the expriry date
+  optional string expiry_date = 7;
+  // the account type
+  optional string account_type = 8;
+  // the 3rd party company
+  optional string company_name = 9;
+  // the department manager
+  optional string department_manager = 10;
+  // the department team
+  optional string department = 11;
+  // the division/offshore
+  optional string division = 12;
+  // the system admin
+  optional string system_admmin = 13;
+  // the rhq
+  optional string rhq = 14;
+  // the country
+  optional string country = 15;
+  // the city
+  optional string city = 16;
+  // the accessible office
+  optional string accessible_office = 17;
+  // the last update user
+  optional string last_updated_user = 18;
+  // the last update on
+  optional string last_updated_on = 19;
+}
+
+// The user response for search
+message SearchUserListByNameOrRoleIdResponse {
+  // The user data.
+  GetUserItemResponse data = 1;
+  // The user total.
+  int32 total = 2;
+}
+
+// The user response for updating
+message UpdateUserResponse {
+  //The result of updating user
+  bool success = 1;
+}
+
+// The user response for deleting
+message DeleteUserByIdResponse {
+  //The result of deleting user
+  bool success = 1;
+}
+
+// The user response for updating flg is_active
+message SetFlgIsActiveUserResponse {
+  //The result of updating flg is_active
+  bool success = 1;
+}
+
+//The request for get role default
+message GetRoleDefaultByNameRequest {
+  //The role name of default role
+  string role_name = 1;
+  //The product code of default role
+  string product_code = 2;
+}
+
+// The user response for get default role
+message GetRoleDefaultByNameResponse {
+  //The role name of default role
+  string role_name = 1;
+  //The product code of default role
+  string product_code = 2;
+  //The role id of default role
+  string role_id = 3;
+}

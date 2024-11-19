@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package chorus.mdm.service_scope_lane.v1;
+
+// The service scope lane information.
+message ServiceScopeLane {
+  // The service_scope_code is the sevivce scope code of the service scope lane. svc_scp_cd in OPUS.
+  string service_scope_code = 1;
+
+  // The vessel_service_lane_code is the vessel service lane code of the service scope lane. vsl_slan_cd in OPUS.
+  string vessel_service_lane_code = 2;
+
+  // The service_scope_lane_sequence is the service scope lane sequence of the service scope lane. svc_scp_lane_seq in OPUS.
+  int32 service_scope_lane_sequence = 3;
+}
+
+// The sevivce scope code information.
+message ServiceScopeCode {
+  // The sevivce scope code of the service scope lane.
+  string service_scope_code = 1;
+}
+
+// The vessel service lane code information.
+message VesselServiceLaneCode {
+  // The vessel service lane code of the service scope lane.
+  string vessel_service_lane_code = 1;
+}
+
+// Request message for `ServiceScopeLaneInfoService.GetServiceScopeLanesByServiceScopeCodesRequest`.
+message GetServiceScopeLanesByServiceScopeCodesRequest{
+  // The sevivce scope code list.
+  repeated ServiceScopeCode service_scope_code_list = 1;
+}
+
+// Response message for `ServiceScopeLaneInfoService.GetServiceScopeLanesByServiceScopeCodesResponse`.
+message GetServiceScopeLanesByServiceScopeCodesResponse {
+  // The service scope lane information.
+  ServiceScopeLane service_scope_lane = 1;
+}
+
+// Request message for `ServiceScopeLaneInfoService.GetServiceScopeLanesByVesselServiceLaneCodesRequest`.
+message GetServiceScopeLanesByVesselServiceLaneCodesRequest{
+  // The vessel service lane code list.
+  repeated VesselServiceLaneCode vessel_service_lane_code_list = 1;
+}
+
+// Response message for `ServiceScopeLaneInfoService.GetServiceScopeLanesByVesselServiceLaneCodesResponse`.
+message GetServiceScopeLanesByVesselServiceLaneCodesResponse {
+  // The service scope lane information.
+  ServiceScopeLane service_scope_lane = 1;
+}
+
+// Services for service scope lane.
+service ServiceScopeLaneInfoService {
+  // Get list of service scope lane by sevivce scope codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "service_scope_code_list": [
+  //         {
+  //             "service_scope_code": "EFE",
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "service_scope_lane": {
+  //         "service_scope_code": "EFE",
+  //         "vessel_service_lane_code": "AEF",
+  //         "service_scope_lane_sequence": 51,
+  //     }
+  // }
+  // ...
+  rpc GetServiceScopeLanesByServiceScopeCodes(GetServiceScopeLanesByServiceScopeCodesRequest) returns (stream GetServiceScopeLanesByServiceScopeCodesResponse);
+
+  // Get list of service scope lane by vessel service lane codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vessel_service_lane_code_list": [
+  //         {
+  //             "vessel_service_lane_code": "AEF",
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "service_scope_lane": {
+  //         "service_scope_code": "EFE",
+  //         "vessel_service_lane_code": "AEF",
+  //         "service_scope_lane_sequence": 51,
+  //     }
+  // }
+  // ...
+  rpc GetServiceScopeLanesByVesselServiceLaneCodes(GetServiceScopeLanesByVesselServiceLaneCodesRequest) returns (stream GetServiceScopeLanesByVesselServiceLaneCodesResponse);
+}

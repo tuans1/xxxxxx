@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package chorus.flm.hero.v1;
+
+// Service for Hero module
+service HeroService {
+  // Get a hero
+  //
+  // Operation: GET
+  //
+  // Request:
+  // {
+  //      "id": "string",
+  // }
+  //
+  // Response:
+  // {
+  //      "hero": {
+  //          "id": "string",
+  //          "name": "string",
+  //      },
+  // }
+  rpc FindOne(FindOneRequest) returns (FindOneResponse);
+
+  // Get all heroes
+  //
+  // Operation: GET
+  //
+  // Request:
+  // {
+  //      
+  // }
+  //
+  // Response:
+  // {
+  //      "heroes": [
+  //                  {
+  //                    hero :"Hero"
+  //                  }
+  //                ],
+  // }
+  rpc FindAll(FindAllRequest) returns (FindAllResponse);
+}
+
+// HeroId for searching Hero
+message FindOneRequest {
+  // HeroId
+  string id = 1;
+}
+
+// hero
+message Hero {
+  // HeroId
+  string id = 1;
+}
+
+// find all hero request
+message FindAllRequest {
+
+}
+
+// find all hero Response
+message FindAllResponse {
+  // Heroes
+  repeated Hero hero = 1;
+}
+
+// The Hero information
+message FindOneResponse {
+  // HeroId
+  string id = 1;
+  // Hero name
+  string name = 2;
+}

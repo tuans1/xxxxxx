@@ -1,0 +1,55 @@
+syntax = "proto3"; // Specify the syntax version of Protocol Buffers used
+
+// Import the necessary proto files
+import "chorus/spm/base/v1/base.proto";
+import "chorus/spm/user/v1/user.proto";
+
+package chorus.spm.badge.v1; // Define the package name
+
+// Define the message structure for the BadgeResponse
+message GetBadgeResponse {
+  // Total number of cases
+  optional int32 total_cases = 1;
+  // Number of outstanding (not yet resolved) cases
+  optional int32 outstanding_cases = 2;
+  // Total number of tasks
+  optional int32 total_tasks = 3;
+  // Number of outstanding (not yet completed) tasks
+  optional int32 outstanding_tasks  = 4;
+}
+
+// Define the message structure for the BadgeRequest
+message GetBadgeRequest {
+  // User information from the imported user.proto file
+  chorus.spm.user.v1.UserInfo user = 1;
+  // Query details from the imported base.proto file
+  optional chorus.spm.base.v1.Query query = 2;
+}
+
+// Define the message structure for the BadgeResponse for FO
+message GetBadgeFoResponse {
+  // Total number of cases
+  optional int32 total_cases = 1;
+  // Number of outstanding (not yet resolved) cases
+  optional int32 outstanding_cases = 2;
+  // Total number of tasks
+  optional int32 total_tasks = 3;
+  // Number of outstanding (not yet completed) tasks
+  optional int32 outstanding_tasks  = 4;
+}
+
+// Define the message structure for the BadgeRequest for FO
+message GetBadgeFoRequest {
+  // User information from the imported user.proto file
+  chorus.spm.user.v1.UserInfo user = 1;
+  // Query details from the imported base.proto file
+  optional chorus.spm.base.v1.Query query = 2;
+}
+
+// Define the BadgeService with a single RPC method getBadge
+service BadgeService {
+  // Define the RPC method getBadge which takes a BadgeRequest and returns a BadgeResponse
+  rpc GetBadge (GetBadgeRequest) returns (GetBadgeResponse) {}
+  // Define the RPC method getBadge for FO which takes a BadgeRequest and returns a BadgeResponse
+  rpc GetBadgeFo (GetBadgeFoRequest) returns (GetBadgeFoResponse) {}
+}

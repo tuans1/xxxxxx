@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package chorus.mdm.currency.v1;
+
+import "google/protobuf/empty.proto";
+
+// The currency information.
+message Currency {
+  // The currency_code is the code of the currency. curr_cd in OPUS.
+  string currency_code = 1;
+  // The currency_name is the name of the currency. curr_nm in OPUS.
+  string currency_name = 2;
+  // The currency_description is the description of the currency. curr_desc in OPUS.
+  string currency_description = 3;
+  // The country_code is the country code of the currency. cnt_cd in OPUS.
+  string country_code = 4;
+  // The display_precision_count is the display precision count of the currency. dp_prcs_knt in OPUS.
+  int32 display_precision_count = 5;
+  // The extend_precision_count is the extend precision count of the currency. xtd_prcs_knt in OPUS.
+  int32 extend_precision_count = 6;
+}
+
+// The currency code information.
+message CurrencyCode {
+  // The code of the currency.
+  string currency_code = 1;
+}
+
+// Request message for `CurrencyInfoService.GetCurrenciesByCodes`.
+message GetCurrenciesByCodesRequest {
+  // The currency code list.
+  repeated CurrencyCode currency_code_list = 1;
+}
+
+// Response message for `CurrencyInfoService.GetCurrenciesByCodes`.
+message GetCurrenciesByCodesResponse {
+  // The currency information.
+  Currency currency = 1;
+}
+
+// Request message for `CurrencyInfoService.SearchCurrenciesByName`.
+message SearchCurrenciesByNameRequest {
+  // The name of the currency.
+  string currency_name = 1;
+}
+
+// Response message for `CurrencyInfoService.SearchCurrenciesByName`.
+message SearchCurrenciesByNameResponse {
+  // The currency information.
+  Currency currency = 1;
+}
+
+// Response message for `CurrencyInfoService.GetCurrencies`.
+message GetCurrenciesResponse {
+  // The currency information.
+  Currency currency = 1;
+}
+
+// Services for currency.
+service CurrencyInfoService {
+  // Get all list of currencies.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "currency": {
+  //         "currency_code": "AOA",
+  //         "currency_name": "KWANZA",
+  //         "currency_description": "Angolanische Kwanza",
+  //         "country_code": "AO",
+  //         "display_precision_count": "2",
+  //         "extend_precision_count": "5"
+  //     }
+  // }
+  // ...
+  rpc GetCurrencies(google.protobuf.Empty) returns (stream GetCurrenciesResponse);
+
+  // Get list of currencies by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "currency_code_list": [
+  //         {
+  //             "currency_code": "AOA"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "currency": {
+  //         "currency_code": "AOA",
+  //         "currency_name": "KWANZA",
+  //         "currency_description": "Angolanische Kwanza",
+  //         "country_code": "AO",
+  //         "display_precision_count": "2",
+  //         "extend_precision_count": "5"
+  //     }
+  // }
+  rpc GetCurrenciesByCodes(GetCurrenciesByCodesRequest) returns (stream GetCurrenciesByCodesResponse);
+
+  // Search list of currencies by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "currency_name": "KWA"
+  // }
+  //
+  // Response:
+  // {
+  //     "currency": {
+  //         "currency_code": "AOA",
+  //         "currency_name": "KWANZA",
+  //         "currency_description": "Angolanische Kwanza",
+  //         "country_code": "AO",
+  //         "display_precision_count": "2",
+  //         "extend_precision_count": "5"
+  //     }
+  // }
+  // ...
+  rpc SearchCurrenciesByName(SearchCurrenciesByNameRequest) returns (stream SearchCurrenciesByNameResponse);
+}

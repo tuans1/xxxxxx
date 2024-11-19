@@ -1,0 +1,21 @@
+{
+	"name": "Protocol Buffers Dev Container",
+	"image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18-bullseye",
+
+	"postCreateCommand": "bash ./.devcontainer/post-install.sh",
+
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"editor.formatOnSave": true,
+				"files.autoSave": "onFocusChange",
+				"rewrap.autoWrap.enabled": true,
+				"rewrap.wrappingColumn": 80
+            },
+			"extensions": [
+				"bufbuild.vscode-buf",
+				"stkb.rewrap"
+			]
+		}
+	}
+}

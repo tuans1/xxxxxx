@@ -1,0 +1,28 @@
+{
+  "version": "0.0.27",
+  "description": "",
+  "scripts": {
+    "packages-publish": "changeset version && changeset publish",
+    "changeset": "changeset",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@changesets/changelog-git": "^0.1.14",
+    "@grpc/grpc-js": "^1.8.15",
+    "@nestjs/microservices": "^9.4.3",
+    "changeset": "^0.2.6",
+    "markdown-it": "^14.1.0",
+    "rxjs": "^7.2.0"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.25.1",
+    "@changesets/cli": "^2.26.1",
+    "@knennigtri/merge-markdown": "^1.1.0",
+    "husky": "^8.0.3"
+  },
+  "workspaces": [
+    "./build/chorus/*"
+  ],
+  "author": "",
+  "license": "ISC"
+}

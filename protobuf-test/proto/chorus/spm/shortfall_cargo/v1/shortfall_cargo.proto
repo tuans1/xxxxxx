@@ -1,0 +1,307 @@
+syntax = "proto3";  // Specify the syntax version as proto3
+
+import "chorus/spm/base/v1/base.proto"; // Import base-related definitions
+import "chorus/spm/user/v1/user.proto"; // Import user-related definitions
+
+package chorus.spm.shortfall_cargo.v1;  // Define the package name
+
+// Message representing a shortfall cargo entity
+message ShortfallCargo {
+  // Unique identifier for the shortfall cargo
+  string id = 1;
+  // Task number associated with the cargo
+  string task_number = 2;
+  // Code for the cargo
+  string code = 3;
+  // Status of the cargo
+  string status = 4;
+  // Customer associated with the cargo
+  string customer = 5;
+  // Load in TEU (Twenty-foot Equivalent Unit)
+  double load_teu = 6;
+  // Load weight
+  double load_weight = 7;
+  // Supporter SMO name
+  string supporter_smo_name = 8;
+  // Task status
+  string task_status = 9;
+}
+
+// Response message containing a list of shortfall cargos and pagination information
+message GetShortfallCargosResponse {
+  // List of shortfall cargos
+  repeated ShortfallCargo items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Request message to get shortfall cargos
+message GetShortfallCargosRequest {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // Optional query parameters
+  optional chorus.spm.base.v1.Query query = 4;
+}
+
+// Response message containing a list of shortfall cargos and pagination information by FO
+message GetShortfallCargosFoResponse {
+  // List of shortfall cargos
+  repeated ShortfallCargo items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Request message to get shortfall cargos by FO
+message GetShortfallCargosFoRequest {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // Optional query parameters
+  optional chorus.spm.base.v1.Query query = 4;
+}
+
+// Request message to create a new shortfall cargo
+message CreateShortfallCargoRequest {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Customer associated with the cargo
+  string customer = 2;
+  // Load in TEU
+  string load_teu = 3;
+  // Load weight
+  string load_weight = 4;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 5;
+}
+
+// Request message to update an existing shortfall cargo
+message UpdateShortfallCargoRequest {
+  // Unique identifier for the shortfall cargo
+  string id = 1;
+  // Optional updated customer
+  optional string customer = 2;
+  // Optional updated load in TEU
+  optional string load_teu = 3;
+  // Optional updated load weight
+  optional string load_weight = 4;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 5;
+}
+
+// Request message to delete a shortfall cargo
+message DeleteShortfallCargoRequest {
+  // Unique identifier for the shortfall cargo
+  string id = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Delete Shortfall Cargo Response
+message DeleteShortfallCargoResponse {
+  // Text message
+  string message = 1;
+  // Message count
+  optional int32 count = 2;
+}
+
+// Request message to get visibility for creating a cargo
+message GetVisibilityCreateCargoButtonRequest {
+  // Task code associated with the request
+  string task_code = 1;
+  // SLC ID
+  string slc_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // SMO ID
+  string smo_id = 4;
+}
+
+// Get Visibility Create Cargo Response
+message GetVisibilityCreateCargoButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Request message to get shortfall cargos by case
+message GetShortfallCargosByCaseRequest {
+  // Case ID
+  string case_id = 1;
+  // Pagination request
+  chorus.spm.base.v1.PaginationRequest pagination = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+  // Optional query parameters
+  optional chorus.spm.base.v1.Query query = 4;
+}
+
+// Response for Get Shortfall Cargos By Case
+message GetShortfallCargosByCaseResponse {
+  // List of shortfall cargos
+  repeated ShortfallCargo items = 1;
+  // Pagination response
+  chorus.spm.base.v1.PaginationResponse pagination = 2;
+}
+
+// Response message for a single shortfall cargo operation
+message ShortfallCargoResponse {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Customer associated with the cargo
+  string customer = 2;
+  // Load in TEU
+  double load_teu = 3;
+  // Load weight
+  double load_weight = 4;
+}
+
+// Response message for a single shortfall cargo operation
+message CreateShortfallCargoResponse {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Customer associated with the cargo
+  string customer = 2;
+  // Load in TEU
+  double load_teu = 3;
+  // Load weight
+  double load_weight = 4;
+}
+
+// Response message for a single shortfall cargo operation
+message UpdateShortfallCargoResponse {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Customer associated with the cargo
+  string customer = 2;
+  // Load in TEU
+  double load_teu = 3;
+  // Load weight
+  double load_weight = 4;
+}
+
+// Request message to get the number of shortfall cargos by case
+message GetNumberShortfallCargosByCaseRequest {
+  // Case ID
+  string case_id = 1;
+}
+
+// Response message containing the number of shortfall cargos by case
+message GetNumberShortfallCargosByCaseResponse {
+  // Number of shortfall cargos
+  optional int32 shortfall_cargos = 1;
+}
+
+// Request message to get visibility for applying cargos
+message GetVisibilityApplyCargosButtonRequest {
+  // SLC ID
+  string slc_id = 1;
+  // Case ID
+  string case_id = 2;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 3;
+}
+
+// Get Visibility Apply Cargos Response
+message GetVisibilityApplyCargosButtonResponse {
+  //Is resource enabled
+  bool is_enable = 1;
+}
+
+// Request message to apply a shortfall cargo
+message ApplyShortfallCargoRequest {
+  // Unique identifier for the cargo
+  string cargo_id = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Response message for a single shortfall cargo operation
+message ApplyShortfallCargoResponse {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Customer associated with the cargo
+  string customer = 2;
+  // Load in TEU
+  double load_teu = 3;
+  // Load weight
+  double load_weight = 4;
+}
+
+// Request message to not apply a shortfall cargo
+message NotApplyShortfallCargoRequest {
+  // Unique identifier for the cargo
+  string cargo_id = 1;
+  // User information
+  chorus.spm.user.v1.UserInfo user = 2;
+}
+
+// Response message for a single shortfall cargo operation
+message NotApplyShortfallCargoResponse {
+  // ID of the shortfall task
+  string shortfall_task_id = 1;
+  // Customer associated with the cargo
+  string customer = 2;
+  // Load in TEU
+  double load_teu = 3;
+  // Load weight
+  double load_weight = 4;
+}
+
+// Message for deleting cargos by VVD code
+message DeleteCargoByVvdRequest {
+  // The VVD code associated with the cargos to be deleted
+  string vvd_id = 1;
+}
+
+// Message to define notification
+message DeleteCargoByVvdResponse {
+  // Text message
+  string message = 1;
+  // Message count
+  optional int32 count = 2;
+}
+
+// Service definition for managing shortfall cargos
+service CargoService {
+  // RPC to get a list of shortfall cargos
+  rpc GetShortfallCargos (GetShortfallCargosRequest) returns (GetShortfallCargosResponse) {}
+
+  // RPC to get a list of shortfall cargos by FO
+  rpc GetShortfallCargosFo (GetShortfallCargosFoRequest) returns (GetShortfallCargosFoResponse) {}
+  
+  // RPC to create a new shortfall cargo
+  rpc CreateShortfallCargo (CreateShortfallCargoRequest) returns (CreateShortfallCargoResponse) {}
+  
+  // RPC to update an existing shortfall cargo
+  rpc UpdateShortfallCargo (UpdateShortfallCargoRequest) returns (UpdateShortfallCargoResponse) {}
+  
+  // RPC to delete a shortfall cargo
+  rpc DeleteShortfallCargo (DeleteShortfallCargoRequest) returns (DeleteShortfallCargoResponse) {}
+  
+  // RPC to get visibility for creating a cargo button
+  rpc GetVisibilityCreateCargoButton (GetVisibilityCreateCargoButtonRequest) returns (GetVisibilityCreateCargoButtonResponse) {}
+  
+  // RPC to get shortfall cargos by case
+  rpc GetShortfallCargosByCase (GetShortfallCargosByCaseRequest) returns (GetShortfallCargosByCaseResponse) {}
+  
+  // RPC to get the number of shortfall cargos by case
+  rpc GetNumberShortfallCargosByCase (GetNumberShortfallCargosByCaseRequest) returns (GetNumberShortfallCargosByCaseResponse) {}
+  
+  // RPC to get visibility for applying cargos button
+  rpc GetVisibilityApplyCargosButton (GetVisibilityApplyCargosButtonRequest) returns (GetVisibilityApplyCargosButtonResponse) {}
+  
+  // RPC to apply a shortfall cargo
+  rpc ApplyShortfallCargo (ApplyShortfallCargoRequest) returns (ApplyShortfallCargoResponse) {}
+  
+  // RPC to not apply a shortfall cargo
+  rpc NotApplyShortfallCargo (NotApplyShortfallCargoRequest) returns (NotApplyShortfallCargoResponse) {}
+
+  // Unary RPC for deleting cargos by VVD code
+  rpc DeleteCargoByVvd(DeleteCargoByVvdRequest) returns (DeleteCargoByVvdResponse);
+}

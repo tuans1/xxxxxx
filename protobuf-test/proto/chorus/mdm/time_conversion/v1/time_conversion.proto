@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package chorus.mdm.time_conversion.v1;
+
+// Request message for `TimeConversionService.GetTimeByLocationInfo`.
+message GetTimeByLocationInfoRequest {
+  // The input location code.
+  string from_location_code = 1;
+  // The input location time.
+  string from_location_time = 2;
+  // The target location code.
+  string to_location_code = 3;
+}
+
+// Response message for `TimeConversionService.GetTimeByLocationInfo`.
+message GetTimeByLocationInfoResponse {
+  // The converted time.
+  string converted_time = 1;
+}
+
+// Request message for `TimeConversionService.GetTimeByOfficeInfo`.
+message GetTimeByOfficeInfoRequest {
+  // The input office code.
+  string from_office_code = 1;
+  // The input office time.
+  string from_office_time = 2;
+  // The target office code.
+  string to_office_code = 3;
+}
+
+// Response message for `TimeConversionService.GetTimeByOfficeInfoResponse`.
+message GetTimeByOfficeInfoResponse {
+  // The converted time.
+  string converted_time = 1;
+}
+
+// Services for timer conversion.
+service TimeConversionService {
+  // Get time conversion by location info.
+  //
+  // Operation: CONVERT_TIME
+  //
+  // Request:
+  // {
+  //     "from_location_code": "GMT",
+  //     "from_location_time": "15 Mar 2024 11:16 AM",
+  //     "to_location_code": "KRPUS",
+  // }
+  //
+  // Response:
+  // {
+  //     "converted_time": "15 Mar 2024 20:16:00",
+  // }
+  rpc GetTimeByLocationInfo(GetTimeByLocationInfoRequest) returns (stream GetTimeByLocationInfoResponse);
+
+  // Get time conversion by office info.
+  //
+  // Operation: CONVERT_TIME
+  //
+  // Request:
+  // {
+  //     "from_office_code": "GMT",
+  //     "from_office_time": "15 Mar 2024 11:16 AM",
+  //     "to_office_code": "FREBB",
+  // }
+  //
+  // Response:
+  // {
+  //     "converted_time": "15 Mar 2024 20:16:00",
+  // }
+  rpc GetTimeByOfficeInfo(GetTimeByOfficeInfoRequest) returns (stream GetTimeByOfficeInfoResponse);
+}

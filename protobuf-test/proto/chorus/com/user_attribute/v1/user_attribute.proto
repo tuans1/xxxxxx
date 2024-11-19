@@ -1,0 +1,307 @@
+syntax = "proto3";
+
+package chorus.com.user_attribute.v1;
+
+import "chorus/com/base/v1/base.proto";
+import "google/protobuf/empty.proto";
+
+//The user attribute informations
+message UserAttribute {
+    //The user attribute id
+    string user_attribute_id = 1;
+    //The user attribute name
+    string user_attribute_name = 2;
+    //The user attribute type
+    string user_attribute_type = 3;
+    //The user attribute description
+    string user_attribute_description = 4;
+    //The user attribute multi select
+    bool is_multi_selected = 5;
+    //The user attribute configurations
+    repeated UserAttributeConfiguration configurations = 6;
+    //The user attribute by system flag
+    bool by_system = 7;
+}
+
+//The user attribute configuration informations
+message UserAttributeConfiguration {
+    //user_attribute_id of attribute configuration
+    string user_attribute_id = 1;
+    //input type of user attribute configuration
+    string input_type = 2;
+    //name of user attribute configuration
+    string name = 3;
+    //value of user attribute configuration
+    string value = 4;
+}
+
+// The enum for sort Users
+enum UserAttributeSortBy {
+    // unspecified default value
+    USER_ATTRIBUTE_SORT_BY_UNSPECIFIED = 0;
+    // Sort by newest_first
+    USER_ATTRIBUTE_SORT_BY_NEWEST_FIRST = 1;
+    // Sort by oldest_first
+    USER_ATTRIBUTE_SORT_BY_OLDEST_FIRST = 2;
+    // Sort by attribute_name_asc
+    USER_ATTRIBUTE_SORT_BY_ATTRIBUTE_NAME_ASC = 3;
+    // Sort by attribute_name_desc
+    USER_ATTRIBUTE_SORT_BY_ATTRIBUTE_NAME_DESC = 4;
+}
+
+//The filter for searching user attributes by user attribute name or user attribute type
+message UserAttributeFilter {
+    // The user attribute name
+    string user_attribute_name = 1;
+    // The user attribute type
+    string user_attribute_type = 2;
+    // The bySystem flag
+    optional bool by_system = 3;
+}
+//The request for getting user attributes list
+message SearchUserAttributesByNameOrTypeRequest {
+    // The user attribute filter
+    optional UserAttributeFilter query = 1;
+    // Sort by
+    optional UserAttributeSortBy sort_by = 2;
+    // The pagination of the user attribute
+    optional chorus.com.base.v1.Pagination pagination = 3;
+}
+
+//The response for getting user attributes list
+message SearchUserAttributesByNameOrTypeResponse {
+    //The user attribute information
+    UserAttribute data = 1;
+    //The total count of user attributes
+    int32 total = 2;
+}
+
+//The request for getting user attribute
+message GetUserAttributeByIdRequest {
+    //The user attribute id
+    string user_attribute_id = 1;
+}
+
+//The response for getting user attribute
+message GetUserAttributeByIdResponse {
+    //The user attribute information
+    UserAttribute data = 1;
+}
+
+// Structure for create user attribute configurations
+message CreateUserAttributeConfiguration {
+    //name of user attribute configuration
+    string name = 1;
+    //value of user attribute configuration
+    string value = 2;
+}
+
+//The request for creating user attribute
+message CreateUserAttributeRequest {
+    //The user attribute name
+    string user_attribute_name = 1;
+    //The user attribute type
+    string user_attribute_type = 2;
+    //The user attribute description
+    string user_attribute_description = 3;
+    //The user attribute multi select
+    bool is_multi_selected = 4;
+    //The user attribute input type
+    string input_type = 5;
+    //The user attribute configurations
+    repeated CreateUserAttributeConfiguration configurations = 6;
+}
+
+//The response for creating user attribute
+message CreateUserAttributeResponse {
+    //The user attribute information
+    UserAttribute data = 1;
+}
+
+// Structure for update user attribute configurations
+message UpdateUserAttributeConfiguration {
+    //id of user attribute configuration
+    optional string user_attribute_config_id = 1;
+    //name of user attribute configuration
+    string name = 2;
+    //value of user attribute configuration
+    string value = 3;
+}
+
+//The request for updating user attribute
+message UpdateUserAttributeRequest {
+    //The user attribute id
+    string user_attribute_id = 1;
+    //The user attribute name
+    string user_attribute_name = 2;
+    //The user attribute type
+    string user_attribute_type = 3;
+    //The user attribute description
+    string user_attribute_description = 4;
+    //The user attribute multi select
+    bool is_multi_selected = 5;
+    //The user attribute input type
+    string input_type = 6;
+    //The user attribute configurations
+    repeated UpdateUserAttributeConfiguration configurations = 7;
+}
+
+//The response for updating user attribute
+message UpdateUserAttributeResponse {
+    //The result of updating user attribute
+    bool success = 1;
+}
+
+//The request for deleting user attribute
+message DeleteUserAttributeRequest {
+    //The user attribute id
+    string user_attribute_id = 1;
+}
+
+//The response for deleting user attribute
+message DeleteUserAttributeResponse {
+    //The result of deleting user attribute
+    bool success = 1;
+}
+
+// SystemAttributeOption defines a key-value pair representing an attribute option.
+message SystemAttributeOption {
+  // Name of the attribute option.
+  string name = 1;
+  // Value of the attribute option.
+  string value = 2;
+}
+
+// GetSystemAttributeOptionsResponse encapsulates the response structure for system attributes.
+message GetSystemAttributeOptionsResponse {
+  // List of cities as system attribute options.
+  repeated SystemAttributeOption cities = 1;
+  // List of countries as system attribute options.
+  repeated SystemAttributeOption countries = 2;
+  // List of regional headquarters (RHQs) as system attribute options.
+  repeated SystemAttributeOption rhqs = 3;
+  // List of regional headquarters (Division) as system attribute options.
+  repeated SystemAttributeOption divisions = 4;
+}
+
+//The service that implements the user attribute service definition.
+service UserAttributeService {
+    //The method for search user attributes by user attribute name or  user attribute type
+    //
+    // Operation: LIKE
+    //
+    // Request:
+    // {
+    //   "query": {
+    //     "user_attribute_name": "Office",
+    //     "user_attribute_type": "list",
+    //     "by_system": true
+    //   },
+    //   "sort_by": "USER_ATTRIBUTE_SORT_BY_UNSPECIFIED",
+    //   "pagination": {
+    //     "page_number": 1,
+    //     "page_size": 10
+    //   }
+    // }
+    //
+    // Response:
+    // {
+    //   "data": {
+    //     "user_attribute_id": "string",
+    //     "user_attribute_name": "string",
+    //     "user_attribute_type": "string",
+    //     "user_attribute_description": "string"
+    //   },
+    //   "total": 1
+    // }
+    rpc SearchUserAttributesByNameOrType(SearchUserAttributesByNameOrTypeRequest) returns ( stream SearchUserAttributesByNameOrTypeResponse);
+    //The method for getting user attribute by id
+    //
+    // Operation: MATCH
+    //
+    // Request:
+    // {
+    //   "user_attribute_id": "string"
+    // }
+    //
+    // Response:
+    // {
+    //   "user_attribute": {
+    //     "user_attribute_id": "string",
+    //     "user_attribute_name": "string",
+    //     "user_attribute_type": "string",
+    //     "user_attribute_description": "string"
+    //   }
+    // }
+    rpc GetUserAttributeById(GetUserAttributeByIdRequest) returns (GetUserAttributeByIdResponse);
+    //The method for creating user attribute
+    //
+    // Operation: CREATE
+    //
+    // Request:
+    // {
+    //   "user_attribute_name": "string",
+    //   "user_attribute_type": "string",
+    //   "user_attribute_description": "string"
+    // }
+    //
+    // Response:
+    // {
+    //   "user_attribute": {
+    //     "user_attribute_id": "string",
+    //     "user_attribute_name": "string",
+    //     "user_attribute_type": "string",
+    //     "user_attribute_description": "string"
+    //   }
+    // }
+    rpc CreateUserAttribute(CreateUserAttributeRequest) returns (CreateUserAttributeResponse);
+    //The method for updating user attribute
+    //
+    // Operation: UPDATE
+    //
+    // Request:
+    // {
+    //   "user_attribute_id": "string",
+    //   "user_attribute_name": "string",
+    //   "user_attribute_type": "string",
+    //   "user_attribute_description": "string"
+    // }
+    //
+    // Response:
+    // {
+    //   "user_attribute": {
+    //     "user_attribute_id": "string",
+    //     "user_attribute_name": "string",
+    //     "user_attribute_type": "string",
+    //     "user_attribute_description": "string"
+    //   }
+    // }
+    rpc UpdateUserAttribute(UpdateUserAttributeRequest) returns (UpdateUserAttributeResponse);
+    //The method for deleting user attribute
+    //
+    // Operation: DELETE
+    //
+    // Request:
+    // {
+    //   "user_attribute_id": "string"
+    // }
+    //
+    // Response:
+    // {
+    //   "success": true
+    // }
+    rpc DeleteUserAttribute(DeleteUserAttributeRequest) returns (DeleteUserAttributeResponse);
+    // GetSystemAttributeOptions provides system-wide attribute options like cities, countries, and RHQs.
+    // Operation: DELETE
+    //
+    // Request:
+    // {
+    // 
+    // }
+    //
+    // Response:
+    // {
+    //   "cities": [{ name: "HCM", value: "HCM" }]
+    // }
+    rpc GetSystemAttributeOptions(google.protobuf.Empty) returns (GetSystemAttributeOptionsResponse);
+}

@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package chorus.mdm.service_scope_limit_port.v1;
+
+// The service scope limit port information.
+message ServiceScopeLimitPort {
+  // The service_scope_code is the service scope code of the service scope limit port. svc_scp_cd in OPUS.
+  string service_scope_code = 1;
+  // The route_via_port_code is the route via port code of the service scope limit port. rout_via_port_cd in OPUS.
+  string route_via_port_code = 2;
+  // The port_application_division_code is application division code of the service scope limit port. port_appl_div_cd in OPUS.
+  string port_application_division_code = 3;
+  // The via_port_option_code is the via port option code of the service scope limit port. via_port_opt_cd in OPUS.
+  string via_port_option_code = 4;
+}
+
+// The service scope code information.
+message ServiceScopeCode {
+  // The service_scope_code is the code of the service scope. svc_scp_cd in OPUS.
+  string service_scope_code = 1;
+}
+
+// Request message for `ServiceScopeLimitPortInfoService.GetServiceScopeLimitPortsByServiceScopeCodes`.
+message GetServiceScopeLimitPortsByServiceScopeCodesRequest {
+  // The list of service scope codes to search for (SVC_SCP_CD).
+  repeated ServiceScopeCode service_scope_code_list = 1;
+}
+
+// Response message for `ServiceScopeLimitPortInfoService.GetServiceScopeLimitPortsByServiceScopeCodes`.
+message GetServiceScopeLimitPortsByServiceScopeCodesResponse {
+  // The service scope limit port information.
+  ServiceScopeLimitPort service_scope_limit_port = 1;
+}
+
+// Services for service scope limit port.
+service ServiceScopeLimitPortInfoService {
+  // Get a list of service scope limit port records by multiple service scope codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "service_scope_code_list": [
+  //         {
+  //             "service_scope_code": "TPW"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "service_scope_limit_port_list": {
+  //         "service_scope_code": "TPW",
+  //         "route_via_port_code": "MXIRP",
+  //         "port_application_division_code": "E",
+  //         "via_port_option_code": "L"
+  //     }
+  // }
+  rpc GetServiceScopeLimitPortsByServiceScopeCodes(GetServiceScopeLimitPortsByServiceScopeCodesRequest) returns (stream GetServiceScopeLimitPortsByServiceScopeCodesResponse);
+}

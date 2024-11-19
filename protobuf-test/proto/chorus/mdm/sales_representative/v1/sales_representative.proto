@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package chorus.mdm.sales_representative.v1;
+
+// The SalesRepresentative base message
+message SalesRepresentative {
+  // The sales_representative_code is the code of the sales representative srep_cd in OPUS.
+  string sales_representative_code = 1;
+  // The sales_representative_name is the code of the sales representative srep_nm in OPUS.
+  string sales_representative_name = 2;
+  // The office_code is the code of the sales representative ofc_cd in OPUS.
+  string office_code = 3;
+}
+
+// The sales representative code information
+message SalesRepresentativeCode {
+  // The code of sales representative
+  string sales_representative_code = 1;
+}
+
+// Request message for `OrganizationInfoService.GetSalesRepresentativesByCodes`.
+message GetSalesRepresentativesByCodesRequest {
+  // The sales representative code list.
+  repeated SalesRepresentativeCode sales_representative_code_list = 1;
+}
+
+// Response message for `OrganizationInfoService.GetSalesRepresentativesByCodes`.
+message GetSalesRepresentativesByCodesResponse {
+  // The sales representative information.
+  SalesRepresentative sales_representative = 1;
+}
+
+// Request message for `SalesRepresentativeInfoService.SearchSalesRepresentativesByName`.
+message SearchSalesRepresentativesByNameRequest {
+  // The sales representative name .
+  string sales_representative_name = 1;
+}
+
+// Response message for `SalesRepresentativeInfoService.SearchSalesRepresentativesByName`.
+message SearchSalesRepresentativesByNameResponse {
+  // The sales representative information.
+  SalesRepresentative sales_representative = 1;
+}
+
+// Services for sales representative
+service SalesRepresentativeInfoService {
+  // Get list of sales representatives by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "sales_representative_code_list": [
+  //         {
+  //             "sales_representative_code": "TW028"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "sales_representative": {
+  //         "sales_representative_code": "TW028",
+  //         "sales_representative_name": "MURPHY LIN",
+  //         "office_code": "TXGBB"
+  //     }
+  // }
+  // ...
+  rpc GetSalesRepresentativesByCodes(GetSalesRepresentativesByCodesRequest) returns (stream GetSalesRepresentativesByCodesResponse);
+  // Search list of sales representatives by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "sales_representative_name": "MURPHY"
+  // }
+  //
+  // Response:
+  // {
+  //     "sales_representative": {
+  //         "sales_representative_code": "TW028",
+  //         "sales_representative_name": "MURPHY LIN",
+  //         "office_code": "TXGBB"
+  //     }
+  // }
+  // ...
+  rpc SearchSalesRepresentativesByName(SearchSalesRepresentativesByNameRequest) returns (stream SearchSalesRepresentativesByNameResponse);
+}

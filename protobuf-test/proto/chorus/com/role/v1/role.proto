@@ -1,0 +1,214 @@
+syntax = "proto3";
+
+package chorus.com.role.v1;
+
+import "chorus/com/base/v1/base.proto";
+
+//The message for role
+message Role {
+  //The role id
+  string role_id = 1;
+  //The role name
+  string role_name = 2;
+  //The role description
+  string description = 3;
+  //Product Name
+  optional string product_name = 4;
+  //Product id
+  optional string product_id = 5;
+  //Product Code
+  optional string product_code = 6;
+}
+
+//The message request for create role
+message CreateRoleRequest {
+  //The role name
+  string role_name = 1;
+  //The role description
+  string description = 2;
+  //Product id
+  string product_id = 3;
+}
+
+//The message response for create role
+message CreateRoleResponse {
+  //The role
+  Role role = 1;
+}
+
+//The message for role query
+message RoleQuery {
+  //role name
+  optional string role_name = 1;
+  // product ids
+  repeated string product_ids = 2;
+  // exclude role ids
+  repeated string exclude_role_ids = 3;
+}
+
+//The enum for sort by
+enum RoleSortBy {
+  // unspecified
+  ROLE_SORT_BY_UNSPECIFIED = 0;
+  //Sort by newest first
+  ROLE_SORT_BY_NEWEST_FIRST = 1;
+  //Sort by oldest first
+  ROLE_SORT_BY_OLDEST_FIRST = 2;
+}
+
+//The message for search role request
+message SearchRoleByRoleNameRequest {
+  //query
+  optional RoleQuery query = 1;
+  //sort by
+  optional RoleSortBy sort_by = 2;
+  //pagination
+  optional chorus.com.base.v1.Pagination pagination = 3;
+}
+
+//The message for search role response
+message SearchRoleByRoleNameResponse {
+  //data
+  Role data = 1;
+  //total
+  int32 total = 2;
+}
+
+//The message for get role request
+message GetRoleByRoleIdRequest {
+  //role id
+  string role_id = 1;
+}
+
+//The message for get role response
+message GetRoleByRoleIdResponse {
+  //role
+  Role role = 1;
+}
+
+//The message for update role request
+message UpdateRoleByRoleIdRequest {
+  //role id
+  string role_id = 1;
+  //role name
+  string role_name = 2;
+  //description
+  string description = 3;
+  //product id
+  string product_id = 4;
+}
+
+//The message for update role response
+message UpdateRoleByRoleIdResponse {
+  //success
+  bool success = 1;
+}
+
+//The message for delete role request
+message DeleteRoleByRoleIdRequest {
+  //role id
+  string role_id = 1;
+}
+
+//The message for delete role response
+message DeleteRoleByRoleIdResponse {
+  // success
+  bool success = 1;
+}
+
+//The service for role
+service RoleService {
+  //The method for create role
+  //
+  // Operation: CREATE
+  //
+  // Request:
+  // {
+  //     "role_name": "admin",
+  //     "description": "admin"
+  // }
+  //
+  // Response:
+  // {
+  //     "role": {
+  //         "role_id": "1",
+  //         "role_name": "admin",
+  //         "description": "admin"
+  //     }
+  // }
+  rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse);
+  //The method for search role by role name
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "query": {
+  //         "role_name": "admin"
+  //     },
+  //     "sort_by": 1,
+  //     "pagination": {
+  //         "page_number": 1,
+  //         "page_size": 10
+  //     }
+  // }
+  //
+  // Response:
+  // {
+  //     "data": {
+  //         "role_id": "1",
+  //         "role_name": "admin",
+  //         "description": "admin"
+  //     },
+  //     "total": 1
+  // }
+  rpc SearchRoleByRoleName(SearchRoleByRoleNameRequest) returns (stream SearchRoleByRoleNameResponse);
+  //The method for get role by role id
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "role_id": "1"
+  // }
+  //
+  // Response:
+  // {
+  //     "role": {
+  //         "role_id": "1",
+  //         "role_name": "admin",
+  //         "description": "admin"
+  //     }
+  // }
+  rpc GetRoleByRoleId(GetRoleByRoleIdRequest) returns (GetRoleByRoleIdResponse);
+  //The method for update role by role id
+  //
+  // Operation: UPDATE
+  //
+  // Request:
+  // {
+  //     "role_id": "1",
+  //     "role_name": "admin",
+  //     "description": "admin"
+  // }
+  //
+  // Response:
+  // {
+  //     "success": true
+  // }
+  rpc UpdateRoleByRoleId(UpdateRoleByRoleIdRequest) returns (UpdateRoleByRoleIdResponse);
+  //The method for delete role by role id
+  //
+  // Operation: DELETE
+  //
+  // Request:
+  // {
+  //     "role_id": "1"
+  // }
+  //
+  // Response:
+  // {
+  //     "success": true
+  // }
+  rpc DeleteRoleByRoleId(DeleteRoleByRoleIdRequest) returns (DeleteRoleByRoleIdResponse);
+}

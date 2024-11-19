@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package chorus.com.apm_invoice.v1;
+
+// The apm invoice information.
+message ApmInvoice {
+    // The number of apm invoice.
+    string invoice_no = 1;
+    // The date of apm invoice.
+    string invoice_date = 2;
+    // The total amount of apm invoice.
+    double total_amount = 3;
+    // The supplier name of apm invoice.
+    string supplier_name = 4;
+    // The supplier email of apm invoice.
+    string supplier_email = 5;
+    // The request id of apm invoice.
+    string request_id = 6;
+}
+
+// Request message for `ApmInvoiceInfoService.GetApmInvoiceByNo`.
+message GetApmInvoiceByNoRequest {
+    // The number of apm invoice.
+    string invoice_no = 1;
+}
+
+// Response message for `ApmInvoiceInfoService.GetApmInvoiceByNo`.
+message GetApmInvoiceByNoResponse {
+    // The apm invoice information.
+    ApmInvoice apm_invoice = 1;
+}
+
+// Request message for `ApmInvoiceInfoService.GetApmInvoiceById`.
+message GetApmInvoiceByIdRequest {
+    // The request id of apm invoice.
+    string request_id = 1;
+}
+
+// Response message for `ApmInvoiceInfoService.GetApmInvoiceById`.
+message GetApmInvoiceByIdResponse {
+    // The apm invoice information.
+    ApmInvoice apm_invoice = 1;
+}
+
+// Request message for `ApmInvoiceInfoService.ValidateApmInvoice`.
+message ValidateApmInvoiceRequest {
+    // The number of apm validation.
+    string invoice_no = 1;
+    // The result of validation.
+    bool validation_result = 2;
+    // The result of validation.
+    string failed_reason = 3;
+    // The validator name of validation.
+    string validator_name = 4;
+    // The validator email of validation.
+    string validator_email = 5;
+    // The request id of apm invoice.
+    string request_id = 6;
+}
+
+// Response message for `ApmInvoiceInfoService.ValidateApmInvoice`.
+message ValidateApmInvoiceResponse {
+    // The status response.
+    bool status = 1;
+    // The message response.
+    string message = 2;
+}
+
+// Services for apm invoice.
+service ApmInvoiceInfoService {
+    // Get apm invoice information by number.
+    // 
+    // Operation: MATCH
+    //
+    // Request:
+    // {
+    //     "invoice_no" : "0018ht"
+    // }
+    // 
+    // Response:
+    // {
+    //     "apm_invoice": {
+    //         "invoice_no": "0018ht",
+    //         "invoice_date": "01/08/2023",
+    //         "total_amount": 26727,
+    //         "supplier_name": "magenta singapore terminal pte. ltd.",
+    //         "supplier_email": "system@one-line.com",
+    //         "request_id" : "be46004e-0bdb-4c32-ae30-378cdae82203"
+    //     }
+    // }
+    rpc GetApmInvoiceByNo(GetApmInvoiceByNoRequest) returns (GetApmInvoiceByNoResponse);
+
+    // Get apm invoice information by request id.
+    // 
+    // Operation: MATCH
+    //
+    // Request:
+    // {
+    //     "request_id" : "be46004e-0bdb-4c32-ae30-378cdae82203"
+    // }
+    // 
+    // Response:
+    // {
+    //     "apm_invoice": {
+    //         "invoice_no": "0018ht",
+    //         "invoice_date": "01/08/2023",
+    //         "total_amount": 26727,
+    //         "supplier_name": "magenta singapore terminal pte. ltd.",
+    //         "supplier_email": "system@one-line.com",
+    //         "request_id" : "be46004e-0bdb-4c32-ae30-378cdae82203"
+    //     }
+    // }
+    rpc GetApmInvoiceById(GetApmInvoiceByIdRequest) returns (GetApmInvoiceByIdResponse);
+
+    // Create csr information.
+    // 
+    // Operation: VALIDATION
+    //
+    // Request:
+    // {
+    //     "invoice_no" : "0018ht",
+    //     "validation_result" : true,
+    //     "failed_reason" : "",
+    //     "validator_name" : "system",
+    //     "validator_email" : "system@one-line.com",
+    //     "request_id" : "be46004e-0bdb-4c32-ae30-378cdae82203"
+    // }
+    // 
+    // Response:
+    // {
+    //     "status" : true,
+    //     "message" : ''
+    // }
+    rpc ValidateApmInvoice(ValidateApmInvoiceRequest) returns (ValidateApmInvoiceResponse);
+}

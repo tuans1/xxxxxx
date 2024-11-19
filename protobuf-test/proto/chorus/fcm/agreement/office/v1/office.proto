@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package chorus.fcm.agreement.office.v1;
+
+import "chorus/fcm/base/office/v1/office.proto";
+import "chorus/fcm/base/paging/v1/paging.proto";
+
+// Request message for `OfficeService.GetOffices`.
+message GetOfficesRequest {
+  // the page is current page
+  int32 page = 1;
+  // the limit is maximum items per request
+  int32 limit = 2;
+  // the keyword is simple text
+  optional string keyword = 3;
+}
+
+// Response message for `OfficeService.GetOffices`.
+message GetOfficesResponse {
+  // The office information list
+  repeated chorus.fcm.base.office.v1.OfficeModel offices = 1;
+
+  // The paging information of office list
+  chorus.fcm.base.paging.v1.PagingModel paging = 2;
+}
+
+// Request message for `OfficeService.GetOfficeByCode`.
+message GetOfficeByCodeRequest {
+  // The office_code is office code
+  string office_code = 1;
+}
+
+// Response message for `OfficeService.GetOfficeByCode`.
+message GetOfficeByCodeResponse {
+  // The office information
+  chorus.fcm.base.office.v1.OfficeModel office = 1;
+}

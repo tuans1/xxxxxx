@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package chorus.mdm.vendor.v1;
+
+// The vendor information.
+message Vendor {
+  // The vendor_country_code is the country code of the vendor. vndr_cnt_cd in OPUS.
+  string vendor_country_code = 1;
+  // The vendor_sequence is the sequence of the vendor. vndr_seq in OPUS.
+  int32 vendor_sequence = 2;
+  // The vendor_legal_english_name is the legal english name of the vendor. vndr_lgl_eng_nm in OPUS.
+  string vendor_legal_english_name = 3;
+  // The office_code is the office code of the vendor. ofc_cd in OPUS.
+  string office_code = 4;
+  // The location_code is the location code of the vendor. loc_cd in OPUS.
+  string location_code = 5;
+}
+
+// The vendor code information.
+message CountryCodeAndSequence {
+  // The vendor_country_code is the country code of the vendor.
+  string vendor_country_code = 1;
+  // The vendor_sequence is the sequence of the vendor.
+  int32 vendor_sequence = 2;
+}
+
+// Request message for `VendorInfoService.GetVendorsByCountryCodesAndSequences`.
+message GetVendorsByCountryCodesAndSequencesRequest {
+  // The country code and vendor sequence list
+  repeated CountryCodeAndSequence country_code_and_sequence_list = 1;
+}
+
+// Response message for `VendorInfoService.GetVendorsByCountryCodesAndSequences`.
+message GetVendorsByCountryCodesAndSequencesResponse {
+  // The vendor information.
+  Vendor vendor = 1;
+}
+
+// Request message for `VendorInfoService.SearchVendorsBySequenceOrLegalEnglishName`.
+message SearchVendorsBySequenceOrLegalEnglishNameRequest {
+  // The vendor_sequence or legal_english_name.
+  string search_string = 1;
+}
+
+// Response message for `VendorInfoService.SearchVendorsBySequenceOrLegalEnglishName`.
+message SearchVendorsBySequenceOrLegalEnglishNameResponse {
+  // The vendor information.
+  Vendor vendor = 1;
+}
+
+// Services for vendor.
+service VendorInfoService {
+  // Get list of vendors by country codes and sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "country_code_and_sequence_list": [
+  //         {
+  //             "vendor_sequence": 111841,
+  //             "vendor_country_code": "US"
+  //         },
+  //         {
+  //             "vendor_sequence": 111461,
+  //             "vendor_country_code": "US"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "vendor": {
+  //         "vendor_country_code": "US",
+  //         "vendor_sequence": 111461,
+  //         "vendor_legal_english_name": "AUTHENTIC TRANSPORT, INC.",
+  //         "office_code": "NYCBB",
+  //         "location_code": "USMEM"
+  //     }
+  // }
+  // ...
+  rpc GetVendorsByCountryCodesAndSequences(GetVendorsByCountryCodesAndSequencesRequest) returns (stream GetVendorsByCountryCodesAndSequencesResponse);
+
+  // Get list of vendors by sequence or vendor legal english name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "search_string": "14012"
+  // }
+  //
+  // Response:
+  // {
+  //     "vendor": {
+  //         "vendor_country_code": "DE",
+  //         "vendor_sequence": 140127,
+  //         "vendor_legal_english_name": "EUROGATE CONTAINER TERMINAL HAMBURG GMBH",
+  //         "office_code": "HAMBB",
+  //         "location_code": "DEHAM"
+  //     }
+  // }
+  // ...
+  rpc SearchVendorsBySequenceOrLegalEnglishName(SearchVendorsBySequenceOrLegalEnglishNameRequest) returns (stream SearchVendorsBySequenceOrLegalEnglishNameResponse);
+}

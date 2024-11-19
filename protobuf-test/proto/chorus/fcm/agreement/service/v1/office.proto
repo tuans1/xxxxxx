@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package chorus.fcm.agreement.service.v1;
+
+import "chorus/fcm/agreement/office/v1/office.proto";
+
+// Office Service
+service OfficeService {
+  /**
+     Get Offices
+     Request:
+     {
+     		page: 1,
+     		limit: 1,
+     		keyword: "my keyword"
+     }
+
+     Response:
+     {
+     	   "offices": [
+     	   	{
+     	   		officeCode: "NSABB",
+     	   		name: "ONE (Ocean Network Express) Line (India) Private L",
+     	   		rhqId: 10
+     	   	}
+     	   ]
+     }
+  */
+  rpc GetOffices(chorus.fcm.agreement.office.v1.GetOfficesRequest) returns (chorus.fcm.agreement.office.v1.GetOfficesResponse);
+
+  /**
+     Get Office
+     Request:
+     {
+     		officeCode: "NSABB"
+     }
+
+     Response:
+     {
+     	   "office": {
+     			officeCode: "NSABB",
+     			name: "ONE (Ocean Network Express) Line (India) Private L",
+     			rhqId: 10
+     		}
+     }
+  */
+  rpc GetOfficeByCode(chorus.fcm.agreement.office.v1.GetOfficeByCodeRequest) returns (chorus.fcm.agreement.office.v1.GetOfficeByCodeResponse);
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package chorus.fcm.base.paging.v1;
+
+// Paing Information
+message PagingModel {
+  // The item_count is item count
+  int32 item_count = 1;
+
+  // The total_items is total item
+  optional int32 total_items = 2;
+
+  // The items_per_page is items per page
+  int32 items_per_page = 3;
+
+  // The total_pages is total page
+  optional int32 total_pages = 4;
+
+  // The current_page is current page
+  int32 current_page = 5;
+}

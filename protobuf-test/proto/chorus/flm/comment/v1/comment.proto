@@ -1,0 +1,212 @@
+syntax = "proto3";
+
+package chorus.flm.comment.v1;
+
+// Service for comment module
+service CommentService {
+  // Get threads comment
+  // Operation: GET
+  // Request:
+  // {
+  //   "target": "string";
+  //   "target_id": "string";
+  //   "metadata": "object";
+  //   "with_replies": "boolean";
+  //   "page_size": "number";
+  //   "offset": "number";
+  //   "user_id": "string";
+  // }
+  // Response:
+  // {
+  //      "api_response": { isError: boolean, errorMessage: string }
+  //      "data": ThreadResponse[],
+  // }
+  rpc GetMainThreads(GetMainThreadsRequest) returns (GetMainThreadsResponse);
+  // Get replies of a thread comment
+  // Operation: GET
+  // Request:
+  // {
+  //   "parent_comment_id": "string";
+  //   "page_size": "number";
+  //   "offset": "number";
+  //   "user_id": "string";
+  // }
+  // Response:
+  // {
+  //      "apiResponse": { isError: boolean, errorMessage: string },
+  //      "data": ThreadReplies[],
+  //      "total_replies_count": number
+  // }
+  rpc GetThreadReplies(GetThreadRepliesRequest) returns (GetThreadRepliesResponse);
+  // Add comment
+  // Operation: POST
+  // Request:
+  // {
+  //   "target": "TIME_CHARTER";
+  //   "targetId": "string";
+  //   "parent_comment_id": "string";
+  //   "message": "string";
+  //   "sender_id": "string";
+  //   "metadata": "object";
+  // }
+  // Response:
+  // {
+  //      "apiResponse": { isError: boolean, errorMessage: string },
+  //      "new_comment" {
+  //         "comment_id": "string",
+  //         "message": "string",
+  //         "date": "string",
+  //         "sender_id": "string",
+  //         "is_read": "boolean",
+  //         }
+  // }
+  rpc AddComment(AddCommentRequest) returns (AddCommentResponse);
+  // Mark comments as read
+  // Operation: POST
+  // Request:
+  // {
+  //   "comment_id": ["1", "2"];
+  //   "reader_id": "string";
+  // }
+  // Response:
+  // {
+  //      "apiResponse": { isError: boolean, errorMessage: string },
+  // }
+  rpc MarkCommentsAsRead(MarkCommentsAsReadRequest) returns (MarkCommentsAsReadResponse);
+}
+
+// Request message for `CommentService.GetMainThreads`
+message GetMainThreadsRequest {
+  // Target of comment (TIME_CHARTER, VESSEL, etc.)
+  string target = 1;
+  // Target ID of comment
+  string target_id = 2;
+  // Additional information about target
+  optional Metadata metadata = 3;
+  // If true, get replies of comment
+  bool with_replies = 4;
+  // Number of comment to be returned in a page
+  int32 page_size = 5;
+  // Offset of comment to be returned in a page
+  int32 offset = 6;
+  // User ID of comment
+  string user_id = 7;
+}
+
+// Response message for `CommentService.GetMainThreads`
+message GetMainThreadsResponse {
+  // API response
+  ApiResponse api_response = 1;
+  // List of main thread
+  repeated ThreadResponse data = 2;
+}
+
+// API response
+message ApiResponse {
+  // If true, there is an error
+  bool is_error = 1;
+  // Error message
+  string error_message = 2;
+}
+
+// Metadata
+message Metadata {
+  // Status
+  optional int32 status = 1;
+}
+
+// Response message for `CommentService.GetThreadReplies`
+message ThreadResponse {
+  // The comment ID
+  string comment_id = 1;
+  // The message content of the comment
+  string message = 2;
+  // The total number of replies for this comment
+  int32 total_replies_count = 3;
+  // The user ID of the sender
+  string sender_id = 4;
+  // The date of the comment
+  string date = 5;
+  // If true, the comment is marked as read
+  bool is_read = 6;
+  // The status of the comment
+  int32 status = 7;
+  // The list of replies of the comment
+  repeated ThreadReplies replies = 8;
+}
+
+// Response message for `CommentService.GetThreadReplies`
+message ThreadReplies {
+  // The comment ID
+  string comment_id = 1;
+  // The message content of the comment
+  string message = 2;
+  // The date of the comment
+  string date = 3;
+  // The user ID of the sender
+  string sender_id = 4;
+  // If true, the comment is marked as read
+  bool is_read = 5;
+}
+
+// Request message for `CommentService.GetThreadReplies`
+message GetThreadRepliesRequest {
+  // The comment ID of the parent comment
+  string parent_comment_id = 1;
+  // The number of items to return per page
+  int32 page_size = 2;
+  // The offset of the first item to return
+  int32 offset = 3;
+  // The user ID of the user who is performing the action
+  string user_id = 4;
+}
+
+// Response message for `CommentService.GetThreadReplies`
+message GetThreadRepliesResponse {
+  // The api response object contains information about the error
+  ApiResponse api_response = 1;
+  // The total number of replies
+  int32 total_replies_count = 2;
+  // The list of replies
+  repeated ThreadReplies data = 3;
+}
+
+// Request message for `CommentService.AddComment`
+message AddCommentRequest {
+  // Target of comment (TIME_CHARTER, VESSEL, etc.)
+  string target = 1;
+  // Target ID of comment
+  string target_id = 2;
+  // Sender ID of comment
+  string sender_id = 3;
+  // parent comment id, if not exist create new comment, otherwise create new reply
+  optional string parent_comment_id = 4;
+  // The message content of the comment
+  string message = 5;
+  // Additional information about target
+  Metadata metadata = 6;
+  // Notification Recipients
+  repeated string notification_recipients = 7;
+}
+
+// Response message for `CommentService.AddComment`
+message AddCommentResponse {
+  // api response
+  ApiResponse api_response = 1;
+  // New comment
+  ThreadReplies new_comment = 2;
+}
+
+// Request message for `CommentService.AddComment`
+message MarkCommentsAsReadRequest {
+  // comment id array
+  repeated string comment_ids = 1;
+  // reader id
+  string reader_id = 2;
+}
+
+// Response message for `CommentService.MarkCommentsAsRead`
+message MarkCommentsAsReadResponse {
+  // api response
+  ApiResponse api_response = 1;
+}

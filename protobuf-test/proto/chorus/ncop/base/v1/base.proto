@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package chorus.ncop.base.v1;
+
+// health check request
+message HealthCheckRequest {
+    // source service
+    string source_service = 1;
+}
+
+// health check response
+message HealthCheckResponse {
+    // source service
+    string source_service = 1;
+    // target service
+    string target_service = 2;
+}
+
+// ncop base service
+service BaseService {
+    // health check rpc
+    rpc HealthCheck (HealthCheckRequest) returns (HealthCheckResponse) {}
+}

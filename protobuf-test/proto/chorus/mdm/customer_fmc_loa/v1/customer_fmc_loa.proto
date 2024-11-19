@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package chorus.mdm.customer_fmc_loa.v1;
+
+// The customer federal maritime commission and logistics operator agreement information
+message CustomerFmcLoa {
+  // The customer_country_code is the customer country code of the customer FMC LOA. cust_cnt_cd in OPUS
+  string customer_country_code = 1;
+  // The customer_sequence is the customer sequence of the customer FMC LOA. cust_seq in OPUS
+  int32 customer_sequence = 2;
+  // The agent_customer_country_code is the agent customer country code of the customer FMC LOA. agn_cust_cnt_cd in OPUS
+  string agent_customer_country_code = 3;
+  // The agent_customer_sequence is the agent customer sequence of the customer FMC LOA. agn_cust_seq in OPUS
+  int32 agent_customer_sequence = 4;
+  // The loa_sequence is the LOA sequence of the customer FMC LOA. loa_seq in OPUS
+  int32 loa_sequence = 5;
+  // The loa_type_code is the LOA type code of the customer FMC LOA. loa_tp_cd in OPUS
+  string loa_type_code = 6;
+}
+
+// The customer country code and sequence.
+message CustomerCountryCodeAndSequence {
+  // The customer country code of the customer FMC LOA.
+  string customer_country_code = 1;
+  // The customer sequence of the customer FMC LOA.
+  int32 customer_sequence = 2;
+}
+
+// Request message for `CustomerFmcLoaInfoService.GetCustomerFmcLoaByCustomerCountryCodesAndSequencesRequest`.
+message GetCustomerFmcLoaByCustomerCountryCodesAndSequencesRequest{
+  // The customer country code and sequence list.
+  repeated CustomerCountryCodeAndSequence customer_country_code_and_sequence_list = 1;
+}
+
+// Response message for `CustomerFmcLoaInfoService.GetCustomerFmcLoaByCustomerCountryCodesAndSequencesResponse`.
+message GetCustomerFmcLoaByCustomerCountryCodesAndSequencesResponse {
+  // The customer FMC LOA information.
+  CustomerFmcLoa customer_fmc_loa = 1;
+}
+
+// Services for customer federal maritime commission and logistics operator agreement.
+service CustomerFmcLoaInfoService {
+  // Get list of customer FMC LOA by customer country codes and customer sequences.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "customer_code_and_sequence_list": [
+  //         {
+  //             "customer_country_code": "VN",
+  //             "customer_sequence": 511136
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "customer_fmc_loa": {
+  //         "customer_country_code": "VN",
+  //         "customer_sequence": "511136",
+  //         "agent_customer_country_code": "VN",
+  //         "agent_customer_sequence": "511136",
+  //         "loa_sequence": "1",
+  //         "loa_type_code": "P",
+  //     }
+  // }
+  // ...
+  rpc GetCustomerFmcLoaByCustomerCountryCodesAndSequences(GetCustomerFmcLoaByCustomerCountryCodesAndSequencesRequest) returns (stream GetCustomerFmcLoaByCustomerCountryCodesAndSequencesResponse);
+}

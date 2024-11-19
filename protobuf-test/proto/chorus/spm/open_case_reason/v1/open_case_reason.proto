@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+import "chorus/spm/base/v1/base.proto";
+
+package chorus.spm.open_case_reason.v1;
+
+// Message to define open case reason
+message OpenCaseReason {
+    // Id
+    string id = 1;
+    // Content
+    string content = 2;
+    // type
+    string reason_type = 3;
+}
+
+// Message to define open case reason request
+message GetOpenCaseReasonsRequest {
+  // Type of reason
+  string reason_type = 1;
+  // Query from base proto 
+  optional chorus.spm.base.v1.Query query = 2;
+}
+
+// Message to define open case reason response
+message GetOpenCaseReasonsResponse {
+  // List of open case reasons
+  repeated OpenCaseReason items = 1;
+}
+
+// Services for open case reason
+service OpenCaseReasonService {
+    // Get open case reasons
+    rpc GetOpenCaseReasons (GetOpenCaseReasonsRequest) returns (GetOpenCaseReasonsResponse) {}
+}

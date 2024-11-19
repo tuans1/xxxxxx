@@ -1,0 +1,73 @@
+syntax = "proto3";  // Specify the syntax version as proto3
+
+// Import statements for dependencies
+import "chorus/spm/sale_main_office/v1/sale_main_office.proto";  // Import SaleMainOffice definitions
+import "chorus/spm/open_case_reason/v1/open_case_reason.proto";  // Import OpenCaseReason definitions
+
+package chorus.spm.extra_demand_case.v1;  // Define the package name
+
+// Message representing an extra demand case
+message ExtraDemandCase {
+    // Unique identifier for the shortfall case
+    string id = 1;
+    // requested TEU (Twenty-foot Equivalent Unit)
+    double requested_teu = 2;
+    // requested weight
+    double requested_wgt = 3;
+    // Optional acceptable TEU
+    optional double acceptable_teu = 4;
+    // Optional acceptable weight
+    optional double acceptable_wgt = 5;
+    // Optional requested OOG (Out of Gauge)
+    optional double requested_oog = 6;
+    // Optional requested void
+    optional double requested_void = 7;
+    // Optional number of reefer plug units requested
+    optional int32 request_reefer_plug_unit = 8;
+    // Requester's sale office information
+    chorus.spm.sale_main_office.v1.SaleMainOffice requester_sale_office = 9;
+    // Optional other reason for the request
+    optional string request_other_reason = 10;
+    // Optional additional comment
+    optional string additional_comment = 11;
+    // Optional reason for cancellation
+    optional string cancel_reason = 12;
+    // Optional reason for pending status
+    optional string pending_reason = 13;
+    // Due date for the shortfall case
+    string due_date = 14;
+    // List of reasons for the request
+    repeated chorus.spm.open_case_reason.v1.OpenCaseReason request_reasons = 15;
+    // Optional reason for rejection
+    optional string reject_reason = 16;
+    // Code of the discharge port for the case (optional)
+    optional string pod_code = 17;
+    // Bound of the discharge port for the case (optional)
+    optional string pod_bound = 18;
+}
+
+// Response message for opening a shortfall case
+message ExtraDemandCaseResponse {
+    // Unique identifier for the shortfall case
+    string id = 1;
+    // requested TEU
+    double requested_teu = 2;
+    // requested weight
+    double requested_wgt = 3;
+    // Acceptable TEU
+    double acceptable_teu = 4;
+    // Acceptable weight
+    double acceptable_wgt = 5;
+    // Due date for the shortfall case
+    string due_date = 6;
+    // Optional other reason for the request
+    optional string request_other_reason = 7;
+    // Optional additional comment
+    optional string additional_comment = 8;
+    // Optional requested OOG
+    optional double requested_oog = 9;
+    // Optional requested void
+    optional double requested_void = 10;
+    // Optional number of reefer plug units requested
+    optional int32 request_reefer_plug_unit = 11;
+}

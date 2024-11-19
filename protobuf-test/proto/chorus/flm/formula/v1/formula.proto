@@ -1,0 +1,363 @@
+syntax = "proto3";
+
+package chorus.flm.formula.v1;
+
+// Service for Formula module
+service FormulaService {
+
+  // Get all, search, filter
+  //
+  // Operation: GET
+  //
+  // Request:
+  // {
+  //    "keyword": "string",
+  // }
+  //
+  // Response:
+  // {
+  //      "formulas": Formula[],
+  //      "formula_properties": FormulaProperty[],
+  // }
+  rpc SearchFormulaAndProperty(SearchFormulaAndPropertyRequest) returns (SearchFormulaAndPropertyResponse);
+  // Create 
+  //
+  // Operation: POST
+  //
+  // Request:
+  // {
+  //     "property_name": string
+  //     "create_user_id": string
+  // }
+  // 
+  // Response:
+  // {
+  //     "property_id": string
+  //     "property_name": string
+  //     "default_flag": bool
+  // }
+  rpc CreateFormulaProperty(CreateFormulaPropertyRequest) returns (CreateFormulaPropertyResponse);
+  // Update 
+  //
+  // Operation: POST
+  //
+  // Request:
+  // [
+  //   {
+  //     "property_id": string
+  //     "property_name": string
+  //     "update_user_id": string
+  //   }
+  // ]
+  // 
+  // Response:
+  // {
+  //   "properties": [
+  //      {
+  //       "property_id": string
+  //       "property_name": string
+  //       "default_flag": bool
+  //      }
+  //   ]
+  // }
+  rpc UpdateFormulaProperty(UpdateFormulaPropertyRequest) returns (UpdateFormulaPropertyResponse);
+  // Method delete formula property by id
+  //
+  // Operation: DELETE
+  //
+  // Request:
+  // {
+  //   "property_id": ["string", "string"]
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  // }
+  rpc DeleteFormulaProperty(DeleteFormulaPropertyRequest) returns (DeleteFormulaPropertyResponse);
+  // Create 
+  //
+  // Operation: POST
+  //
+  // Request:
+  // {
+  //     "formula_name": string
+  //     "expression": string
+  //     "create_user_id": string
+  // }
+  // 
+  // Response:
+  // {
+  //     "formula_id": string
+  //     "formula_name": string
+  //     "expression": string
+  // }
+  rpc CreateFormula(CreateFormulaRequest) returns (CreateFormulaResponse);
+  // Update 
+  //
+  // Operation: POST
+  //
+  // Request:
+  // {
+  //     "formula_id": string
+  //     "formula_name": string
+  //     "expression": string
+  //     "update_user_id": string
+  // }
+  // 
+  // Response:
+  // {
+  //     "formula_id": string
+  //     "formula_name": string
+  //     "expression": string
+  // }
+  rpc UpdateFormula(UpdateFormulaRequest) returns (UpdateFormulaResponse);
+  // Method delete formula by id
+  //
+  // Operation: DELETE
+  //
+  // Request:
+  // {
+  //   "formula_id": "string"
+  // }
+  //
+  //Response:
+  // {
+  //   "success": true,
+  // }
+  rpc DeleteFormula(DeleteFormulaRequest) returns (DeleteFormulaResponse);
+}
+
+// Formula Property
+message FormulaProperty {
+  // id of formula property
+  string property_id = 1;
+  // formula property name
+  string property_name = 2;
+  // flag that decise if the formula property can be delete or not
+  optional bool default_flag = 3;
+  // data indicate the source data of the property
+  string vessel_source_data_column = 4;
+  // The create_user_id is the creator of the property
+  string create_user_id = 5;
+  // The create_program_id is the created program id
+  string create_program_id = 6;
+  // The create_date is the created date of the property
+  string create_date = 7;
+  // The update_user_id is the user that updated the property
+  string update_user_id = 8;
+  // The update_program_id is the updated program id
+  string update_program_id = 9;
+  // The update_date is the updated date of the property
+  string update_date = 10;
+  // The edw_update_date is the edw updated date
+  optional string edw_update_date = 11;
+}
+
+// Formula
+message Formula {
+  // id of formula 
+  string formula_id = 1;
+  // formula name
+  string formula_name = 2;
+  // the expression that represent about this formula
+  string expression = 3;
+  // the expression text that represent about this formula
+  string express_text = 4;
+  // flag that decise if the formula can be modified or not
+  bool is_locked = 5;
+  // flag is required
+  string is_required = 6;
+  // The create_user_id is the creator of the formula
+  string create_user_id = 7;
+  // The create_program_id is the created program id
+  string create_program_id = 8;
+  // The create_date is the created date of the formula
+  string create_date = 9;
+  // The update_user_id is the user that updated the formula
+  string update_user_id = 10;
+  // The update_program_id is the updated program id
+  string update_program_id = 11;
+  // The update_date is the updated date of the formula
+  string update_date = 12;
+  // The edw_update_date is the edw updated date
+  optional string edw_update_date = 13;
+}
+
+// find all formulas and properties request
+message SearchFormulaAndPropertyRequest {
+  // keyword: search by formula property name, formula name
+  optional string keyword = 1;
+}
+
+// Find all formulas and properties response
+message SearchFormulaAndPropertyResponse {
+  // formulas
+  repeated Formula formulas = 1;
+  // formula properties
+  repeated FormulaProperty formula_properties = 2;
+}
+
+// Create new formula property
+message CreateFormulaPropertyRequest {
+  // property name
+  string property_name = 1;
+  // The create_user_id is the creator
+  string create_user_id = 2;
+  // The create_program_id is the created program id
+  string create_program_id = 3;
+  // The create_date is the created date 
+  string create_date = 4;
+  // The update_user_id is the user that updated 
+  string update_user_id = 5;
+  // The update_program_id is the updated program id
+  string update_program_id = 6;
+  // The update_date is the updated date 
+  string update_date = 7;
+  // The edw_update_date is the edw updated date
+  string edw_update_date = 8;
+}
+
+// Create new formula property
+message CreateFormulaPropertyResponse {
+  // property name
+  string property_id = 1;
+  // property name
+  string property_name = 2;
+  // property name
+  bool default_flag = 3;
+}
+
+// update formula property payload
+message FormulaPropertyPayload {
+  // property id
+  string property_id = 1;
+  // property name
+  string property_name = 2;
+  // The create_user_id is the creator
+  string create_user_id = 3;
+  // The create_program_id is the created program id
+  string create_program_id = 4;
+  // The create_date is the created date 
+  string create_date = 5;
+  // The update_user_id is the user that updated 
+  string update_user_id = 6;
+  // The update_program_id is the updated program id
+  string update_program_id = 7;
+  // The update_date is the updated date 
+  string update_date = 8;
+  // The edw_update_date is the edw updated date
+  string edw_update_date = 9;
+}
+
+// update formula property request
+message UpdateFormulaPropertyRequest {
+  // array of formula property objects
+  repeated FormulaPropertyPayload properties = 1;
+}
+
+// update formula property response
+message FormulaPropertyResponse {
+  // property id
+  string property_id = 1;
+  // property name
+  string property_name = 2;
+  // default flag
+  bool default_flag = 3;
+}
+
+// array of properties response
+message UpdateFormulaPropertyResponse {
+  // array of properties response
+  repeated FormulaPropertyResponse properties = 1;
+}
+
+// The message request for delete Property
+message DeleteFormulaPropertyRequest {
+  // Property id
+  repeated string property_ids = 1;
+}
+
+// The message response for delete Property
+message DeleteFormulaPropertyResponse {
+  // Result of update
+  bool success = 1;
+}
+
+// Create new formula
+message CreateFormulaRequest {
+  // formula name
+  string formula_name = 1;
+  // expression regular
+  string expression = 2;
+  // The create_user_id is the creator
+  string create_user_id = 3;
+  // The create_program_id is the created program id
+  string create_program_id = 4;
+  // The create_date is the created date 
+  string create_date = 5;
+  // The update_user_id is the user that updated 
+  string update_user_id = 6;
+  // The update_program_id is the updated program id
+  string update_program_id = 7;
+  // The update_date is the updated date 
+  string update_date = 8;
+  // The edw_update_date is the edw updated date
+  string edw_update_date = 9;
+}
+
+// create new formula response
+message CreateFormulaResponse {
+  // formula name
+  string formula_id = 1;
+  // formula name
+  string formula_name = 2;
+  // formula name
+  string expression = 3;
+}
+
+// update formula request
+message UpdateFormulaRequest {
+  // formula id which want to update
+  string formula_id = 1;
+  // formula name
+  optional string formula_name = 2;
+  // expression regular
+  optional string expression = 3;
+  // The create_user_id is the creator
+  string create_user_id = 4;
+  // The create_program_id is the created program id
+  string create_program_id = 5;
+  // The create_date is the created date 
+  string create_date = 6;
+  // The update_user_id is the user that updated 
+  string update_user_id = 7;
+  // The update_program_id is the updated program id
+  string update_program_id = 8;
+  // The update_date is the updated date 
+  string update_date = 9;
+  // The edw_update_date is the edw updated date
+  string edw_update_date = 10;
+}
+
+// update formula response
+message UpdateFormulaResponse {
+  // formula name
+  string formula_id = 1;
+  // formula name
+  string formula_name = 2;
+  // formula name
+  string expression = 3;
+}
+
+// The message request for delete formula
+message DeleteFormulaRequest {
+  // formula id
+  string formula_id = 1;
+}
+
+// The message response for delete formula
+message DeleteFormulaResponse {
+  // Result of delete
+  bool success = 1;
+}

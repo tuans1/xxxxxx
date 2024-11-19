@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+    # Dev Container
+    dev-container:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - ${DEV_CONTAINER_HTTP_PORT}:${DEV_CONTAINER_HTTP_PORT}
+        volumes:
+            - ../:/workspaces/om-vsm-frontend:cached
+        command: sleep infinity
+        environment:
+            PORT: ${DEV_CONTAINER_HTTP_PORT}

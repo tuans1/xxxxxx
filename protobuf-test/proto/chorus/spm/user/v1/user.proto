@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package chorus.spm.user.v1;
+
+// Represents a user with their details
+message User {
+  // Unique identifier for the user
+  string id = 1;
+  // Email address of the user
+  string email = 2;
+  // Password of the user
+  string password = 3;
+  // Role assigned to the user
+  string role = 4;
+  //The user attribute information
+  repeated UserAttribute user_attribute = 5;
+}
+//The user attribute informations
+message UserAttribute {
+    //The user attribute id
+    string id = 1;
+    //The user attribute name
+    string name = 2;
+    //The user attribute type
+    string type = 3;
+    //The user attribute value
+    string value = 4;
+}
+
+// Request message for user authentication or other actions requiring user credentials
+message FindOneResponse {
+  reserved 1 to 3;
+  // Token for authentication or other purposes
+  string token = 4;
+  // Role of the user
+  string role = 5;
+}
+
+// Response message containing user information
+message UserResponse {
+  // Unique identifier for the user
+  optional string id = 1;
+  // Role assigned to the user
+  optional string role = 2;
+  // Email address of the user
+  optional string email = 3;
+  // Optional first name of the user
+  optional string first_name = 4;
+  // Optional last name of the user
+  optional string last_name = 5;
+  //The user attribute informations
+  repeated UserAttribute user_attribute = 6;
+}
+
+// Basic information about a user
+message UserInfo {
+  // Unique identifier for the user
+  optional string id = 1;
+  // Role assigned to the user
+  optional string role = 2;
+  //The user attribute informations
+  repeated UserAttribute user_attribute = 3;
+  // Email of the user
+  string email = 4;
+}
+
+// Payload for user-related operations
+message FindOneRequest {
+  // Email address of the user
+  string email = 1;
+  // Password of the user
+  string password = 2;
+  // Role of the user
+  string role = 3;
+}
+
+// User's full name details
+message UserFullName {
+  // First name of the user
+  string first_name = 1;
+  // Last name of the user
+  string last_name = 2;
+  // Email address of the user
+  string email = 3;
+}
+
+// Request message for user lookup
+message FindByIdRequest {
+  // The unique identifier.
+  string id = 1;
+}
+
+// Represents a user with their details
+message FindByIdResponse {
+  // Unique identifier for the user
+  string id = 1;
+  // Email address of the user
+  string email = 2;
+  // Password of the user
+  string password = 3;
+  // Role assigned to the user
+  string role = 4;
+}
+
+// Service definition for user-related operations
+service UsersService {
+  // RPC method to find a user by their ID
+  rpc FindById (FindByIdRequest) returns (FindByIdResponse) {}
+  // RPC method to find a user by their payload information
+  rpc FindOne (FindOneRequest) returns (FindOneResponse) {}
+}

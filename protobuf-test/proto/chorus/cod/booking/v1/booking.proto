@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+import "chorus/cod/base/v1/base.proto";
+import "chorus/cod/container/v1/container.proto";
+
+// Define the package name
+package chorus.cod.booking.v1;
+
+// Booking message
+message Booking {
+  // Booking number
+  string booking_number = 1;
+
+  // BL number
+  string bl_number = 2;
+
+  // Booking status code
+  string booking_status_code = 3;
+
+  // POL
+  string pol = 4;
+
+  // POD
+  string pod = 5;
+
+  //Container list
+  repeated chorus.cod.container.v1.Container containers = 6;
+}
+
+// Get booking list by vessel request
+message GetBookingListByVesselRequest {
+  // Vessel code
+  string vessel_code = 1;
+
+  // SKD voy number
+  string skd_voy_no = 2;
+
+  // SKD dir code
+  string skd_dir_code = 3;
+
+  // // Pagination information for the request
+  chorus.cod.base.v1.PaginationRequest pagination = 4;
+}
+
+// Get booking list by vessel response
+message GetBookingListByVesselResponse {
+  // Booking list
+  repeated Booking bookings = 1;
+
+  // Pagination Response
+  chorus.cod.base.v1.PaginationResponse pagination = 2;
+}
+
+// Booking service
+service BookingService {
+  // GetBookingListByVessel service
+  rpc GetBookingListByVessel(GetBookingListByVesselRequest) returns (GetBookingListByVesselResponse) {}
+}

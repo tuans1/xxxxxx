@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package chorus.mdm.movement_status.v1;
+
+// The movement status information.
+message MovementStatus {
+  // The movement_status_code is the code of Movement Status. mvmt_sts_cd in OPUS
+  string movement_status_code = 1;
+  // The movement_status_name is the name of Movement Status. mvmt_sts_nm in OPUS
+  string movement_status_name = 2;
+}
+
+// The movement status code information.
+message MovementStatusCode {
+  // The code of the movement status
+  string movement_status_code = 1;
+}
+
+// Request message for `MovementStatusInfoService.GetMovementStatusesByCodes`.
+message GetMovementStatusesByCodesRequest {
+  // The MovementStatusCode list
+  repeated MovementStatusCode movement_status_code_list = 1;
+}
+
+// Response message for `MovementStatusInfoService.GetMovementStatusesByCodes`.
+message GetMovementStatusesByCodesResponse {
+  // The MovementStatus information
+  MovementStatus movement_status = 1;
+}
+
+// The service that implements the MovementStatusInfoService definition.
+service MovementStatusInfoService {
+  // Get all list of movement statuses by codes
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "movement_status_code_list": [
+  //         {
+  //             "movement_status_code": "EFE"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "movement_status": {
+  //         "movement_status_code": "EFE",
+  //         "movement_status_name": "EAST AFRICA - ASIA (EB)",
+  //     }
+  // }
+  // ...
+  rpc GetMovementStatusesByCodes(GetMovementStatusesByCodesRequest) returns (stream GetMovementStatusesByCodesResponse);
+}

@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package chorus.mdm.trade.v1;
+
+import "google/protobuf/empty.proto";
+
+// The trade information.
+message Trade {
+  // The trade_code is the code of the trade. trd_cd in OPUS.
+  string trade_code = 1;
+  // The trade_name is the name of the trade. trd_nm in OPUS.
+  string trade_name = 2;
+}
+
+// The trade code information.
+message TradeCode {
+  // The code of the trade.
+  string trade_code = 1;
+}
+
+// Request message for `TradeInfoService.GetTradesByCodes`.
+message GetTradesByCodesRequest {
+  // The trade code list.
+  repeated TradeCode trade_code_list = 1;
+}
+
+// Response message for `TradeInfoService.GetTradesByCodes`.
+message GetTradesByCodesResponse {
+  // The trade information.
+  Trade trade = 1;
+}
+
+// Response message for `TradeInfoService.GetTrades`.
+message GetTradesResponse {
+  // The trade information.
+  Trade trade = 1;
+}
+
+// Request message for `TradeService.GetTradesByName`.
+message GetTradesByNameRequest {
+  // The TradeName.
+  string trade_name = 1;
+}
+
+// Response message for `TradeService.GetTradesByName`.
+message GetTradesByNameResponse {
+  // The trade.
+  Trade trade = 1;
+}
+
+// Services for trade.
+service TradeInfoService {
+  // Get all list of trades.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "trade": {
+  //         "trade_code": "NET",
+  //         "trade_name": "ASIA NORTH EUROPE TRADE"
+  //     }
+  // }
+  // ...
+  rpc GetTrades(google.protobuf.Empty) returns (stream GetTradesResponse);
+
+  // Get list of trades by codes.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "trade_code_list": [
+  //         {
+  //             "trade_code": "NET"
+  //         }
+  //     ]
+  // }
+  //
+  // Response:
+  // {
+  //     "trade": {
+  //         "trade_code": "NET",
+  //         "trade_name": "ASIA NORTH EUROPE TRADE"
+  //     }
+  // }
+  // ...
+  rpc GetTradesByCodes(GetTradesByCodesRequest) returns (stream GetTradesByCodesResponse);
+
+   // Get trades by name.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "trade_name": "COMMON FEEDER TRADE"
+  // }
+  //
+  // Response:
+  // {
+  //     "trade": {
+  //         "trade_code": "COM",
+  //         "trade_name": "COMMON FEEDER TRADE",
+  //     }
+  // }
+  // ...
+  rpc GetTradesByName(GetTradesByNameRequest) returns (stream GetTradesByNameResponse);
+}

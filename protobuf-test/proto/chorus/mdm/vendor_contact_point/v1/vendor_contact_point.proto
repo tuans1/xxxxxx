@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package chorus.mdm.vendor_contact_point.v1;
+
+// The vendor contact point information.
+message VendorContactPoint {
+  // The vendor_sequence is the vendor sequence of the vendor. vndr_seq in OPUS.
+  int32 vendor_sequence = 1;
+  // The vendor_contact_point_sequence is the vendor sequence of the vendor contact point. vndr_cntc_pnt_seq in OPUS.
+  int32 vendor_contact_point_sequence = 2;
+  // The primary_check_flag is the primary check flag of the vendor contact point. prmry_chk_flg in OPUS.
+  string primary_check_flag = 3;
+  // The international_phone_number is the international phone number of the vendor contact point. intl_phn_no in OPUS.
+  string international_phone_number = 4;
+  // The phone_number is the phone number of the vendor contact point. phn_no in OPUS.
+  string phone_number = 5;
+  // The international_fax_number is the international fax number of the vendor contact point. intl_fax_no in OPUS.
+  string international_fax_number = 6;
+  // The fax_number is the fax number of the vendor contact point. fax_no in OPUS.
+  string fax_number = 7;
+  // The vendor_email is the vendor email of the vendor contact point. vndr_eml in OPUS.
+  string vendor_email = 8;
+}
+
+// The vendor sequence and primary check flag.
+message VendorSequenceAndPrimaryCheckFlag {
+  // The vendor sequence of the vendor contact point.
+  int32 vendor_sequence = 1;
+  // The primary check flag of the vendor contact point.
+  string primary_check_flag = 2;
+}
+
+// Request message for `VendorContactPointInfoService.GetVendorContactPointsByVendorSequencesAndPrimaryCheckFlagsRequest`.
+message GetVendorContactPointsByVendorSequencesAndPrimaryCheckFlagsRequest {
+  // The vendor sequence and primary check flag list.
+  repeated VendorSequenceAndPrimaryCheckFlag vendor_sequence_and_primary_check_flag_list = 1;
+}
+
+// Response message for `VendorContactPointInfoService.GetVendorContactPointsByVendorSequencesAndPrimaryCheckFlagsResponse`.
+message GetVendorContactPointsByVendorSequencesAndPrimaryCheckFlagsResponse {
+  // The vendor contact point information.
+  VendorContactPoint vendor_contact_point = 1;
+}
+
+// Services for vendor contact point.
+service VendorContactPointInfoService {
+  // Get list of vendor contact points by vendor sequences and primary check flags.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "vendor_sequence_and_primary_check_flag_list": [
+  //         {
+  //             "vendor_sequence": 100245,
+  //             "primary_check_flag": 'Y'
+  //         }
+  //     ],
+  // }
+  //
+  // Response:
+  // {
+  //     "vendor_contact_point": {
+  //         "vendor_sequence": 100245,
+  //         "vendor_contact_point_sequence": 1
+  //         "primary_check_flag": "Y"
+  //         "international_phone_number": "33"
+  //         "phone_number": "4-91114190"
+  //         "international_fax_number": "33"
+  //         "fax_number": "4-96157651"
+  //         "vendor_email": "logist-fos@arnal.fr"
+  //     }
+  // }
+  // ...
+  rpc GetVendorContactPointsByVendorSequencesAndPrimaryCheckFlags(GetVendorContactPointsByVendorSequencesAndPrimaryCheckFlagsRequest) returns (stream GetVendorContactPointsByVendorSequencesAndPrimaryCheckFlagsResponse);
+}

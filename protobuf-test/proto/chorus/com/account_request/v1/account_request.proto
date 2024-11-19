@@ -1,0 +1,708 @@
+syntax = "proto3";
+
+package chorus.com.account_request.v1;
+
+// the department manager information
+message DepartmentManager {
+  // the user id of user
+  string user_id = 1;
+
+  // the user name of user
+  string user_name = 2;
+
+  // the user email of user
+  string user_email = 3;
+}
+
+// The user response message definition for role.
+message RoleOfAccountRequestResponse {
+  // The role ID.
+  string role_id = 1;
+  // The role name.
+  string role_name = 2;
+  // The product code.
+  string product_code = 3;
+}
+
+// The account request information
+message AccountRequest {
+  // The account request type
+  string account_request_type = 1;
+  // The account request status
+  string status = 2;
+  // The account type
+  string account_type = 3;
+  // Third party company name. Disabled by default
+  string company_name = 4;
+  // The account division/offshore center
+  string division = 5;
+  // The account department/team
+  optional string department = 6;
+  // The account One-Line email
+  string email = 7;
+  // The account user name
+  string user_name = 8;
+  // The account country
+  string country = 9;
+  // The account RHQ
+  string rhq = 10;
+  // The account chorus user role
+  repeated string user_role = 11;
+  // The account city
+  string city = 12;
+  // The account accessible offices
+  repeated string accessible_office = 13;
+  // The account remarks
+  optional string remarks = 14;
+  // The account department manager
+  string department_manager = 15;
+  // The account BPM authorization group
+  string bpm_auth_grp = 16;
+  // The account effective date from
+  optional string effective_from = 17;
+  // The account effective date to
+  string effective_to = 18;
+  // The account last updated time
+  string last_updated = 19;
+  // The account requester
+  string requestor = 20;
+  // The account requester id
+  string account_request_id = 21;
+}
+
+// The account request information
+message AccountRequestResponse {
+  // The account request type
+  string account_request_type = 1;
+  // The account request status
+  string status = 2;
+  // The account type
+  string account_type = 3;
+  // Third party company name. Disabled by default
+  string company_name = 4;
+  // The account division/offshore center
+  string division = 5;
+  // The account department/team
+  optional string department = 6;
+  // The account One-Line email
+  string email = 7;
+  // The account user name
+  string user_name = 8;
+  // The account country
+  string country = 9;
+  // The account RHQ
+  string rhq = 10;
+  // The account chorus user role
+  repeated RoleOfAccountRequestResponse user_role = 11;
+  // The account city
+  string city = 12;
+  // The account accessible offices
+  repeated string accessible_office = 13;
+  // The account remarks
+  optional string remarks = 14;
+  // The account department manager
+  DepartmentManager department_manager = 15;
+  // The account BPM authorization group
+  string bpm_auth_grp = 16;
+  // The account effective date from
+  optional string effective_from = 17;
+  // The account effective date to
+  string effective_to = 18;
+  // The account last updated time
+  string last_updated = 19;
+  // The account requester
+  string requestor = 20;
+  // The account requester id
+  string account_request_id = 21;
+  // The account workflow user group id
+  string workflow_user_group_id = 22;
+  // The flag check permission approve for BPM
+  bool is_bpm_approve = 23;
+  // The flag check permission approve for DM
+  bool is_dm_approve = 24;
+}
+
+// The account request information
+message AccountRequestInformation {
+  // The request id of account request.
+  string account_request_id = 1;
+  // The account request.
+  AccountRequestResponse account_request = 2;
+}
+
+// Request message for `AccountRequestService.GetAccountRequestByRequestId`.
+message GetAccountRequestByRequestIdRequest {
+  // The request id of account request.
+  string request_id = 1;
+}
+
+// Response message for `AccountRequestService.GetAccountRequestByRequestId`.
+message GetAccountRequestByRequestIdResponse {
+  // The account request information.
+  AccountRequestInformation account_request_information = 1;
+}
+
+// Request message for `AccountRequestService.SaveAccountRequestInfoRequest`.
+message SaveAccountRequestInfoRequest {
+  // The account request ID
+  optional string account_request_id = 1;
+  // The account request type
+  string account_request_type = 2;
+  // The account request status
+  string status = 3;
+  // The account type
+  string account_type = 4;
+  // Third party company name. Disabled by default
+  string company_name = 5;
+  // The account division/offshore center
+  string division = 6;
+  // The account department/team
+  optional string department = 7;
+  // The account One-Line email
+  string email = 8;
+  // The account user name
+  string user_name = 9;
+  // The account country
+  string country = 10;
+  // The account RHQ
+  string rhq = 11;
+  // The account chorus user role
+  repeated string user_role = 12;
+  // The account city
+  string city = 13;
+  // The account accessible offices
+  repeated string accessible_office = 14;
+  // The account remarks
+  optional string remarks = 15;
+  // The account department manager
+  string department_manager = 16;
+  // The account BPM authorization group
+  string bpm_auth_grp = 17;
+  // The account effective date from
+  optional string effective_from = 18;
+  // The account effective date to
+  optional string effective_to = 19;
+  // The account requester
+  string requestor = 20;
+  // The account request executor
+  string executor = 21;
+  // The workflow user group id
+  optional string workflow_user_group_id = 22;
+}
+
+// Response message for `AccountRequestService.SaveAccountRequestInfoResponse`.
+message SaveAccountRequestInfoResponse {
+  // The account request ID
+  optional string account_request_id = 1;
+  // The account request type
+  string account_request_type = 2;
+  // The account request status
+  string status = 3;
+  // The account type
+  string account_type = 4;
+  // Third party company name. Disabled by default
+  string company_name = 5;
+  // The account division/offshore center
+  string division = 6;
+  // The account department/team
+  optional string department = 7;
+  // The account One-Line email
+  string email = 8;
+  // The account user name
+  string user_name = 9;
+  // The account country
+  string country = 10;
+  // The account RHQ
+  string rhq = 11;
+  // The account chorus user role
+  repeated string user_role = 12;
+  // The account city
+  string city = 13;
+  // The account accessible offices
+  repeated string accessible_office = 14;
+  // The account remarks
+  optional string remarks = 15;
+  // The account department manager
+  string department_manager = 16;
+  // The account BPM authorization group
+  string bpm_auth_grp = 17;
+  // The account effective date from
+  optional string effective_from = 18;
+  // The account effective date to
+  optional string effective_to = 19;
+  // The account requester
+  string requestor = 20;
+  // The account last updated time
+  string last_updated = 21;
+  // The account request executor
+  string executor = 22;
+  // The department manager name
+  string department_manager_name = 23;
+  // The department manager email
+  string department_manager_email = 24;
+  // The bmp group name
+  optional string bpm_group_name = 25;
+  // The bmp group email
+  optional string bpm_group_email = 26;
+  // The bmp group email list
+  optional string bpm_group_email_list = 27;
+  // The workflow id
+  optional string workflow_id = 28;
+}
+
+// The account request Filter for Search
+message AccountRequestFilter {
+  // The account request keyword.
+  optional string keyword = 1;
+  // The account request email.
+  string email = 2;
+}
+
+// The pagination for Search
+message AccountRequestPagination {
+  // The account request page size.
+  int32 page_size = 1;
+  // The account request page number.
+  int32 page_number = 2;
+}
+
+// Request message for `AccountRequestService.SearchListAccount`.
+message SearchListAccountRequest {
+  // The account request filter.
+  optional AccountRequestFilter query = 1;
+  // The account request pagination.
+  optional AccountRequestPagination pagination = 2;
+}
+
+// Response message for `AccountRequestService.SearchListAccount`.
+message SearchListAccountResponse {
+  // The account request information.
+  AccountRequestResponse data = 1;
+  // The user total.
+  int32 total = 2;
+}
+
+// Request message for `AccountRequestService.DeleteAccountRequest`.
+message DeleteAccountRequestRequest {
+  // The account request id of account request.
+  string account_request_id = 1;
+}
+
+// Response message for `AccountRequestService.DeleteAccountRequest`.
+message DeleteAccountRequestResponse {
+  // The status of the deletion operation.
+  string status = 1;
+}
+
+// Request message for `AccountRequestService.UpdateStatusAccountRequest`.
+message UpdateStatusAccountRequest {
+  // The account request id of account request.
+  string account_request_id = 1;
+  //The status of account request.
+  string status = 2;
+  //The remarks of account request.
+  optional string remarks = 3;
+  // The excutor
+  optional string excutor = 4;
+}
+
+// Response message for `AccountRequestService.UpdateStatusAccountRequest`.
+message UpdateStatusAccountResponse {
+  // The account request ID
+  optional string account_request_id = 1;
+  // The account request type
+  string account_request_type = 2;
+  // The account request status
+  string status = 3;
+  // The account type
+  string account_type = 4;
+  // Third party company name. Disabled by default
+  string company_name = 5;
+  // The account division/offshore center
+  string division = 6;
+  // The account department/team
+  optional string department = 7;
+  // The account One-Line email
+  string email = 8;
+  // The account user name
+  string user_name = 9;
+  // The account country
+  string country = 10;
+  // The account RHQ
+  string rhq = 11;
+  // The account chorus user role
+  repeated string user_role = 12;
+  // The account city
+  string city = 13;
+  // The account accessible offices
+  repeated string accessible_office = 14;
+  // The account remarks
+  optional string remarks = 15;
+  // The account department manager
+  string department_manager = 16;
+  // The account BPM authorization group
+  string bpm_auth_grp = 17;
+  // The account effective date from
+  optional string effective_from = 18;
+  // The account effective date to
+  optional string effective_to = 19;
+  // The account requester
+  string requestor = 20;
+  // The account last updated time
+  string last_updated = 21;
+  // The account request executor
+  string executor = 22;
+  // The department manager name
+  string department_manager_name = 23;
+  // The department manager email
+  string department_manager_email = 24;
+  // The workflow id
+  optional string workflow_id = 25;
+  // The bmp group name
+  optional string bpm_group_name = 26;
+  // The bmp group email
+  optional string bpm_group_email = 27;
+  // The bmp group email list
+  optional string bpm_group_email_list = 28;
+}
+
+// Request message for ValidateOffboardingRequest
+message ValidateOffboardingRequest {
+  string account_request_id = 1;
+  string email = 2;
+}
+
+// Request message for ValidateOnboardingAccountRequestRequest
+message ValidateOnboardingAccountRequestRequest {
+  // the email
+  string email = 1;
+}
+
+// Request message for ValidateOnboardingAccountRequestResponse
+message ValidateOnboardingAccountRequestResponse {
+  // The account request data.
+  optional AccountRequestResponse data = 1;
+  // The status.
+  bool status = 2;
+}
+
+// Request message for ValidateAmendmentAccountRequestRequest
+message ValidateAmendmentAccountRequestRequest {
+  // the email
+  string email = 1;
+}
+
+// Request message for ValidateAmendmentAccountRequestResponse
+message ValidateAmendmentAccountRequestResponse {
+  // The account request data.
+  optional AccountRequestResponse data = 1;
+  // The status.
+  bool status = 2;
+}
+
+
+// Response message for ValidateOffboardingRequest
+message ValidateOffboardingResponse {
+  // The account request.
+  AccountRequestResponse data = 1;
+}
+
+// Services for account request.
+service AccountRequestService {
+  // Get account request information by request id.
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "request_id" : "CHORUS202404220000001"
+  // }
+  //
+  // Response:
+  // {
+  //     "account_request_information": {
+  //         "request_id": "0018ht",
+  //         "account_request_type": "0018ht",
+  //         "status": "01/08/2023",
+  //         "account_type": 26727,
+  //         "company_name": "magenta singapore terminal pte. ltd.",
+  //         "division": "system@one-line.com",
+  //         "department" : "department",
+  //         "email" : "one_line_email@one-line.mail",
+  //         "user_name" : "user_name",
+  //         "country" : "VN",
+  //         "rhq" : "",
+  //         "user_role" : [
+  //          {
+  //            "role_id": "string",
+  //            "role_name": "string"
+  //            "product_code": "string"
+  //          }
+  //         ],
+  //         "city" : "HCM",
+  //         "accessible_office" : ["HCM", "HN"],
+  //         "remarks" : "test",
+  //         "department_manager" : "manager_one_line_email@one-line.mail",
+  //         "bpm_auth_grp" : "GroupA",
+  //         "effective_from" : "01/08/2023",
+  //         "effective_to" : "01/08/2024",
+  //         "last_updated" : "01/07/2023",
+  //         "requestor" : "one_line_email@one-line.mail",
+  //     }
+  // }
+  // ...
+  rpc GetAccountRequestByRequestId(GetAccountRequestByRequestIdRequest) returns (stream GetAccountRequestByRequestIdResponse) {}
+
+  // The method for creating account request
+  //
+  // Operation: CREATE
+  //
+  // Request:
+  // {
+  //
+  //         "account_request_type": "0018ht",
+  //         "status": "01/08/2023",
+  //         "account_type": 26727,
+  //         "company_name": "magenta singapore terminal pte. ltd.",
+  //         "division": "system@one-line.com",
+  //         "department" : "department",
+  //         "email" : "one_line_email@one-line.mail",
+  //         "user_name" : "user_name",
+  //         "country" : "VN",
+  //         "rhq" : "",
+  //         "user_role" : ["ROLE_1"],
+  //         "city" : "HCM",
+  //         "accessible_office" : ["HCM", "HN"],
+  //         "remarks" : "test",
+  //         "department_manager" : "manager_one_line_email@one-line.mail",
+  //         "bpm_auth_grp" : "GroupA",
+  //         "effective_from" : "01/08/2023",
+  //         "effective_to" : "01/08/2024",
+  //         "last_updated" : "01/07/2023",
+  //         "requestor" : "one_line_email@one-line.mail",
+  //         "executor" : "one_line_email@one-line.mail",
+  //
+  // }
+  //
+  // Response:
+  // {
+  //         "account_request_id": "CHORUS202404220000001",
+  //         "account_request_type": "0018ht",
+  //         "status": "01/08/2023",
+  //         "account_type": 26727,
+  //         "company_name": "magenta singapore terminal pte. ltd.",
+  //         "division": "system@one-line.com",
+  //         "department" : "department",
+  //         "email" : "one_line_email@one-line.mail",
+  //         "user_name" : "user_name",
+  //         "country" : "VN",
+  //         "rhq" : "",
+  //         "user_role" : ["ROLE_1"],
+  //         "city" : "HCM",
+  //         "accessible_office" : ["HCM", "HN"],
+  //         "remarks" : "test",
+  //         "department_manager" : "manager_one_line_email@one-line.mail",
+  //         "bpm_auth_grp" : "GroupA",
+  //         "effective_from" : "01/08/2023",
+  //         "effective_to" : "01/08/2024",
+  //         "last_updated" : "01/07/2023",
+  //         "requestor" : "one_line_email@one-line.mail",
+  //         "executor" : "one_line_email@one-line.mail",
+  //         "is_dm_approve": false,
+  //         "is_bpm_approve": false,
+  //
+  // }
+  // ...
+  rpc SaveAccountRequestInfo(SaveAccountRequestInfoRequest) returns (SaveAccountRequestInfoResponse) {}
+  // The method for search account request list
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //   "query": {
+  //     "keyword": "string",
+  //     "email": "string"
+  //   },
+  //   "pagination": {
+  //     "page_size": 0,
+  //     "page_number": 0
+  //   }
+  // }
+  //
+  // Response:
+  // {
+  //   "data": {
+  //     "account_request_type": "0018ht",
+  //     "status": "01/08/2023",
+  //     "account_type": 26727,
+  //     "company_name": "magenta singapore terminal pte. ltd.",
+  //     "division": "system@one-line.com",
+  //     "department" : "department",
+  //     "email" : "one_line_email@one-line.mail",
+  //     "user_name" : "user_name",
+  //     "country" : "VN",
+  //     "rhq" : "",
+  //     "user_role" : "ROLE_1",
+  //     "city" : "HCM",
+  //     "accessible_office" : ["HCM", "HN"],
+  //     "remarks" : "test",
+  //     "department_manager" : "manager_one_line_email@one-line.mail",
+  //     "bpm_auth_grp" : "GroupA",
+  //     "effective_from" : "01/08/2023",
+  //     "effective_to" : "01/08/2024",
+  //     "last_updated" : "01/07/2023",
+  //     "requestor" : "one_line_email@one-line.mail",
+  //   },
+  //   "total": 1
+  // }
+  rpc SearchListAccount(SearchListAccountRequest) returns (stream SearchListAccountResponse) {}
+
+  // New method for deleting an account request
+  rpc DeleteAccountRequest(DeleteAccountRequestRequest) returns (DeleteAccountRequestResponse) {}
+
+  // The method for search account request list
+  //
+  // Operation: DELETE
+  //
+  // Request:
+  // {
+  //   "account_request_id": "1",
+  //   "status": "APR",
+  //   "remarks": "Change status to APR",
+  //   "excutor":"test@gmail.com",
+  // }
+  //
+  // Response:
+  // {
+  //     "success": true
+  // }
+  rpc UpdateStatusAccount(UpdateStatusAccountRequest) returns (UpdateStatusAccountResponse) {}
+  // The new method for validating an offboarding request
+  //
+  // Operation: VALIDATE
+  //
+  // Request:
+  // {
+  //   "account_request_id": "1",
+  //   "email": "test@gmail.com",
+  // }
+  //
+  // Response:
+  // {
+  //   "data": {
+  //     "account_request_type": "0018ht",
+  //     "status": "01/08/2023",
+  //     "account_type": 26727,
+  //     "company_name": "magenta singapore terminal pte. ltd.",
+  //     "division": "system@one-line.com",
+  //     "department" : "department",
+  //     "email" : "one_line_email@one-line.mail",
+  //     "user_name" : "user_name",
+  //     "country" : "VN",
+  //     "rhq" : "",
+  //     "user_role" : "ROLE_1",
+  //     "city" : "HCM",
+  //     "accessible_office" : ["HCM", "HN"],
+  //     "remarks" : "test",
+  //     "department_manager" : "manager_one_line_email@one-line.mail",
+  //     "bpm_auth_grp" : "GroupA",
+  //     "effective_from" : "01/08/2023",
+  //     "effective_to" : "01/08/2024",
+  //     "last_updated" : "01/07/2023",
+  //     "requestor" : "one_line_email@one-line.mail",
+  //   }
+  // }
+  rpc ValidateOffboardingAccountRequest(ValidateOffboardingRequest) returns (ValidateOffboardingResponse) {}
+
+  // The new method for validating an onboarding request
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "email" : "one_line_email@one-line.mail",
+  //     "account_request_type": "AND"
+  // }
+  //
+    // {
+  //     "data": {
+  //         "request_id": "0018ht",
+  //         "account_request_type": "AND",
+  //         "status": "01/08/2023",
+  //         "account_type": 26727,
+  //         "company_name": "magenta singapore terminal pte. ltd.",
+  //         "division": "system@one-line.com",
+  //         "department" : "department",
+  //         "email" : "one_line_email@one-line.mail",
+  //         "user_name" : "user_name",
+  //         "country" : "VN",
+  //         "rhq" : "",
+  //         "user_role" : [
+  //          {
+  //            "role_id": "string",
+  //            "role_name": "string"
+  //            "product_code": "string"
+  //          }
+  //         ],
+  //         "city" : "HCM",
+  //         "accessible_office" : ["HCM", "HN"],
+  //         "remarks" : "test",
+  //         "department_manager" : "manager_one_line_email@one-line.mail",
+  //         "bpm_auth_grp" : "GroupA",
+  //         "effective_from" : "01/08/2023",
+  //         "effective_to" : "01/08/2024",
+  //         "last_updated" : "01/07/2023",
+  //         "requestor" : "one_line_email@one-line.mail",
+  //     }
+  //     "status": true
+  // }
+  // 
+  rpc ValidateOnboardingAccountRequest(ValidateOnboardingAccountRequestRequest) returns (ValidateOnboardingAccountRequestResponse) {}
+
+    // The new method for validating an amendment request
+  //
+  // Operation: MATCH
+  //
+  // Request:
+  // {
+  //     "email" : "one_line_email@one-line.mail",
+  //     "account_request_type": "AND"
+  // }
+  //
+  // Response:
+  // {
+  //     "data": {
+  //         "request_id": "0018ht",
+  //         "account_request_type": "AND",
+  //         "status": "01/08/2023",
+  //         "account_type": 26727,
+  //         "company_name": "magenta singapore terminal pte. ltd.",
+  //         "division": "system@one-line.com",
+  //         "department" : "department",
+  //         "email" : "one_line_email@one-line.mail",
+  //         "user_name" : "user_name",
+  //         "country" : "VN",
+  //         "rhq" : "",
+  //         "user_role" : [
+  //          {
+  //            "role_id": "string",
+  //            "role_name": "string"
+  //            "product_code": "string"
+  //          }
+  //         ],
+  //         "city" : "HCM",
+  //         "accessible_office" : ["HCM", "HN"],
+  //         "remarks" : "test",
+  //         "department_manager" : "manager_one_line_email@one-line.mail",
+  //         "bpm_auth_grp" : "GroupA",
+  //         "effective_from" : "01/08/2023",
+  //         "effective_to" : "01/08/2024",
+  //         "last_updated" : "01/07/2023",
+  //         "requestor" : "one_line_email@one-line.mail",
+  //     }
+  //     "status": true
+  // }
+  // 
+  rpc ValidateAmendmentAccountRequest(ValidateAmendmentAccountRequestRequest) returns (ValidateAmendmentAccountRequestResponse) {}
+}

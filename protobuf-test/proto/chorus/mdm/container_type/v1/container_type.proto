@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package chorus.mdm.container_type.v1;
+
+import "google/protobuf/empty.proto";
+
+// The container type information.
+message ContainerType {
+  // The container_type_code is the code of the container type. cntr_tp_cd in OPUS.
+  string container_type_code = 1;
+  // The container_type_description is the description of the container type. cntr_tp_desc in OPUS.
+  string container_type_description = 2;
+}
+
+// Response message for `ContainerTypeInfoService.GetContainerTypes`.
+message GetContainerTypesResponse {
+  // The container type information.
+  ContainerType container_type = 1;
+}
+
+// Services for container type.
+service ContainerTypeInfoService {
+  // Get all list of container types.
+  //
+  // Operation: ALL
+  //
+  // Request: None
+  //
+  // Response:
+  // {
+  //     "container_type": {
+  //         "container_type_code": "E",
+  //         "container_type_description": "PLATFORM CONTAINER"
+  //     }
+  // }
+  // ...
+  rpc GetContainerTypes(google.protobuf.Empty) returns (stream GetContainerTypesResponse);
+}

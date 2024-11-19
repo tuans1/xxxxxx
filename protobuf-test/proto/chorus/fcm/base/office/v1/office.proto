@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package chorus.fcm.base.office.v1;
+
+// Office Information
+message OfficeModel {
+  // The office_code is office code
+  string office_code = 1;
+  // The name is a office name
+  string name = 2;
+  // The parent_office_code is a office parent
+  string parent_office_code = 3;
+  // The office_type is a office type
+  string office_type = 4;
+}

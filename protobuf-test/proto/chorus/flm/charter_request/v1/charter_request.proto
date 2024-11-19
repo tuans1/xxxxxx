@@ -1,0 +1,455 @@
+syntax = "proto3";
+
+package chorus.flm.charter_request.v1;
+
+
+// Service for Charter Request
+service CharterRequestService {
+    // Get Charter Request Type
+    //
+    // Operation: Get
+    //
+    // Request:
+    // {      
+    // }
+    //Response:
+    // {
+    //    [   
+    //         {
+    //            "id":1,
+    //            "name":"New"
+    //         }
+    //    ]
+    // }
+    rpc GetCharterRequestType(GetCharterRequestTypeRequest) returns (GetCharterRequestTypeResponse);
+
+    // Get Charter Request Status
+    //
+    // Operation: Get
+    //
+    // Request:
+    // {      
+    // }
+    //Response:
+    // {
+    //    [   
+    //         {
+    //            "id":1,
+    //            "name":"New"
+    //         }
+    //    ]
+    // }
+    rpc GetCharterRequestStatus(GetCharterRequestStatusRequest) returns (GetCharterRequestStatusResponse);
+
+    // Save and submit charter request
+    //
+    // Operation: POST
+    //
+    // Request:
+    // {
+    //      "id": "",
+    //      "request_title": "", 
+    //      "charter_request_status": 0, 
+    //      "charter_type": 0, 
+    //      "service_code": "",
+    //      "port_rotation": "", 
+    //      "min_loadable_teu": 0, 
+    //      "max_loadable_teu": 0, 
+    //      "delivery_port": "", 
+    //      "redelivery_port": "",
+    //      "delivery_from_date": "", 
+    //      "delivery_to_date": "", 
+    //      "redelivery_from_date": "",
+    //      "redelivery_to_date": "",
+    //      "reefer_plug_amount": 0,
+    //      "remark": "",
+    //      "user_id": "", 
+    //      "is_submitted": 0
+    // }
+    //Response:
+    // {
+    //      "id" : "charter request id",
+    //      "sequence" : 1
+    //      "create_date_time" : "2024-03-30 10:39:31+07"
+    // }
+    rpc SaveAndSubmitCharterRequest(SaveAndSubmitCharterRequestRequest) returns (SaveAndSubmitCharterRequestResponse);
+
+    // Get Charter Request Details
+    //
+    // Operation: POST
+    //
+    // Request:
+    // {      
+    //          "charter_request_id": "charter_request_id"
+    // }
+    // Response:
+    // {
+    //     "charter_request": {
+    //          "id" : "charter request id",
+    //          "request_title" : "request title",
+    //          "charter_request_status" : 0,
+    //          "charter_type" : 0,
+    //          "service_code" : "",
+    //          "port_rotation" : "port rotation",
+    //          "min_loadable_teu" : 0,
+    //          "max_loadable_teu" : 0,
+    //          "delivery_port" : "delivery port",
+    //          "redelivery_port" : "",
+    //          "delivery_from_date" : "delivery from date",
+    //          "delivery_to_date" : "delivery to date",
+    //          "redelivery_from_date" : "",
+    //          "redelivery_to_date" : "",
+    //          "reefer_plug_amount" : 0,
+    //          "remark" : "",
+    //          "charter_request_sequence" : 0,
+    //          "create_user_id" : "create user id",
+    //          "create_program_id" : "create program id",
+    //          "create_date" : "create date",
+    //          "update_user_id" : "update user id",
+    //          "update_program_id" : "update program id",
+    //          "update_date" : "update date",
+    //          "edw_update_date" : "",
+    //          "deleted_at" : "",
+    //          "time_charter_assignees" : [],
+    //          "time_charter_status" : 0,
+    //          "md_approval_status" : ""
+    //      }
+    // }
+    rpc GetCharterRequestDetails(GetCharterRequestDetailsRequest) returns (GetCharterRequestDetailsResponse);
+
+    // Get Charter Request List
+    //
+    // Operation: GET
+    //
+    // Request:
+    // {      
+    //      "pagination": {
+    //          "current_page": 1,
+    //          "rows_per_page": 10,
+    //      }
+    // }
+    //Response:
+    // {
+    //      "charter_request_list" : [
+    //          {
+    //              "id" : "charter request id",
+    //              "request_title" : "request title",
+    //              "charter_request_status" : 0,
+    //              "charter_type" : 0,
+    //              "service_code" : "",
+    //              "port_rotation" : "port rotation",
+    //              "min_loadable_teu" : 0,
+    //              "max_loadable_teu" : 0,
+    //              "delivery_port" : "delivery port",
+    //              "redelivery_port" : "",
+    //              "delivery_from_date" : "delivery from date",
+    //              "delivery_to_date" : "delivery to date",
+    //              "redelivery_from_date" : "",
+    //              "redelivery_to_date" : "",
+    //              "reefer_plug_amount" : 0,
+    //              "remark" : "",
+    //              "charter_request_sequence" : 0,
+    //              "create_user_id" : "create user id",
+    //              "create_program_id" : "create program id",
+    //              "create_date" : "create date",
+    //              "update_user_id" : "update user id",
+    //              "update_program_id" : "update program id",
+    //              "update_date" : "update date",
+    //              "edw_update_date" : "",
+    //              "deleted_at" : "",
+    //              "time_charter_assignees" : [],
+    //              "time_charter_status" : 0,
+    //              "md_approval_status" : ""
+    //          }
+    //      ],
+    //      "total" : 1
+    // }
+    rpc GetCharterRequestList(GetCharterRequestListRequest) returns (GetCharterRequestListResponse);
+
+    // Assign assignee to charter request
+    // Operation: POST
+    // Request:
+    // {      
+    //      "tcId": "" 
+    //      "assignees": []
+    //      "create_user_id": ""
+    // }
+    //Response:
+    // {
+    //      apiResponse: { isError: boolean, errorMessage: string }
+    // }
+    rpc SetCharterRequestAssignee(SetCharterRequestAssigneeRequest) returns (SetCharterRequestAssigneeResponse);
+
+    // Withdraw a time charter at anytime
+    // Operation: POST
+    // Request:
+    // {
+    //       "tcId": "" 
+    // }
+    // Response:
+    // {
+    //      "id" : "charter request id",
+    //      "updated_date_time" : "2024-03-30 10:39:31+07",
+    //      "request_status" :1,
+    //      "time_charter_status": 2
+    // }         
+    rpc WithdrawTimeCharter(WithdrawTimeCharterRequest) returns (WithdrawTimeCharterResponse);
+}
+
+// Message request for "GetCharterRequestType.GetCharterRequestTypeRequest"
+message GetCharterRequestTypeRequest {}
+
+// Message request for "GetCharterRequestStatus.GetCharterRequestStatusRequest"
+message GetCharterRequestStatusRequest {}
+
+// Message request for "GetCharterRequestTypeResponse.GetCharterRequestStatusRequest"
+message CharterRequestType {
+    //Type id
+    int32 id =1;
+    //Type name
+    string name =2;
+}
+
+// Message request for "GetCharterRequestType.GetCharterRequestTypeResponse"
+message GetCharterRequestTypeResponse{
+    // list of charter request types
+    repeated CharterRequestType charter_request_types = 1;
+}
+
+// Message request for "GetCharterRequestStatusResponse.GetCharterRequestTypeResponse"
+message CharterRequestStatus {
+    //Status id
+    int32 id =1;
+    //Status name
+    string name =2;
+}
+
+// Message request for "GetCharterRequestStatus.GetCharterRequestTypeResponse"
+message GetCharterRequestStatusResponse{
+    // list of charter request statues
+    repeated CharterRequestStatus charter_request_statuses = 1;
+}
+
+// Message request for "SaveAndSubmitCharterRequest.SaveAndSubmitCharterRequestRequest"
+message SaveAndSubmitCharterRequestRequest{
+    //Charter request id, incase of submitted it is required
+    optional string id = 1;
+    //Title of charter request
+    string request_title = 2;
+    //Status of charter request
+    int32 charter_request_status = 3;
+    //Type of charter request
+    int32 charter_type = 4;
+    //Service code
+    optional string service_code = 5;
+    //Port rotation
+    string port_rotation = 6;
+    //TEU from
+    int32 min_loadable_teu = 7;
+    //TEU to
+    int32 max_loadable_teu = 8;
+    //DEL Port
+    string delivery_port = 9;
+    //RE-DEL Port
+    optional string redelivery_port = 10;
+    //DEL date from
+    string delivery_from_date= 11;
+     //DEL date to
+    string delivery_to_date = 12;
+    //Re-del date from
+    optional string redelivery_from_date = 13;
+     //Re-del date to
+    optional string redelivery_to_date = 14;
+    //No. of reefer plug
+    optional int32 reefer_plug_amount = 15;
+    //Remark
+    optional string remark =16;
+    //create userId
+    string user_id = 17;
+    //Check if is submitted
+    int32 is_submitted = 18;
+    //Get Recipients List
+    repeated string notification_recipients = 19;
+}
+
+// Message request for "SaveAndSubmitCharterRequest.SaveAndSubmitCharterRequestResponse"
+message SaveAndSubmitCharterRequestResponse{
+    //Charter request id
+    string id = 1;
+    //Charter request number
+    int32 sequence = 2;
+    //Created date time
+    string created_date_time = 3;
+    //Updated date time
+    string updated_date_time = 4;
+    //Status id 
+    int32 request_status = 5;
+    //1: Completed 2: Withdraw
+    optional int32 time_charter_status = 6;
+    // rejected | approved | approved with condition
+    optional string md_approval_status = 7;
+}
+
+// Message request for "xxx.TimeCharterRequestAssignees"
+message TimeCharterRequestAssignees {
+  // assignee id
+  string assignee_id = 1;
+  // assignee name
+  string assignee_name = 2;
+  // assignee email option
+  bool sent_email = 3;
+}
+
+// response body for CharterRequest
+message CharterRequest {
+    //charter request Id
+    string id =1;
+    //charter request Title
+    string request_title =2;
+    //charter request Status
+    int32 charter_request_status =3;
+    //charter Type
+    int32 charter_type =4;
+    //service code
+    optional string service_code =5;
+    //port rotation 
+    string port_rotation =6;
+    //min loadable teu
+    int32 min_loadable_teu =7;
+    //max loadable teu
+    int32 max_loadable_teu =8;
+    //delivery port
+    string delivery_port =9;
+    //redelivery port
+    optional string redelivery_port =10;
+    //delivery from date
+    string delivery_from_date =11;
+    //delivery to date
+    string delivery_to_date =12;
+    //redelivery from date
+    optional string redelivery_from_date =13;
+    //redelivery to date
+    optional string redelivery_to_date =14;
+    //reefer plug amount
+    optional int32 reefer_plug_amount =15;
+    //remark 
+    optional string remark =16;
+    //charter request sequence
+    int32 charter_request_sequence =17;
+    //create user id
+    string create_user_id =18;
+    //create program id
+    string create_program_id =19;
+    //create date
+    string create_date =20;
+    //update user id 
+    string update_user_id =21;
+    //update program id
+    string update_program_id =22;
+    //update date
+    string update_date =23;
+    //edw update date
+    optional string edw_update_date =24;
+    //deleted at
+    optional string deleted_at =25;
+    // time charter request assignees list
+    repeated TimeCharterRequestAssignees time_charter_assignees = 26;
+    //1: Completed 2: Withdraw
+    optional int32 time_charter_status =27;
+    // rejected | approved | approved with condition
+    optional string md_approval_status =28;
+}
+
+// request body for GetCharterRequestDetailsRequest
+message GetCharterRequestDetailsRequest {
+    //charter request Id
+     string charter_request_id =1;
+}
+
+// response body for GetCharterRequestDetailsResponse
+message GetCharterRequestDetailsResponse {
+    //charter request details response
+    CharterRequest charter_request =1;
+}
+
+// response body for GetCharterRequestListRequest
+message GetCharterRequestListRequest {
+ // Pagination info
+  Pagination pagination = 1;
+}
+
+// response body for GetCharterRequestListResponse
+message GetCharterRequestListResponse {
+    //charter request List
+    repeated CharterRequest charter_request_list =1;
+    //total of item
+    int32 total = 2;
+}
+
+// Pagination info
+message Pagination {
+  // Current Page
+  int32 current_page = 1;
+  // Rows Per Page
+  int32 rows_per_page = 2;
+}
+
+// Set Charter Request Assignee
+message SetCharterRequestAssigneeRequest {
+    // Charter request Id
+    string tc_id = 1;
+    // List of assignee
+    repeated Assignee assignees = 2;
+    // create user id 
+    string create_user_id = 3;
+    // Create user name
+    string create_user_name = 4;
+}
+
+// Assignee
+message Assignee { 
+    // Assignee Id
+    string id = 1;
+    // Assignee Name
+    optional string name = 2;
+    // Action
+    string action = 3;
+}
+
+//api response
+message ApiResponse {
+    //true has error else ok
+    bool is_error = 1;
+    //error message
+    string error_message = 2;
+}
+
+// Set Charter Request Assignee
+message SetCharterRequestAssigneeResponse {
+    //api response 
+    ApiResponse api_response = 1;
+}
+
+// WithdrawTimeCharterRequest
+message WithdrawTimeCharterRequest {
+    // time charter id
+    string tc_id = 1;
+
+    // user id
+    string user_id = 2;
+
+    // Notification Recipients
+    repeated string notification_recipients = 3;
+}
+
+// WithdrawTimeCharterResponse
+message WithdrawTimeCharterResponse {
+    //Charter request id
+    string id = 1;
+    //Updated date time
+    string updated_date_time = 2;
+    //Status id 
+    int32 request_status = 3;
+    //1: Completed 2: Withdraw
+    optional int32 time_charter_status = 4;
+}

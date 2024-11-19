@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package chorus.flm.base.v1;
+
+// Message to define a sorting criteria.
+message Sort {
+  // The name of the field to sort by.
+  string field = 1;
+
+  // Enumeration for specifying sorting order.
+  enum SortEnum {
+    // Ascending order.
+    SORT_ENUM_ASC_UNSPECIFIED = 0;
+
+    // Descending order.
+    SORT_ENUM_DESC = 1;
+  }
+
+  // The sorting order (ASC or DESC).
+  SortEnum order = 2;
+}
+
+// Message to specify pagination request parameters.
+message PaginationRequest {
+  // Maximum number of items to return per page.
+  optional int32 limit = 1;
+
+  // Page number to retrieve.
+  optional int32 page = 2;
+}
+
+// Message to provide pagination response details.
+message PaginationResponse {
+  // Current page number.
+  int32 page = 1;
+
+  // Maximum items per page.
+  int32 limit = 2;
+
+  // Total number of pages.
+  int32 total_page = 4;
+
+  // Total number of items.
+  int32 total = 5;
+}
+
+// Message to represent an identifier.
+message Id {
+  // The unique identifier.
+  string id = 1;
+}
+
+// Message to define a query with various parameters.
+message Query {
+  // Fields to select in the query.
+  repeated string select = 1;
+
+  // Conditions to filter data.
+  string where = 2;
+
+  // Fields to order the results by.
+  repeated string order_by = 3;
+
+  // Maximum number of items to return.
+  int32 limit = 4;
+
+  // Cursor to retrieve items before a certain point.
+  string before = 5;
+
+  // Cursor to retrieve items after a certain point.
+  string after = 6;
+}

@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package chorus.mdm.user_authentication.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// The user authentication information.
+message UserAuthentication {
+  // The user_id is the id of the user. usr_id in OPUS.
+  string user_id = 1;
+  // The master_data_subject_code is the master data subject code of the user authentication. mst_dat_subj_cd in OPUS.
+  string master_data_subject_code = 2;
+  // The office_code is the office code of the user authentication. ofc_cd in OPUS.
+  string office_code = 3;
+  // The authority_type_code is the authority type code of the user authentication. auth_tp_cd in OPUS.
+  string authority_type_code = 4;
+  // The program_id is the program id of the user authentication. pgm_id in OPUS.
+  string program_id = 5;
+  // The create_user_id is the create user id of the user authentication. cre_usr_id in OPUS.
+  string create_user_id = 6;
+  // The create_date is the create date of the user authentication. cre_dt in OPUS.
+  google.protobuf.Timestamp create_date = 7;
+  // The update_user_id is the update user id of the user authentication. upd_usr_id in OPUS.
+  string update_user_id = 8;
+  // The update_date is the update date of the user authentication. upd_dt in OPUS.
+  google.protobuf.Timestamp update_date = 9;
+  // The edw_update_date is the edw update date of the user authentication. edw_udp_dt in OPUS.
+  google.protobuf.Timestamp edw_update_date = 10;
+}
+
+// Request message for `UserAuthenticationInfoService.SearchUserAuthenticationsByMultipleFields`.
+message SearchUserAuthenticationsByMultipleFieldsRequest {
+  // The user_id is the id of the user. usr_id in OPUS.
+  optional string user_id = 1;
+  // The master_data_subject_code is the master data subject code of the user authentication. mst_dat_subj_cd in OPUS.
+  optional string master_data_subject_code = 2;
+  // The office_code is the office code of the account. ofc_cd in OPUS.
+  optional string office_code = 3;
+}
+
+// Response message for `UserAuthenticationInfoService.SearchUserAuthenticationsByMultipleFields`.
+message SearchUserAuthenticationsByMultipleFieldsResponse {
+  // The user authentication information.
+  UserAuthentication user_authentication = 1;
+}
+
+// Services for user authentication.
+service UserAuthenticationInfoService {
+  // Get list of user authentication by multiple fields.
+  //
+  // Operation: LIKE for user_id & MATCH for master_data_subject_code and office_code
+  //
+  // Request:
+  // {
+  //     "user_id": "brett.freese@one-line.com",
+  //     "master_data_subject_code": "",
+  //     "office_code": "",
+  // }
+  //
+  // Response:
+  // {
+  //     "user_authentication": {
+  //         "user_id": "11501021",
+  //         "master_data_subject_code": "CUST",
+  //         "office_code": "CPTBB",
+  //         "authority_type_code": "R",
+  //         "program_id": "BCM_CCD_0052",
+  //         "create_user_id": "maria.godinho@one-line.com",
+  //         "create_date": {
+  //             "seconds": "1567417581",
+  //             "nanos": 0
+  //         },
+  //         "update_user_id": "maria.godinho@one-line.com",
+  //         "update_date": {
+  //             "seconds": "1567417581",
+  //             "nanos": 0
+  //         },
+  //         "edw_update_date": {
+  //             "seconds": "1646906817",
+  //             "nanos": 0
+  //         }
+  //     }
+  // }
+  // ...
+  rpc SearchUserAuthenticationsByMultipleFields(SearchUserAuthenticationsByMultipleFieldsRequest) returns (stream SearchUserAuthenticationsByMultipleFieldsResponse);
+}

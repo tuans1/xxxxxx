@@ -1,0 +1,25 @@
+{
+    "name": "om-vsm-frontend",
+    "dockerComposeFile": "./docker-compose.yaml",
+    "workspaceFolder": "/workspaces/om-vsm-frontend",
+    "service": "dev-container",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "sonarsource.sonarlint-vscode",
+                "bufbuild.vscode-buf",
+                "zxh404.vscode-proto3",
+                "stkb.rewrap",
+                "eamodio.gitlens",
+                "mhutchie.git-graph",
+                "christian-kohler.path-intellisense",
+                "bradlc.vscode-tailwindcss",
+                "dsznajder.es7-react-js-snippets"
+            ]
+        }
+    },
+    "remoteUser": "root",
+    "containerUser": "root"
+}

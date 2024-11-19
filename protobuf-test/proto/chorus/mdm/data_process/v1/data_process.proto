@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package chorus.mdm.data_process.v1;
+
+// The Data Request/Approval/Reject Status.
+message DataProcess {
+  // The request no. of the data process.
+  string request_no = 1;
+  // The master data subject code.
+  string master_data_subject_code = 2;
+  // The request user id.
+  string request_user_id = 3;
+  // The request office code
+  string request_office_code = 4;
+  // The approval user id.
+  string approval_user_id = 5;
+  // The process type code.
+  string process_type_code = 6;
+  // The reject remark.
+  string reject_remark = 7;
+  // The approval remark.
+  string approval_remark = 8;
+  // The delete flag.
+  string delete_flag = 9;
+}
+
+// Request message for `DataProcessService.SearchByRequestNo`.
+message SearchByRequestNoRequest {
+  // The Request no.
+  string request_no = 1;
+}
+
+// Response message for `DataProcessService.SearchByRequestNo`.
+message SearchByRequestNoResponse {
+  // The data process.
+  DataProcess data_process = 1;
+}
+
+// Services for data process.
+service DataProcessService {
+  // Search data process by request no.
+  //
+  // Operation: LIKE
+  //
+  // Request:
+  // {
+  //     "request_no": "20210101000001"
+  // }
+  //
+  // Response:
+  // {
+  //     "data_process": {
+  //         "request_no": "20210101000001",
+  //         "master_data_subject_code": "MDSC001",
+  //         "request_user_id": "USER001",
+  //         "request_office_code": "OFFICE001",
+  //         "approval_user_id": "USER002",
+  //         "process_type_code": "PTC001",
+  //         "reject_remark": "Reject Remark",
+  //         "approval_remark": "Approval Remark",
+  //         "delete_flag": "N"
+  //     }
+  // }
+  // ...
+  rpc SearchByRequestNo(SearchByRequestNoRequest) returns (stream SearchByRequestNoResponse);
+}
